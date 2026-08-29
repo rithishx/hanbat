@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+python-multipart>=0.0.9
+
+# Optional. The application is fully functional without any of these.
+#   Offline speech-to-text for pronunciation scoring:
+# faster-whisper>=1.0
+#   Test suite:
+# pytest>=8.0

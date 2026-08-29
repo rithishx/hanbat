@@ -1,0 +1,278 @@
+{
+  "language": "ja",
+  "level": "N5",
+  "note": "The same eight-part structure as the Korean grammar file. The points themselves have nothing in common with Korean's — that is the whole reason each language owns its own curriculum.",
+  "points": [
+    {
+      "id": "ja-g-001", "ordinal": 1, "name": "です", "name_native": "です",
+      "category": "copula", "meaning": "is / am / are", "formality": "polite (丁寧語)",
+      "attaches_to": "noun or na-adjective",
+      "simple": "Put です after a noun to say something is that thing. Unlike Korean's 이에요/예요, there is only one form — nothing depends on the sound before it.",
+      "technical": "The polite copula. Its plain form is だ. Attaches to nouns and na-adjectives; with i-adjectives it adds politeness only, since the adjective is already the predicate.",
+      "structure": "noun + です",
+      "examples": [
+        {"target": "私は学生です。", "english": "I am a student."},
+        {"target": "これは本です。", "english": "This is a book."},
+        {"target": "静かです。", "english": "It's quiet.", "note": "na-adjective — です does the work."},
+        {"target": "高いです。", "english": "It's expensive.", "note": "i-adjective — です is politeness only, not a copula."}
+      ],
+      "mistakes": [
+        {"wrong": "高いだです。", "right": "高いです。", "why": "i-adjectives never take だ."},
+        {"wrong": "学生だです。", "right": "学生です。", "why": "だ and です are the same word at different politeness levels — never both."},
+        {"wrong": "私は学生ですか？", "right": "私は学生ですか。", "why": "Japanese marks questions with か, so the question mark is optional and often omitted."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "multiple_choice", "questions": [
+        {"q": "これは本___。", "a": "です", "options": ["です", "だです", "います"], "why": "A noun takes です directly."}
+      ]},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say what you do."], "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Someone asks what you do. You're a student.", "target": "私は学生です。"}
+      ]},
+      "tags": ["copula", "essential"]
+    },
+    {
+      "id": "ja-g-002", "ordinal": 2, "name": "は (topic)", "name_native": "は",
+      "category": "particle", "meaning": "as for ...", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "は puts something on the table and says 'right, let's talk about this'. It is written は but read wa. It often carries a quiet contrast — 私は says 'as for me, whatever anyone else does'.",
+      "technical": "The topic marker. Marks known information, contrast or generic statements. Read /wa/ — a historical spelling preserved for the particle only.",
+      "structure": "noun + は",
+      "examples": [
+        {"target": "私は日本人です。", "english": "I'm Japanese.", "why": "Introducing yourself."},
+        {"target": "今日は暑いですね。", "english": "It's hot today.", "why": "Implies other days may not be."},
+        {"target": "コーヒーは好きですが、お茶は嫌いです。", "english": "I like coffee but not tea.", "why": "Explicit contrast."}
+      ],
+      "mistakes": [
+        {"wrong": "Reading は as 'ha' in 私は", "right": "wa", "why": "As a particle it is always read wa."},
+        {"wrong": "誰は来ましたか。", "right": "誰が来ましたか。", "why": "Question words take が, never は — you cannot make a topic of something unknown."}
+      ],
+      "similar": ["ja-g-003"], "contrast": ["ja-g-003"], "confusion_id": "wa_vs_ga",
+      "practice": {"type": "particle_choice", "options": ["は", "が"], "count": 8},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["お名前は？"], "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Say that today specifically is hot.", "target": "今日は暑いです。"}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ja-g-003", "ordinal": 3, "name": "が (subject)", "name_native": "が",
+      "category": "particle", "meaning": "marks the subject", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "が points at something new. If it answers 'who?' or 'what?', or if it has just walked into the conversation, it takes が.",
+      "technical": "The subject marker. Marks new or focused information, and is obligatory in subordinate clauses where は cannot occur. Also used with 好き, 嫌い, 上手, ある, いる and 分かる.",
+      "structure": "noun + が",
+      "examples": [
+        {"target": "誰が来ましたか。", "english": "Who came?", "why": "Question word — always が."},
+        {"target": "雨が降っています。", "english": "It's raining.", "why": "Announcing something new."},
+        {"target": "コーヒーが好きです。", "english": "I like coffee.", "why": "好き is an adjective, so the liked thing is the subject."},
+        {"target": "時間がありません。", "english": "I don't have time.", "why": "ある takes が."}
+      ],
+      "mistakes": [
+        {"wrong": "コーヒーを好きです。", "right": "コーヒーが好きです。", "why": "好き is a na-adjective, not a verb. There is no object."},
+        {"wrong": "日本語を分かります。", "right": "日本語が分かります。", "why": "分かる also takes が."}
+      ],
+      "similar": ["ja-g-002"], "contrast": ["ja-g-002"], "confusion_id": "wa_vs_ga",
+      "practice": {"type": "particle_choice", "options": ["は", "が", "を"], "count": 10},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["何が好きですか。"], "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Say what food you like.", "target": "___が好きです。"}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ja-g-004", "ordinal": 4, "name": "を (object)", "name_native": "を",
+      "category": "particle", "meaning": "marks the direct object", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "を marks what the action happens to. Eat what? Read what? That gets を. It is the only place this character appears in modern Japanese, and it is pronounced exactly like お.",
+      "technical": "The accusative marker. Also marks the path traversed with motion verbs: 公園を歩く.",
+      "structure": "noun + を",
+      "examples": [
+        {"target": "ご飯を食べます。", "english": "I eat a meal."},
+        {"target": "本を読みます。", "english": "I read a book."},
+        {"target": "公園を歩きます。", "english": "I walk through the park.", "note": "Path, not object."}
+      ],
+      "mistakes": [
+        {"wrong": "学校を行きます。", "right": "学校に行きます。", "why": "行く takes a destination with に, not an object."},
+        {"wrong": "友達を会います。", "right": "友達に会います。", "why": "会う takes に. Korean does the opposite — 친구를 만나요 — so Korean speakers get this one wrong often."},
+        {"wrong": "電車を乗ります。", "right": "電車に乗ります。", "why": "乗る takes に."}
+      ],
+      "similar": [], "contrast": ["ja-g-005"],
+      "practice": {"type": "particle_choice", "options": ["を", "に", "で"], "count": 8},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say three things you did today."], "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Tell someone you're reading a book.", "target": "本を読みます。"}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ja-g-005", "ordinal": 5, "name": "に and で", "name_native": "に・で",
+      "category": "particle", "meaning": "at, to, in, by means of", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "に is a pin stuck in a place or a time. で is a stage the action happens on. If you could film someone doing the verb there, use で.",
+      "technical": "に marks destination, point in time, indirect object, and location of existence with いる/ある. で marks the location of a dynamic activity and the instrument or means.",
+      "structure": "place + に (destination) / place + で (activity)",
+      "examples": [
+        {"target": "学校に行きます。", "english": "I go to school.", "why": "Destination."},
+        {"target": "学校で勉強します。", "english": "I study at school.", "why": "The activity happens there."},
+        {"target": "家にいます。", "english": "I'm at home.", "why": "いる always takes に."},
+        {"target": "電車で行きます。", "english": "I go by train.", "why": "で also marks the means."},
+        {"target": "七時に起きます。", "english": "I get up at seven.", "why": "A point in time."}
+      ],
+      "mistakes": [
+        {"wrong": "家でいます。", "right": "家にいます。", "why": "いる and ある take に without exception."},
+        {"wrong": "今日に行きます。", "right": "今日行きます。", "why": "今日, 明日, 昨日 and 今 never take に."}
+      ],
+      "similar": [], "contrast": [], "confusion_id": "ni_vs_de",
+      "practice": {"type": "particle_choice", "options": ["に", "で"], "count": 10},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["どこで働いていますか。"], "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Say where you study.", "target": "___で勉強します。"}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ja-g-006", "ordinal": 6, "name": "ます form", "name_native": "ます形",
+      "category": "conjugation", "meaning": "present / future, polite", "formality": "polite (丁寧語)",
+      "attaches_to": "verb stem",
+      "simple": "The form you will use most. Ichidan verbs drop る and add ます. Godan verbs shift their last kana into the i-column and add ます: 書く becomes 書きます.",
+      "technical": "The polite non-past. Covers both present and future — Japanese does not distinguish them. Negative ません, past ました, past negative ませんでした.",
+      "structure": "ichidan: drop る + ます  |  godan: i-column + ます",
+      "formula_engine": {"type": "conjugate", "form": "masu"},
+      "examples": [
+        {"target": "食べる → 食べます", "english": "eat", "note": "Ichidan: drop る."},
+        {"target": "書く → 書きます", "english": "write", "note": "Godan: く becomes き."},
+        {"target": "飲む → 飲みます", "english": "drink", "note": "Godan: む becomes み."},
+        {"target": "する → します", "english": "do", "note": "Irregular."},
+        {"target": "来る → 来ます", "english": "come", "note": "Irregular — written 来, read kimasu."}
+      ],
+      "mistakes": [
+        {"wrong": "食べります", "right": "食べます", "why": "食べる is ichidan: る simply drops."},
+        {"wrong": "帰ます", "right": "帰ります", "why": "帰る looks ichidan but is godan."},
+        {"wrong": "書くます", "right": "書きます", "why": "ます attaches to the i-column stem, not the dictionary form."}
+      ],
+      "similar": ["ja-g-007"], "contrast": [],
+      "practice": {"type": "conjugate", "form": "masu", "count": 12},
+      "listening": {"type": "listen_type", "count": 8},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say five things you do every day."], "count": 6},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Tell someone you're studying Japanese.", "target": "日本語を勉強します。"}
+      ]},
+      "tags": ["conjugation", "essential"]
+    },
+    {
+      "id": "ja-g-007", "ordinal": 7, "name": "て form", "name_native": "て形",
+      "category": "conjugation", "meaning": "connective form", "formality": "neutral",
+      "attaches_to": "verb stem",
+      "simple": "The single most useful form in Japanese. On its own it joins clauses; with something attached it makes requests, permission, prohibition and the progressive. Learn the sound changes and dozens of structures open up at once.",
+      "technical": "The gerundive form, produced by 音便 (euphonic change). The ending depends on the dictionary-final kana, and 行く is the one exception.",
+      "structure": "う/つ/る → って   ぬ/ぶ/む → んで   く → いて   ぐ → いで   す → して   ichidan: る → て",
+      "formula_engine": {"type": "conjugate", "form": "te"},
+      "examples": [
+        {"target": "書く → 書いて", "english": "write"},
+        {"target": "行く → 行って", "english": "go", "note": "The exception. Not 行いて."},
+        {"target": "読む → 読んで", "english": "read"},
+        {"target": "待つ → 待って", "english": "wait"},
+        {"target": "食べる → 食べて", "english": "eat", "note": "Ichidan: just drop る."},
+        {"target": "ちょっと待ってください。", "english": "Please wait a moment.", "note": "Worth learning whole."}
+      ],
+      "mistakes": [
+        {"wrong": "行いて", "right": "行って", "why": "行く is the one godan く verb that goes って."},
+        {"wrong": "読みて", "right": "読んで", "why": "む goes to んで, not みて."},
+        {"wrong": "食べって", "right": "食べて", "why": "Ichidan verbs never take っ."}
+      ],
+      "similar": ["ja-g-006"], "contrast": [],
+      "practice": {"type": "conjugate", "form": "te", "count": 12},
+      "listening": {"type": "listen_type", "count": 8},
+      "speaking": {"type": "roleplay", "scenario": "asking someone to wait", "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Ask someone to wait a moment.", "target": "ちょっと待ってください。"}
+      ]},
+      "tags": ["conjugation", "essential"]
+    },
+    {
+      "id": "ja-g-008", "ordinal": 8, "name": "ない form", "name_native": "ない形",
+      "category": "conjugation", "meaning": "negative, plain", "formality": "plain (普通体)",
+      "attaches_to": "verb stem",
+      "simple": "Godan verbs shift into the a-column and add ない. Ichidan verbs drop る and add ない. One trap: verbs ending in う go to わ, not あ.",
+      "technical": "The plain negative. ある is suppletive — its negative is ない, never あらない.",
+      "structure": "godan: a-column + ない  |  ichidan: drop る + ない",
+      "formula_engine": {"type": "conjugate", "form": "nai"},
+      "examples": [
+        {"target": "書く → 書かない", "english": "not write"},
+        {"target": "買う → 買わない", "english": "not buy", "note": "う goes to わ, not あ."},
+        {"target": "食べる → 食べない", "english": "not eat"},
+        {"target": "ある → ない", "english": "not exist", "note": "Completely irregular."}
+      ],
+      "mistakes": [
+        {"wrong": "買あない", "right": "買わない", "why": "The う row's a-form is わ. Historical, and it applies to every う verb."},
+        {"wrong": "あらない", "right": "ない", "why": "ある's negative is a separate word."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "conjugate", "form": "nai", "count": 10},
+      "listening": {"type": "listen_type", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["肉を食べますか。"], "count": 4},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Say you don't drink alcohol.", "target": "お酒を飲みません。"}
+      ]},
+      "tags": ["conjugation", "essential"]
+    },
+    {
+      "id": "ja-g-009", "ordinal": 9, "name": "Counters", "name_native": "助数詞",
+      "category": "numbers", "meaning": "counting things", "formality": "neutral",
+      "attaches_to": "number",
+      "simple": "You cannot just say 'three books' in Japanese. The number needs a counter word attached, and which counter depends on the shape of the thing. When you do not know, つ works for almost anything up to ten.",
+      "technical": "Numeral classifiers. Sino-Japanese numerals combine with most counters; native numerals survive in つ, 人 (partly) and a few others. Several counters trigger sound changes: 本 → ほん/ぼん/ぽん.",
+      "structure": "number + counter",
+      "examples": [
+        {"target": "本を三冊買いました。", "english": "I bought three books.", "note": "冊 for bound things."},
+        {"target": "ビールを二本ください。", "english": "Two beers, please.", "note": "本 for long thin things."},
+        {"target": "りんごを三つください。", "english": "Three apples, please.", "note": "つ, the general counter."},
+        {"target": "二人で行きます。", "english": "The two of us are going.", "note": "人 for people; two is irregular."}
+      ],
+      "mistakes": [
+        {"wrong": "三本 read さんほん", "right": "さんぼん", "why": "本 shifts between ほん, ぼん and ぽん. Learn the set as a unit."},
+        {"wrong": "二人 read ににん", "right": "ふたり", "why": "One and two people are irregular: ひとり and ふたり."},
+        {"wrong": "二十歳 read にじゅっさい", "right": "はたち", "why": "Twenty years old has its own word."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "counter_choice", "count": 8},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "roleplay", "scenario": "ordering at a restaurant", "count": 6},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Order two beers.", "target": "ビールを二本ください。"}
+      ]},
+      "tags": ["numbers", "essential"]
+    },
+    {
+      "id": "ja-g-010", "ordinal": 10, "name": "Godan versus ichidan", "name_native": "五段・一段",
+      "category": "conjugation", "meaning": "the two verb classes", "formality": "neutral",
+      "attaches_to": "verb",
+      "simple": "Every Japanese verb is one of two types, plus two irregulars. Ichidan verbs are easy — drop る, attach anything. Godan verbs shift their last kana up and down a column. Which type a verb is decides every single form, so it is worth getting right early.",
+      "technical": "Ichidan (一段) verbs have an invariant stem; godan (五段) verbs alternate across the five vowel grades of the stem-final consonant row. する and 来る are suppletive.",
+      "structure": "ends in る with i/e before it → usually ichidan; everything else → godan",
+      "examples": [
+        {"target": "食べる → 食べます / 食べない / 食べて", "english": "ichidan — the stem never changes"},
+        {"target": "取る → 取ります / 取らない / 取って", "english": "godan — る moves through り, ら, っ"},
+        {"target": "帰る → 帰ります", "english": "looks ichidan, is godan"}
+      ],
+      "mistakes": [
+        {"wrong": "帰ます", "right": "帰ります", "why": "帰る is godan despite the え before る."},
+        {"wrong": "見ります", "right": "見ます", "why": "見る is ichidan, but the kanji hides the い — you have to know this one."}
+      ],
+      "similar": ["ja-g-006"], "contrast": [], "confusion_id": "godan_vs_ichidan",
+      "practice": {"type": "verb_class", "count": 10},
+      "listening": {"type": "listen_type", "count": 6},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say the ます form of five verbs."], "count": 6},
+      "production": {"type": "concept_to_target", "prompts": [
+        {"situation": "Say you go home at six.", "target": "六時に帰ります。"}
+      ]},
+      "tags": ["conjugation", "essential"]
+    }
+  ]
+}

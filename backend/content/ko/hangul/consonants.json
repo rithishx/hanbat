@@ -1,0 +1,991 @@
+{
+  "language": "ko",
+  "writing_system": "hangul",
+  "$schema": "../schema/jamo.schema.json",
+  "note": "Shape origins follow the 훈민정음 해례본 (1446), which explains that the basic consonants were drawn as pictures of the speech organs. This is real history, not a mnemonic invented for learners, and it is the single most useful thing a beginner can be told about Hangul.",
+  "consonants": [
+    {
+      "letter": "ㄱ",
+      "name": "기역",
+      "name_rr": "giyeok",
+      "order": 1,
+      "group": "basic",
+      "class": "plain",
+      "series": "velar",
+      "teaching_stage": 1,
+      "sound": {
+        "initial": "g / k",
+        "initial_ipa": "k",
+        "final": "k, unreleased",
+        "final_ipa": "k̚",
+        "english_hint": "Halfway between the g of 'go' and the k of 'skate'. At the start of a word it sounds more like k; between vowels it softens toward g.",
+        "common_error": "English speakers voice it too much at the start of a word. Korean ㄱ has no buzz in your throat there."
+      },
+      "shape": {
+        "origin": "A picture of the back of your tongue rising to block the soft palate — say 'g' and feel where it happens.",
+        "mnemonic": "A gun, seen from the side.",
+        "strokes": 2,
+        "stroke_order": [
+          "across to the right",
+          "down and slightly left"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "가방",
+          "meaning": "bag"
+        },
+        {
+          "korean": "고기",
+          "meaning": "meat"
+        },
+        {
+          "korean": "학교",
+          "meaning": "school",
+          "note": "here ㄱ is a batchim and the next ㄱ goes tense: [학꾜]"
+        }
+      ],
+      "contrast_with": [
+        "ㅋ",
+        "ㄲ"
+      ],
+      "batchim_sound": "ㄱ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㄴ",
+      "name": "니은",
+      "name_rr": "nieun",
+      "order": 2,
+      "group": "basic",
+      "class": "nasal",
+      "series": "alveolar",
+      "teaching_stage": 1,
+      "sound": {
+        "initial": "n",
+        "initial_ipa": "n",
+        "final": "n",
+        "final_ipa": "n",
+        "english_hint": "Exactly the n of 'no'. One of the few Korean sounds that needs no adjustment.",
+        "common_error": "Almost none. Enjoy it."
+      },
+      "shape": {
+        "origin": "A picture of the tongue tip touching the ridge behind your upper teeth.",
+        "mnemonic": "A tongue curling up behind the teeth — or a nose in profile.",
+        "strokes": 1,
+        "stroke_order": [
+          "down, then across to the right"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "나",
+          "meaning": "I, me"
+        },
+        {
+          "korean": "누나",
+          "meaning": "older sister (of a male)"
+        },
+        {
+          "korean": "눈",
+          "meaning": "eye; snow"
+        }
+      ],
+      "contrast_with": [
+        "ㄷ",
+        "ㄹ"
+      ],
+      "batchim_sound": "ㄴ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㄷ",
+      "name": "디귿",
+      "name_rr": "digeut",
+      "order": 3,
+      "group": "basic",
+      "class": "plain",
+      "series": "alveolar",
+      "teaching_stage": 1,
+      "sound": {
+        "initial": "d / t",
+        "initial_ipa": "t",
+        "final": "t, unreleased",
+        "final_ipa": "t̚",
+        "english_hint": "Between the d of 'do' and the t of 'stop'. Your tongue is in the same place as for ㄴ, but the air stops completely instead of going through your nose.",
+        "common_error": "As a batchim it is never released — 닫 ends with your tongue stuck to the ridge, no puff of air."
+      },
+      "shape": {
+        "origin": "ㄴ with a lid on top: same tongue position, but the air is blocked instead of flowing.",
+        "mnemonic": "A door frame, missing one side.",
+        "strokes": 2,
+        "stroke_order": [
+          "across the top",
+          "down then across the bottom"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "다리",
+          "meaning": "leg; bridge"
+        },
+        {
+          "korean": "돈",
+          "meaning": "money"
+        },
+        {
+          "korean": "듣다",
+          "meaning": "to listen",
+          "note": "ㄷ-irregular: 들어요"
+        }
+      ],
+      "contrast_with": [
+        "ㅌ",
+        "ㄸ",
+        "ㄴ"
+      ],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㄹ",
+      "name": "리을",
+      "name_rr": "rieul",
+      "order": 4,
+      "group": "basic",
+      "class": "liquid",
+      "series": "alveolar",
+      "teaching_stage": 2,
+      "sound": {
+        "initial": "r, a single flap",
+        "initial_ipa": "ɾ",
+        "final": "l",
+        "final_ipa": "l",
+        "english_hint": "At the start of a syllable it is the quick flap in the middle of American 'butter' or 'ladder' — not an English r, and not a rolled Spanish rr. At the end of a syllable it is a clear l.",
+        "common_error": "The hardest consonant for English speakers, because one Korean letter covers two English sounds and neither of them is the English r. Practise 라라라 as 'la-la-la' with the tongue barely touching."
+      },
+      "shape": {
+        "origin": "ㄴ with the tongue curling further and flowing on.",
+        "mnemonic": "A tongue flicking up and down.",
+        "strokes": 3,
+        "stroke_order": [
+          "across",
+          "down-left",
+          "across, down, across"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "라면",
+          "meaning": "ramyeon"
+        },
+        {
+          "korean": "물",
+          "meaning": "water",
+          "note": "final ㄹ = clear l"
+        },
+        {
+          "korean": "사랑",
+          "meaning": "love",
+          "note": "between vowels = a flap"
+        }
+      ],
+      "contrast_with": [
+        "ㄴ"
+      ],
+      "batchim_sound": "ㄹ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅁ",
+      "name": "미음",
+      "name_rr": "mieum",
+      "order": 5,
+      "group": "basic",
+      "class": "nasal",
+      "series": "bilabial",
+      "teaching_stage": 1,
+      "sound": {
+        "initial": "m",
+        "initial_ipa": "m",
+        "final": "m",
+        "final_ipa": "m",
+        "english_hint": "Exactly the m of 'me'.",
+        "common_error": "None, except forgetting that as a batchim it stays a full m: 밤 ends with your lips shut."
+      },
+      "shape": {
+        "origin": "A picture of the mouth, seen from the front.",
+        "mnemonic": "A square mouth.",
+        "strokes": 3,
+        "stroke_order": [
+          "down the left",
+          "across the top and down the right",
+          "across the bottom"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "물",
+          "meaning": "water"
+        },
+        {
+          "korean": "엄마",
+          "meaning": "mum"
+        },
+        {
+          "korean": "밤",
+          "meaning": "night; chestnut"
+        }
+      ],
+      "contrast_with": [
+        "ㅂ"
+      ],
+      "batchim_sound": "ㅁ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅂ",
+      "name": "비읍",
+      "name_rr": "bieup",
+      "order": 6,
+      "group": "basic",
+      "class": "plain",
+      "series": "bilabial",
+      "teaching_stage": 2,
+      "sound": {
+        "initial": "b / p",
+        "initial_ipa": "p",
+        "final": "p, unreleased",
+        "final_ipa": "p̚",
+        "english_hint": "Between the b of 'boy' and the p of 'spin'. Lips together, no puff.",
+        "common_error": "Adding a puff of air, which turns it into ㅍ."
+      },
+      "shape": {
+        "origin": "ㅁ with two strokes added — the same lips, but the air bursts out instead of going through the nose.",
+        "mnemonic": "A mouth with teeth showing.",
+        "strokes": 4,
+        "stroke_order": [
+          "down the left",
+          "down the right",
+          "across the middle",
+          "across the bottom"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "밥",
+          "meaning": "cooked rice; a meal"
+        },
+        {
+          "korean": "바나나",
+          "meaning": "banana"
+        },
+        {
+          "korean": "비",
+          "meaning": "rain"
+        }
+      ],
+      "contrast_with": [
+        "ㅍ",
+        "ㅃ",
+        "ㅁ"
+      ],
+      "batchim_sound": "ㅂ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅅ",
+      "name": "시옷",
+      "name_rr": "siot",
+      "order": 7,
+      "group": "basic",
+      "class": "plain",
+      "series": "sibilant",
+      "teaching_stage": 1,
+      "sound": {
+        "initial": "s, but 'sh' before ㅣ and ㅑㅕㅛㅠ",
+        "initial_ipa": "s ~ ɕ",
+        "final": "t, unreleased",
+        "final_ipa": "t̚",
+        "english_hint": "Normally s. Before an i-sound it automatically becomes sh: 시 is 'shi', not 'si'.",
+        "common_error": "As a batchim it is NOT an s — 옷 ends in an unreleased t sound: [옫]."
+      },
+      "shape": {
+        "origin": "A picture of a tooth.",
+        "mnemonic": "A tent, or a tooth.",
+        "strokes": 2,
+        "stroke_order": [
+          "down-left",
+          "down-right"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "사람",
+          "meaning": "person"
+        },
+        {
+          "korean": "시간",
+          "meaning": "time",
+          "note": "pronounced 'shigan'"
+        },
+        {
+          "korean": "옷",
+          "meaning": "clothes",
+          "note": "final ㅅ sounds like ㄷ: [옫]"
+        }
+      ],
+      "contrast_with": [
+        "ㅆ"
+      ],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅇ",
+      "name": "이응",
+      "name_rr": "ieung",
+      "order": 8,
+      "group": "basic",
+      "class": "nasal",
+      "series": "velar",
+      "teaching_stage": 1,
+      "sound": {
+        "initial": "silent",
+        "initial_ipa": "",
+        "final": "ng",
+        "final_ipa": "ŋ",
+        "english_hint": "This letter has two jobs. At the start of a syllable it makes no sound at all — it is a placeholder, because every Korean syllable must begin with a consonant slot. Underneath, it is the ng of 'sing'.",
+        "common_error": "Trying to pronounce the initial ㅇ. 아 is just 'a'. There is no sound before it."
+      },
+      "shape": {
+        "origin": "A picture of the throat, seen as a circle.",
+        "mnemonic": "An empty seat waiting for a vowel.",
+        "strokes": 1,
+        "stroke_order": [
+          "one circle, anticlockwise"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "아이",
+          "meaning": "child",
+          "note": "both ㅇ are silent"
+        },
+        {
+          "korean": "강",
+          "meaning": "river",
+          "note": "final ㅇ = ng"
+        },
+        {
+          "korean": "영어",
+          "meaning": "English",
+          "note": "first ㅇ silent, batchim ㅇ = ng"
+        }
+      ],
+      "contrast_with": [],
+      "batchim_sound": "ㅇ",
+      "can_be_batchim": true,
+      "special": "The only letter that is silent in one position and a full consonant in another. Teach both jobs the first time it appears."
+    },
+    {
+      "letter": "ㅈ",
+      "name": "지읒",
+      "name_rr": "jieut",
+      "order": 9,
+      "group": "basic",
+      "class": "plain",
+      "series": "affricate",
+      "teaching_stage": 2,
+      "sound": {
+        "initial": "j",
+        "initial_ipa": "tɕ",
+        "final": "t, unreleased",
+        "final_ipa": "t̚",
+        "english_hint": "The j of 'jeep', but lighter — closer to the ts in 'cats' than you would expect.",
+        "common_error": "As a batchim it becomes an unreleased t: 낮 is [낟]."
+      },
+      "shape": {
+        "origin": "ㅅ with a line on top — the same teeth, with the air held back first.",
+        "mnemonic": "A tent with a roof.",
+        "strokes": 3,
+        "stroke_order": [
+          "across the top",
+          "down-left",
+          "down-right"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "지금",
+          "meaning": "now"
+        },
+        {
+          "korean": "집",
+          "meaning": "house"
+        },
+        {
+          "korean": "낮",
+          "meaning": "daytime",
+          "note": "[낟]"
+        }
+      ],
+      "contrast_with": [
+        "ㅊ",
+        "ㅉ"
+      ],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅊ",
+      "name": "치읓",
+      "name_rr": "chieut",
+      "order": 10,
+      "group": "basic",
+      "class": "aspirated",
+      "series": "affricate",
+      "teaching_stage": 3,
+      "sound": {
+        "initial": "ch, with a strong puff",
+        "initial_ipa": "tɕʰ",
+        "final": "t, unreleased",
+        "final_ipa": "t̚",
+        "english_hint": "The ch of 'church', with more air than English uses. Hold a hand in front of your mouth — you should feel it.",
+        "common_error": "Not enough air, which makes it sound like ㅈ."
+      },
+      "shape": {
+        "origin": "ㅈ with one more stroke. In Hangul, an extra stroke always means more air.",
+        "mnemonic": "ㅈ wearing a hat.",
+        "strokes": 4,
+        "stroke_order": [
+          "short stroke on top",
+          "across",
+          "down-left",
+          "down-right"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "차",
+          "meaning": "tea; car"
+        },
+        {
+          "korean": "친구",
+          "meaning": "friend"
+        },
+        {
+          "korean": "꽃",
+          "meaning": "flower",
+          "note": "[꼳]"
+        }
+      ],
+      "contrast_with": [
+        "ㅈ",
+        "ㅉ"
+      ],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅋ",
+      "name": "키읔",
+      "name_rr": "kieuk",
+      "order": 11,
+      "group": "basic",
+      "class": "aspirated",
+      "series": "velar",
+      "teaching_stage": 3,
+      "sound": {
+        "initial": "k, with a strong puff",
+        "initial_ipa": "kʰ",
+        "final": "k, unreleased",
+        "final_ipa": "k̚",
+        "english_hint": "The k of 'kite' — the English k at the start of a word is already close.",
+        "common_error": "This is the easy one of the ㄱ/ㅋ/ㄲ trio for English speakers, because English k is aspirated."
+      },
+      "shape": {
+        "origin": "ㄱ with one more stroke — more air.",
+        "mnemonic": "ㄱ with a belt.",
+        "strokes": 2,
+        "stroke_order": [
+          "across then down",
+          "a stroke across the middle"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "커피",
+          "meaning": "coffee"
+        },
+        {
+          "korean": "크다",
+          "meaning": "to be big",
+          "note": "으-irregular: 커요"
+        },
+        {
+          "korean": "부엌",
+          "meaning": "kitchen",
+          "note": "[부억]"
+        }
+      ],
+      "contrast_with": [
+        "ㄱ",
+        "ㄲ"
+      ],
+      "batchim_sound": "ㄱ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅌ",
+      "name": "티읕",
+      "name_rr": "tieut",
+      "order": 12,
+      "group": "basic",
+      "class": "aspirated",
+      "series": "alveolar",
+      "teaching_stage": 3,
+      "sound": {
+        "initial": "t, with a strong puff",
+        "initial_ipa": "tʰ",
+        "final": "t, unreleased",
+        "final_ipa": "t̚",
+        "english_hint": "The t of 'top'.",
+        "common_error": "None at the start. Underneath, remember it is unreleased: 밭 is [받]."
+      },
+      "shape": {
+        "origin": "ㄷ with one more stroke — more air.",
+        "mnemonic": "A ladder with two rungs.",
+        "strokes": 3,
+        "stroke_order": [
+          "across the top",
+          "across the middle",
+          "down then across the bottom"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "타다",
+          "meaning": "to ride"
+        },
+        {
+          "korean": "토마토",
+          "meaning": "tomato"
+        },
+        {
+          "korean": "밭",
+          "meaning": "field",
+          "note": "[받], but 밭에 → [바테]"
+        }
+      ],
+      "contrast_with": [
+        "ㄷ",
+        "ㄸ"
+      ],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅍ",
+      "name": "피읖",
+      "name_rr": "pieup",
+      "order": 13,
+      "group": "basic",
+      "class": "aspirated",
+      "series": "bilabial",
+      "teaching_stage": 3,
+      "sound": {
+        "initial": "p, with a strong puff",
+        "initial_ipa": "pʰ",
+        "final": "p, unreleased",
+        "final_ipa": "p̚",
+        "english_hint": "The p of 'pen'.",
+        "common_error": "None at the start."
+      },
+      "shape": {
+        "origin": "Built from ㅁ, like ㅂ, but with the strokes opened out — more air.",
+        "mnemonic": "A doorway, or the Greek letter π.",
+        "strokes": 4,
+        "stroke_order": [
+          "across the top",
+          "down the left",
+          "down the right",
+          "across the bottom"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "피자",
+          "meaning": "pizza"
+        },
+        {
+          "korean": "포도",
+          "meaning": "grape"
+        },
+        {
+          "korean": "앞",
+          "meaning": "front",
+          "note": "[압], but 앞에 → [아페]"
+        }
+      ],
+      "contrast_with": [
+        "ㅂ",
+        "ㅃ"
+      ],
+      "batchim_sound": "ㅂ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㅎ",
+      "name": "히읗",
+      "name_rr": "hieut",
+      "order": 14,
+      "group": "basic",
+      "class": "fricative",
+      "series": "glottal",
+      "teaching_stage": 2,
+      "sound": {
+        "initial": "h",
+        "initial_ipa": "h",
+        "final": "t, unreleased (rare)",
+        "final_ipa": "t̚",
+        "english_hint": "The h of 'hat'. Between two vowels it often vanishes in fast speech: 전화 is commonly said [저놔].",
+        "common_error": "ㅎ is the letter most likely to disappear or fuse with its neighbour. 축하 is [추카], 좋아 is [조아]. Expect it to move."
+      },
+      "shape": {
+        "origin": "ㅇ (the throat) with two strokes above — air rushing out of it.",
+        "mnemonic": "A person in a hat.",
+        "strokes": 3,
+        "stroke_order": [
+          "short stroke on top",
+          "across",
+          "circle"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "하나",
+          "meaning": "one"
+        },
+        {
+          "korean": "한국",
+          "meaning": "Korea"
+        },
+        {
+          "korean": "좋아요",
+          "meaning": "it's good / I like it",
+          "note": "[조아요] — the ㅎ drops"
+        }
+      ],
+      "contrast_with": [],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true
+    },
+    {
+      "letter": "ㄲ",
+      "name": "쌍기역",
+      "name_rr": "ssanggiyeok",
+      "order": 15,
+      "group": "tense",
+      "class": "tense",
+      "series": "velar",
+      "teaching_stage": 4,
+      "sound": {
+        "initial": "kk, tight and airless",
+        "initial_ipa": "k͈",
+        "final": "k, unreleased",
+        "final_ipa": "k̚",
+        "english_hint": "Squeeze your throat as if you were about to lift something heavy, then say k with no air at all. English has nothing like it.",
+        "common_error": "Adding air, which turns it into ㅋ. Hold a hand in front of your mouth: for ㄲ it should feel nothing."
+      },
+      "shape": {
+        "origin": "Two ㄱ side by side — doubled means tightened.",
+        "mnemonic": "Two guns.",
+        "strokes": 4,
+        "stroke_order": [
+          "ㄱ",
+          "ㄱ again, to its right"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "꼬리",
+          "meaning": "tail"
+        },
+        {
+          "korean": "꿈",
+          "meaning": "dream"
+        },
+        {
+          "korean": "밖",
+          "meaning": "outside",
+          "note": "[박]"
+        }
+      ],
+      "contrast_with": [
+        "ㄱ",
+        "ㅋ"
+      ],
+      "batchim_sound": "ㄱ",
+      "can_be_batchim": true,
+      "minimal_pairs": [
+        {
+          "set": [
+            "갈",
+            "칼",
+            "깔"
+          ],
+          "meanings": [
+            "go(stem)",
+            "knife",
+            "lay(stem)"
+          ]
+        }
+      ]
+    },
+    {
+      "letter": "ㄸ",
+      "name": "쌍디귿",
+      "name_rr": "ssangdigeut",
+      "order": 16,
+      "group": "tense",
+      "class": "tense",
+      "series": "alveolar",
+      "teaching_stage": 4,
+      "sound": {
+        "initial": "tt, tight and airless",
+        "initial_ipa": "t͈",
+        "final": "—",
+        "final_ipa": "",
+        "english_hint": "Like ㄷ but with the throat squeezed and no air released.",
+        "common_error": "Confusing it with ㅌ, which is the opposite — lots of air."
+      },
+      "shape": {
+        "origin": "Two ㄷ side by side.",
+        "mnemonic": "A double door.",
+        "strokes": 4,
+        "stroke_order": [
+          "ㄷ",
+          "ㄷ again"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "딸",
+          "meaning": "daughter"
+        },
+        {
+          "korean": "따뜻하다",
+          "meaning": "to be warm"
+        },
+        {
+          "korean": "떡",
+          "meaning": "rice cake"
+        }
+      ],
+      "contrast_with": [
+        "ㄷ",
+        "ㅌ"
+      ],
+      "batchim_sound": "",
+      "can_be_batchim": false,
+      "minimal_pairs": [
+        {
+          "set": [
+            "달",
+            "탈",
+            "딸"
+          ],
+          "meanings": [
+            "moon",
+            "mask",
+            "daughter"
+          ]
+        }
+      ]
+    },
+    {
+      "letter": "ㅃ",
+      "name": "쌍비읍",
+      "name_rr": "ssangbieup",
+      "order": 17,
+      "group": "tense",
+      "class": "tense",
+      "series": "bilabial",
+      "teaching_stage": 4,
+      "sound": {
+        "initial": "pp, tight and airless",
+        "initial_ipa": "p͈",
+        "final": "—",
+        "final_ipa": "",
+        "english_hint": "Lips pressed hard, throat tight, no puff.",
+        "common_error": "Sounding like ㅍ, which has the most air of the three."
+      },
+      "shape": {
+        "origin": "Two ㅂ side by side.",
+        "mnemonic": "Two mouths.",
+        "strokes": 8,
+        "stroke_order": [
+          "ㅂ",
+          "ㅂ again"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "빵",
+          "meaning": "bread"
+        },
+        {
+          "korean": "바쁘다",
+          "meaning": "to be busy",
+          "note": "으-irregular: 바빠요"
+        },
+        {
+          "korean": "오빠",
+          "meaning": "older brother (of a female)"
+        }
+      ],
+      "contrast_with": [
+        "ㅂ",
+        "ㅍ"
+      ],
+      "batchim_sound": "",
+      "can_be_batchim": false,
+      "minimal_pairs": [
+        {
+          "set": [
+            "불",
+            "풀",
+            "뿔"
+          ],
+          "meanings": [
+            "fire",
+            "grass",
+            "horn"
+          ]
+        }
+      ]
+    },
+    {
+      "letter": "ㅆ",
+      "name": "쌍시옷",
+      "name_rr": "ssangsiot",
+      "order": 18,
+      "group": "tense",
+      "class": "tense",
+      "series": "sibilant",
+      "teaching_stage": 4,
+      "sound": {
+        "initial": "ss, tight",
+        "initial_ipa": "s͈",
+        "final": "t, unreleased",
+        "final_ipa": "t̚",
+        "english_hint": "A hissier, more forceful s. Think of the s in 'sun' said sharply.",
+        "common_error": "Underneath, ㅆ is an unreleased t like every other coda sibilant: 있 is [읻]."
+      },
+      "shape": {
+        "origin": "Two ㅅ side by side.",
+        "mnemonic": "Two teeth.",
+        "strokes": 4,
+        "stroke_order": [
+          "ㅅ",
+          "ㅅ again"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "쓰다",
+          "meaning": "to write; to use",
+          "note": "으-irregular: 써요"
+        },
+        {
+          "korean": "싸다",
+          "meaning": "to be cheap"
+        },
+        {
+          "korean": "있다",
+          "meaning": "to exist / to have",
+          "note": "있어요 → [이써요]"
+        }
+      ],
+      "contrast_with": [
+        "ㅅ"
+      ],
+      "batchim_sound": "ㄷ",
+      "can_be_batchim": true,
+      "minimal_pairs": [
+        {
+          "set": [
+            "살",
+            "쌀"
+          ],
+          "meanings": [
+            "flesh; year of age",
+            "uncooked rice"
+          ]
+        }
+      ]
+    },
+    {
+      "letter": "ㅉ",
+      "name": "쌍지읒",
+      "name_rr": "ssangjieut",
+      "order": 19,
+      "group": "tense",
+      "class": "tense",
+      "series": "affricate",
+      "teaching_stage": 4,
+      "sound": {
+        "initial": "jj, tight and airless",
+        "initial_ipa": "t͈ɕ",
+        "final": "—",
+        "final_ipa": "",
+        "english_hint": "Like ㅈ with the throat squeezed shut first.",
+        "common_error": "Confusing it with ㅊ, the aspirated one."
+      },
+      "shape": {
+        "origin": "Two ㅈ side by side.",
+        "mnemonic": "Two tents.",
+        "strokes": 6,
+        "stroke_order": [
+          "ㅈ",
+          "ㅈ again"
+        ]
+      },
+      "examples": [
+        {
+          "korean": "짜다",
+          "meaning": "to be salty"
+        },
+        {
+          "korean": "찌개",
+          "meaning": "stew"
+        },
+        {
+          "korean": "진짜",
+          "meaning": "really / for real"
+        }
+      ],
+      "contrast_with": [
+        "ㅈ",
+        "ㅊ"
+      ],
+      "batchim_sound": "",
+      "can_be_batchim": false,
+      "minimal_pairs": [
+        {
+          "set": [
+            "자다",
+            "차다",
+            "짜다"
+          ],
+          "meanings": [
+            "to sleep",
+            "to kick",
+            "to be salty"
+          ]
+        }
+      ]
+    }
+  ]
+}

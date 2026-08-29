@@ -1,0 +1,791 @@
+{
+  "language": "ko",
+  "writing_system": "hangul",
+  "note": "Korean vowels are built from three symbols invented in 1443: · (the sun, now written as a short stroke), ㅡ (the flat earth) and ㅣ (a standing person). Every vowel below is a combination of those three. Teaching the system beats teaching twenty-one separate shapes.",
+  "building_blocks": [
+    {
+      "symbol": "ㅣ",
+      "means": "a standing person",
+      "role": "vertical stem"
+    },
+    {
+      "symbol": "ㅡ",
+      "means": "the flat earth",
+      "role": "horizontal stem"
+    },
+    {
+      "symbol": "·",
+      "means": "the sun in the sky",
+      "role": "the stroke added to a stem; written today as a short dash"
+    }
+  ],
+  "placement_rule": {
+    "vertical": "Vowels built on ㅣ stand to the RIGHT of the consonant: ㅎ + ㅏ = 하",
+    "horizontal": "Vowels built on ㅡ sit BELOW the consonant: ㅎ + ㅗ = 호",
+    "mixed": "Vowels that use both wrap around the consonant: ㅎ + ㅘ = 화"
+  },
+  "y_rule": "One stroke means a plain vowel. Two strokes means the same vowel with a y- glide in front: ㅏ→ㅑ (a→ya), ㅓ→ㅕ, ㅗ→ㅛ, ㅜ→ㅠ. Learn four pairs instead of eight letters.",
+  "vowels": [
+    {
+      "letter": "ㅏ",
+      "name": "아",
+      "rr": "a",
+      "ipa": "a",
+      "order": 1,
+      "group": "basic",
+      "stem": "vertical",
+      "y_glide": false,
+      "teaching_stage": 1,
+      "built_from": [
+        "ㅣ",
+        "·"
+      ],
+      "construction": "A person with the sun to their right (east — where it rises).",
+      "english_hint": "The a of 'father'. Open your mouth wide.",
+      "mouth": "Jaw dropped, tongue low and flat, lips relaxed and unrounded.",
+      "common_error": "Making it too short, like the a in 'cat'.",
+      "examples": [
+        {
+          "korean": "아기",
+          "meaning": "baby"
+        },
+        {
+          "korean": "사과",
+          "meaning": "apple"
+        },
+        {
+          "korean": "가다",
+          "meaning": "to go"
+        }
+      ],
+      "contrast_with": [
+        "ㅓ"
+      ]
+    },
+    {
+      "letter": "ㅑ",
+      "name": "야",
+      "rr": "ya",
+      "ipa": "ja",
+      "order": 2,
+      "group": "basic",
+      "stem": "vertical",
+      "y_glide": true,
+      "teaching_stage": 2,
+      "built_from": [
+        "ㅏ",
+        "·"
+      ],
+      "construction": "ㅏ with a second stroke — add a y.",
+      "english_hint": "The ya of 'yard'.",
+      "mouth": "Start at ㅣ, glide straight into ㅏ.",
+      "common_error": "Dropping the y and saying ㅏ.",
+      "examples": [
+        {
+          "korean": "야구",
+          "meaning": "baseball"
+        },
+        {
+          "korean": "이야기",
+          "meaning": "story"
+        },
+        {
+          "korean": "얘기",
+          "meaning": "story (contracted)"
+        }
+      ],
+      "contrast_with": [
+        "ㅏ"
+      ]
+    },
+    {
+      "letter": "ㅓ",
+      "name": "어",
+      "rr": "eo",
+      "ipa": "ʌ",
+      "order": 3,
+      "group": "basic",
+      "stem": "vertical",
+      "y_glide": false,
+      "teaching_stage": 1,
+      "built_from": [
+        "·",
+        "ㅣ"
+      ],
+      "construction": "A person with the sun to their left (west — where it sets).",
+      "english_hint": "Closest to the u of 'but' or the aw of 'saw' — but crucially your lips do NOT round.",
+      "mouth": "Jaw half open, tongue back, lips completely relaxed and spread flat.",
+      "common_error": "The single hardest vowel for English speakers. Almost everyone rounds their lips and produces ㅗ instead. Watch yourself in a mirror: if your lips move forward, it is wrong.",
+      "examples": [
+        {
+          "korean": "어머니",
+          "meaning": "mother"
+        },
+        {
+          "korean": "서울",
+          "meaning": "Seoul"
+        },
+        {
+          "korean": "먹다",
+          "meaning": "to eat"
+        }
+      ],
+      "contrast_with": [
+        "ㅗ",
+        "ㅡ"
+      ],
+      "priority_drill": true
+    },
+    {
+      "letter": "ㅕ",
+      "name": "여",
+      "rr": "yeo",
+      "ipa": "jʌ",
+      "order": 4,
+      "group": "basic",
+      "stem": "vertical",
+      "y_glide": true,
+      "teaching_stage": 2,
+      "built_from": [
+        "ㅓ",
+        "·"
+      ],
+      "construction": "ㅓ with a second stroke — add a y.",
+      "english_hint": "Like 'yuh'. The y of 'young' plus ㅓ.",
+      "mouth": "Glide from ㅣ into ㅓ, lips unrounded throughout.",
+      "common_error": "Rounding into 'yo' — that is ㅛ, a different letter.",
+      "examples": [
+        {
+          "korean": "여자",
+          "meaning": "woman"
+        },
+        {
+          "korean": "여기",
+          "meaning": "here"
+        },
+        {
+          "korean": "영어",
+          "meaning": "English"
+        }
+      ],
+      "contrast_with": [
+        "ㅛ"
+      ]
+    },
+    {
+      "letter": "ㅗ",
+      "name": "오",
+      "rr": "o",
+      "ipa": "o",
+      "order": 5,
+      "group": "basic",
+      "stem": "horizontal",
+      "y_glide": false,
+      "teaching_stage": 1,
+      "built_from": [
+        "·",
+        "ㅡ"
+      ],
+      "construction": "The sun above the earth — sunrise.",
+      "english_hint": "The o of 'go', but pure — no slide into a 'w' sound at the end.",
+      "mouth": "Lips pushed forward into a tight circle, tongue back and high.",
+      "common_error": "English 'o' is really a diphthong (oh-oo). Korean ㅗ holds one steady shape.",
+      "examples": [
+        {
+          "korean": "오늘",
+          "meaning": "today"
+        },
+        {
+          "korean": "고기",
+          "meaning": "meat"
+        },
+        {
+          "korean": "보다",
+          "meaning": "to see"
+        }
+      ],
+      "contrast_with": [
+        "ㅓ",
+        "ㅜ"
+      ],
+      "priority_drill": true
+    },
+    {
+      "letter": "ㅛ",
+      "name": "요",
+      "rr": "yo",
+      "ipa": "jo",
+      "order": 6,
+      "group": "basic",
+      "stem": "horizontal",
+      "y_glide": true,
+      "teaching_stage": 2,
+      "built_from": [
+        "ㅗ",
+        "·"
+      ],
+      "construction": "ㅗ with a second stroke — add a y.",
+      "english_hint": "The yo of 'yoga'.",
+      "mouth": "Glide from ㅣ into ㅗ, lips rounding as you go.",
+      "common_error": "None, usually — this is the polite ending -요, so you will say it constantly.",
+      "examples": [
+        {
+          "korean": "요리",
+          "meaning": "cooking"
+        },
+        {
+          "korean": "교실",
+          "meaning": "classroom"
+        },
+        {
+          "korean": "안녕하세요",
+          "meaning": "hello"
+        }
+      ],
+      "contrast_with": [
+        "ㅕ"
+      ]
+    },
+    {
+      "letter": "ㅜ",
+      "name": "우",
+      "rr": "u",
+      "ipa": "u",
+      "order": 7,
+      "group": "basic",
+      "stem": "horizontal",
+      "y_glide": false,
+      "teaching_stage": 1,
+      "built_from": [
+        "ㅡ",
+        "·"
+      ],
+      "construction": "The sun below the earth — sunset.",
+      "english_hint": "The oo of 'food'.",
+      "mouth": "Lips tightly rounded and pushed forward, tongue high and back.",
+      "common_error": "Not rounding enough, which drifts toward ㅡ.",
+      "examples": [
+        {
+          "korean": "우유",
+          "meaning": "milk"
+        },
+        {
+          "korean": "누구",
+          "meaning": "who"
+        },
+        {
+          "korean": "물",
+          "meaning": "water"
+        }
+      ],
+      "contrast_with": [
+        "ㅡ",
+        "ㅗ"
+      ]
+    },
+    {
+      "letter": "ㅠ",
+      "name": "유",
+      "rr": "yu",
+      "ipa": "ju",
+      "order": 8,
+      "group": "basic",
+      "stem": "horizontal",
+      "y_glide": true,
+      "teaching_stage": 2,
+      "built_from": [
+        "ㅜ",
+        "·"
+      ],
+      "construction": "ㅜ with a second stroke — add a y.",
+      "english_hint": "The you of 'youth'.",
+      "mouth": "Glide from ㅣ into ㅜ.",
+      "common_error": "None.",
+      "examples": [
+        {
+          "korean": "유리",
+          "meaning": "glass"
+        },
+        {
+          "korean": "휴일",
+          "meaning": "holiday"
+        },
+        {
+          "korean": "우유",
+          "meaning": "milk"
+        }
+      ],
+      "contrast_with": [
+        "ㅜ"
+      ]
+    },
+    {
+      "letter": "ㅡ",
+      "name": "으",
+      "rr": "eu",
+      "ipa": "ɯ",
+      "order": 9,
+      "group": "basic",
+      "stem": "horizontal",
+      "y_glide": false,
+      "teaching_stage": 1,
+      "built_from": [
+        "ㅡ"
+      ],
+      "construction": "The flat earth, on its own.",
+      "english_hint": "English has no equivalent. Say 'ee' as in 'see', then — without moving your tongue — pull your lips back into a flat, wide smile. That is ㅡ.",
+      "mouth": "Tongue high and back like ㅜ, but lips completely unrounded and spread.",
+      "common_error": "Substituting 'oo' or the u of 'put'. Both round the lips; ㅡ never does. Second-hardest vowel after ㅓ.",
+      "examples": [
+        {
+          "korean": "그",
+          "meaning": "that"
+        },
+        {
+          "korean": "은행",
+          "meaning": "bank"
+        },
+        {
+          "korean": "쓰다",
+          "meaning": "to write"
+        }
+      ],
+      "contrast_with": [
+        "ㅜ",
+        "ㅓ"
+      ],
+      "priority_drill": true
+    },
+    {
+      "letter": "ㅣ",
+      "name": "이",
+      "rr": "i",
+      "ipa": "i",
+      "order": 10,
+      "group": "basic",
+      "stem": "vertical",
+      "y_glide": false,
+      "teaching_stage": 1,
+      "built_from": [
+        "ㅣ"
+      ],
+      "construction": "A standing person, on their own.",
+      "english_hint": "The ee of 'see'.",
+      "mouth": "Tongue high and forward, lips spread.",
+      "common_error": "None.",
+      "examples": [
+        {
+          "korean": "이",
+          "meaning": "this; tooth; two"
+        },
+        {
+          "korean": "시간",
+          "meaning": "time"
+        },
+        {
+          "korean": "김치",
+          "meaning": "kimchi"
+        }
+      ],
+      "contrast_with": []
+    },
+    {
+      "letter": "ㅐ",
+      "name": "애",
+      "rr": "ae",
+      "ipa": "ɛ",
+      "order": 11,
+      "group": "complex",
+      "stem": "vertical",
+      "y_glide": false,
+      "teaching_stage": 5,
+      "built_from": [
+        "ㅏ",
+        "ㅣ"
+      ],
+      "construction": "ㅏ + ㅣ written together.",
+      "english_hint": "The e of 'bed'. In modern Seoul speech it is nearly identical to ㅔ.",
+      "mouth": "Jaw slightly lower than for ㅔ, in careful speech.",
+      "common_error": "There is nothing to hear — the two have merged for most speakers under forty. Treat ㅐ vs ㅔ as a spelling problem, learned word by word.",
+      "examples": [
+        {
+          "korean": "개",
+          "meaning": "dog"
+        },
+        {
+          "korean": "내일",
+          "meaning": "tomorrow"
+        },
+        {
+          "korean": "가게",
+          "meaning": "shop"
+        }
+      ],
+      "contrast_with": [
+        "ㅔ"
+      ],
+      "merged_with": "ㅔ"
+    },
+    {
+      "letter": "ㅔ",
+      "name": "에",
+      "rr": "e",
+      "ipa": "e",
+      "order": 12,
+      "group": "complex",
+      "stem": "vertical",
+      "y_glide": false,
+      "teaching_stage": 5,
+      "built_from": [
+        "ㅓ",
+        "ㅣ"
+      ],
+      "construction": "ㅓ + ㅣ written together.",
+      "english_hint": "The e of 'bed'. Nearly identical to ㅐ in modern speech.",
+      "mouth": "Jaw slightly higher than for ㅐ, in careful speech.",
+      "common_error": "Same as ㅐ — a spelling contrast, not a sound contrast.",
+      "examples": [
+        {
+          "korean": "게",
+          "meaning": "crab"
+        },
+        {
+          "korean": "네",
+          "meaning": "yes"
+        },
+        {
+          "korean": "세 개",
+          "meaning": "three (items)"
+        }
+      ],
+      "contrast_with": [
+        "ㅐ"
+      ],
+      "merged_with": "ㅐ"
+    },
+    {
+      "letter": "ㅒ",
+      "name": "얘",
+      "rr": "yae",
+      "ipa": "jɛ",
+      "order": 13,
+      "group": "complex",
+      "stem": "vertical",
+      "y_glide": true,
+      "teaching_stage": 6,
+      "built_from": [
+        "ㅑ",
+        "ㅣ"
+      ],
+      "construction": "ㅑ + ㅣ.",
+      "english_hint": "'yeh'. Very rare — you will meet it in 얘기 and little else.",
+      "mouth": "ㅣ gliding into ㅐ.",
+      "common_error": "None; it is uncommon enough to learn per word.",
+      "examples": [
+        {
+          "korean": "얘기",
+          "meaning": "story, chat"
+        },
+        {
+          "korean": "얘",
+          "meaning": "this kid"
+        }
+      ],
+      "contrast_with": [
+        "ㅖ"
+      ]
+    },
+    {
+      "letter": "ㅖ",
+      "name": "예",
+      "rr": "ye",
+      "ipa": "je",
+      "order": 14,
+      "group": "complex",
+      "stem": "vertical",
+      "y_glide": true,
+      "teaching_stage": 6,
+      "built_from": [
+        "ㅕ",
+        "ㅣ"
+      ],
+      "construction": "ㅕ + ㅣ.",
+      "english_hint": "The ye of 'yes'.",
+      "mouth": "ㅣ gliding into ㅔ.",
+      "common_error": "After a consonant it is usually simplified to ㅔ in speech: 시계 is said [시게].",
+      "examples": [
+        {
+          "korean": "예",
+          "meaning": "yes (formal)"
+        },
+        {
+          "korean": "예쁘다",
+          "meaning": "to be pretty"
+        },
+        {
+          "korean": "시계",
+          "meaning": "clock",
+          "note": "said [시게]"
+        }
+      ],
+      "contrast_with": [
+        "ㅒ"
+      ]
+    },
+    {
+      "letter": "ㅘ",
+      "name": "와",
+      "rr": "wa",
+      "ipa": "wa",
+      "order": 15,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 5,
+      "built_from": [
+        "ㅗ",
+        "ㅏ"
+      ],
+      "construction": "ㅗ + ㅏ — and it sounds exactly like it looks.",
+      "english_hint": "The wa of 'watt'.",
+      "mouth": "Start rounded like ㅗ, open out into ㅏ.",
+      "common_error": "None. The compound vowels are the friendliest part of Hangul: they sound like their parts added together.",
+      "examples": [
+        {
+          "korean": "과일",
+          "meaning": "fruit"
+        },
+        {
+          "korean": "와요",
+          "meaning": "comes"
+        },
+        {
+          "korean": "화장실",
+          "meaning": "toilet"
+        }
+      ],
+      "contrast_with": [
+        "ㅝ"
+      ]
+    },
+    {
+      "letter": "ㅙ",
+      "name": "왜",
+      "rr": "wae",
+      "ipa": "wɛ",
+      "order": 16,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 6,
+      "built_from": [
+        "ㅗ",
+        "ㅏ",
+        "ㅣ"
+      ],
+      "construction": "ㅗ + ㅐ.",
+      "english_hint": "The 'weh' of 'wet'.",
+      "mouth": "ㅗ gliding into ㅐ.",
+      "common_error": "ㅙ, ㅚ and ㅞ all sound the same for most speakers. Another spelling-only contrast.",
+      "examples": [
+        {
+          "korean": "왜",
+          "meaning": "why"
+        },
+        {
+          "korean": "돼요",
+          "meaning": "it works / it's OK"
+        }
+      ],
+      "contrast_with": [
+        "ㅚ",
+        "ㅞ"
+      ],
+      "merged_with": "ㅚ, ㅞ"
+    },
+    {
+      "letter": "ㅚ",
+      "name": "외",
+      "rr": "oe",
+      "ipa": "we",
+      "order": 17,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 5,
+      "built_from": [
+        "ㅗ",
+        "ㅣ"
+      ],
+      "construction": "ㅗ + ㅣ.",
+      "english_hint": "'weh'. Despite the romanisation 'oe', it is said like ㅞ by almost everyone.",
+      "mouth": "ㅗ gliding into ㅔ.",
+      "common_error": "Reading the romanisation literally as 'oh-eh'.",
+      "examples": [
+        {
+          "korean": "외국",
+          "meaning": "foreign country"
+        },
+        {
+          "korean": "회사",
+          "meaning": "company"
+        },
+        {
+          "korean": "되다",
+          "meaning": "to become"
+        }
+      ],
+      "contrast_with": [
+        "ㅙ",
+        "ㅞ"
+      ],
+      "merged_with": "ㅙ, ㅞ"
+    },
+    {
+      "letter": "ㅝ",
+      "name": "워",
+      "rr": "wo",
+      "ipa": "wʌ",
+      "order": 18,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 5,
+      "built_from": [
+        "ㅜ",
+        "ㅓ"
+      ],
+      "construction": "ㅜ + ㅓ.",
+      "english_hint": "The wo of 'wonder'.",
+      "mouth": "ㅜ gliding into ㅓ — the lips unround as you go.",
+      "common_error": "Keeping the lips rounded through the whole vowel, which turns it into ㅘ.",
+      "examples": [
+        {
+          "korean": "원",
+          "meaning": "won (currency)"
+        },
+        {
+          "korean": "더워요",
+          "meaning": "it's hot"
+        },
+        {
+          "korean": "뭐",
+          "meaning": "what"
+        }
+      ],
+      "contrast_with": [
+        "ㅘ"
+      ]
+    },
+    {
+      "letter": "ㅞ",
+      "name": "웨",
+      "rr": "we",
+      "ipa": "we",
+      "order": 19,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 6,
+      "built_from": [
+        "ㅜ",
+        "ㅓ",
+        "ㅣ"
+      ],
+      "construction": "ㅜ + ㅔ.",
+      "english_hint": "The we of 'wet'.",
+      "mouth": "ㅜ gliding into ㅔ.",
+      "common_error": "Rare in native words. Mostly appears in loanwords like 웨딩.",
+      "examples": [
+        {
+          "korean": "웨딩",
+          "meaning": "wedding"
+        },
+        {
+          "korean": "스웨터",
+          "meaning": "sweater"
+        }
+      ],
+      "contrast_with": [
+        "ㅚ",
+        "ㅙ"
+      ],
+      "merged_with": "ㅚ, ㅙ"
+    },
+    {
+      "letter": "ㅟ",
+      "name": "위",
+      "rr": "wi",
+      "ipa": "wi",
+      "order": 20,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 5,
+      "built_from": [
+        "ㅜ",
+        "ㅣ"
+      ],
+      "construction": "ㅜ + ㅣ.",
+      "english_hint": "The wee of 'week'.",
+      "mouth": "ㅜ gliding into ㅣ.",
+      "common_error": "None.",
+      "examples": [
+        {
+          "korean": "위",
+          "meaning": "above; stomach"
+        },
+        {
+          "korean": "귀",
+          "meaning": "ear"
+        },
+        {
+          "korean": "쉬다",
+          "meaning": "to rest"
+        }
+      ],
+      "contrast_with": []
+    },
+    {
+      "letter": "ㅢ",
+      "name": "의",
+      "rr": "ui",
+      "ipa": "ɰi",
+      "order": 21,
+      "group": "complex",
+      "stem": "mixed",
+      "y_glide": false,
+      "teaching_stage": 6,
+      "built_from": [
+        "ㅡ",
+        "ㅣ"
+      ],
+      "construction": "ㅡ + ㅣ.",
+      "english_hint": "ㅡ sliding straight into ㅣ, said quickly. There is no English equivalent.",
+      "mouth": "Start with flat spread lips at ㅡ and glide to ㅣ without rounding at any point.",
+      "common_error": "ㅢ is the one vowel whose pronunciation depends on where it sits. At the start of a word it is a true ㅢ (의사). After a consonant it is simply [ㅣ] (희망 → [히망]). As the possessive particle it is usually [에] (저의 → [저에]). Three pronunciations, one spelling.",
+      "examples": [
+        {
+          "korean": "의사",
+          "meaning": "doctor",
+          "note": "word-initial: full ㅢ"
+        },
+        {
+          "korean": "희망",
+          "meaning": "hope",
+          "note": "after a consonant: [히망]"
+        },
+        {
+          "korean": "우리의 집",
+          "meaning": "our house",
+          "note": "possessive: [우리에 집]"
+        }
+      ],
+      "contrast_with": [
+        "ㅡ",
+        "ㅣ"
+      ],
+      "priority_drill": true
+    }
+  ]
+}

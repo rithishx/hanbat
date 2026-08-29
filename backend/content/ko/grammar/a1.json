@@ -1,0 +1,588 @@
+{
+  "language": "ko",
+  "level": "A1",
+  "note": "Every point carries the eight parts the curriculum requires: a simple explanation, a formula, examples, the mistakes learners actually make, and generator specs for practice, listening, speaking and production. Explanations lead with the patient-teacher version and only then reach for terminology.",
+  "points": [
+    {
+      "id": "ko-g-001", "ordinal": 1, "name": "이에요 / 예요", "name_native": "이에요/예요",
+      "category": "copula", "meaning": "is / am / are", "formality": "polite (해요체)",
+      "attaches_to": "noun",
+      "simple": "This is Korean's equals sign. You put it after a noun to say something IS that thing. Which of the two you use depends only on whether the noun ends in a consonant — nothing else.",
+      "technical": "The polite non-formal form of the copula 이다. 이에요 after a consonant-final noun, 예요 after a vowel-final one. It attaches directly to the noun with no space.",
+      "structure": "noun + 이에요 (consonant) / 예요 (vowel)",
+      "formula_engine": {"type": "batchim_alternation", "with": "이에요", "without": "예요"},
+      "examples": [
+        {"target": "저는 학생이에요.", "english": "I am a student.", "note": "학생 ends in ㅇ, so 이에요."},
+        {"target": "저는 의사예요.", "english": "I am a doctor.", "note": "의사 ends in a vowel, so 예요."},
+        {"target": "이거 뭐예요?", "english": "What is this?", "note": "The single most useful question in the language."},
+        {"target": "제 이름은 리티시예요.", "english": "My name is Rithish."}
+      ],
+      "mistakes": [
+        {"wrong": "저는 학생예요.", "right": "저는 학생이에요.",
+         "why": "학생 ends in a consonant, so it needs the full 이에요."},
+        {"wrong": "저는 의사이에요.", "right": "저는 의사예요.",
+         "why": "의사 ends in a vowel. 이에요 after a vowel is a mouthful nobody says."},
+        {"wrong": "저는 학생 이에요.", "right": "저는 학생이에요.",
+         "why": "No space. It glues onto the noun."},
+        {"wrong": "저는 배고파요이에요.", "right": "저는 배고파요.",
+         "why": "이에요 only goes after nouns. 배고프다 is already a verb-like adjective and conjugates on its own."}
+      ],
+      "similar": ["ko-g-011"], "contrast": ["ko-g-010"],
+      "practice": {"type": "batchim_choice", "pairs": [["학생", "이에요"], ["의사", "예요"], ["선생님", "이에요"], ["친구", "예요"], ["한국 사람", "이에요"], ["가수", "예요"]], "count": 8},
+      "listening": {"type": "listen_choose", "pool": ["학생이에요", "의사예요", "친구예요", "선생님이에요"], "count": 6},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say what you do for a living.", "Say your name."], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Someone asks what you do. You are a student.", "target": "저는 학생이에요."},
+        {"situation": "You point at something on a menu and want to know what it is.", "target": "이거 뭐예요?"}
+      ]},
+      "tags": ["copula", "essential"]
+    },
+    {
+      "id": "ko-g-002", "ordinal": 2, "name": "은 / 는 (topic)", "name_native": "은/는",
+      "category": "particle", "meaning": "as for ... / speaking of ...", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "This puts a thing on the table and says 'right, let's talk about this one'. It often carries a quiet comparison: saying 커피는 좋아해요 hints that there is something else you don't like.",
+      "technical": "The topic marker. Marks given information, contrast, or general statements. 은 after a consonant, 는 after a vowel. It replaces 이/가 and 을/를 rather than stacking with them.",
+      "structure": "noun + 은 (consonant) / 는 (vowel)",
+      "formula_engine": {"type": "batchim_alternation", "with": "은", "without": "는"},
+      "examples": [
+        {"target": "저는 리티시예요.", "english": "I'm Rithish.", "note": "Introducing yourself sets a topic."},
+        {"target": "한국 음식은 맛있어요.", "english": "Korean food is delicious.", "note": "A general statement about a category."},
+        {"target": "커피는 좋아하는데 차는 안 좋아해요.", "english": "I like coffee but not tea.", "note": "Two topics held against each other — this is 은/는's speciality."},
+        {"target": "오늘은 바빠요.", "english": "Today I'm busy.", "note": "Implies: other days, maybe not."}
+      ],
+      "mistakes": [
+        {"wrong": "누가 왔어요? — 친구는 왔어요.", "right": "친구가 왔어요.",
+         "why": "The answer to 'who?' is brand-new information, so it takes 이/가. 친구는 would mean 'as for my friend, he came' — answering a question nobody asked."},
+        {"wrong": "저는은 학생이에요.", "right": "저는 학생이에요.", "why": "저 already has 는 attached. 저는 IS 저 + 는."},
+        {"wrong": "책은을 읽어요.", "right": "책을 읽어요.",
+         "why": "은/는 replaces 을/를, it does not stack on top of it."}
+      ],
+      "similar": ["ko-g-003"], "contrast": ["ko-g-003"], "confusion_id": "topic_vs_subject",
+      "practice": {"type": "particle_choice", "options": ["은", "는"], "count": 8},
+      "listening": {"type": "listen_fill_particle", "count": 6},
+      "speaking": {"type": "contrast_drill", "prompts": ["Say you like one food but not another."], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "You want to say that today specifically is busy, unlike usual.", "target": "오늘은 바빠요."}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ko-g-003", "ordinal": 3, "name": "이 / 가 (subject)", "name_native": "이/가",
+      "category": "particle", "meaning": "marks who or what does the action", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "This is your finger pointing straight at who did something. 'THIS one.' Use it when the information is new, or when you are answering the question 'who?' or 'what?'.",
+      "technical": "The subject marker. Marks the grammatical subject, typically carrying new or focused information, and is required inside subordinate clauses where 은/는 cannot appear.",
+      "structure": "noun + 이 (consonant) / 가 (vowel)",
+      "formula_engine": {"type": "batchim_alternation", "with": "이", "without": "가"},
+      "examples": [
+        {"target": "비가 와요.", "english": "It's raining.", "note": "Announcing something happening now."},
+        {"target": "누가 왔어요?", "english": "Who came?", "note": "누구 + 가 contracts to 누가."},
+        {"target": "시간이 없어요.", "english": "I don't have time.", "note": "있다/없다 take 이/가, not 을/를."},
+        {"target": "김치가 매워요.", "english": "The kimchi is spicy."}
+      ],
+      "mistakes": [
+        {"wrong": "저가 학생이에요.", "right": "제가 학생이에요.",
+         "why": "저 + 가 contracts to 제가. Likewise 나 + 가 → 내가, 누구 + 가 → 누가."},
+        {"wrong": "시간을 없어요.", "right": "시간이 없어요.",
+         "why": "있다 and 없다 describe existence, not an action done to an object."},
+        {"wrong": "저는 김치가 좋아해요.", "right": "저는 김치를 좋아해요.",
+         "why": "좋아하다 is a verb and takes an object. 좋다 is an adjective and takes 이/가 — 김치가 좋아요."}
+      ],
+      "similar": ["ko-g-002"], "contrast": ["ko-g-002"], "confusion_id": "topic_vs_subject",
+      "practice": {"type": "particle_choice", "options": ["이", "가", "은", "는"], "count": 10},
+      "listening": {"type": "listen_fill_particle", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["누가 왔어요?", "뭐가 맛있어요?"], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "You look outside and notice it has started raining. Tell your friend.", "target": "비가 와요."}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ko-g-004", "ordinal": 4, "name": "을 / 를 (object)", "name_native": "을/를",
+      "category": "particle", "meaning": "marks the thing the action happens to", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "This marks what you are doing something TO. Eat what? Read what? Whatever answers that gets 을/를.",
+      "technical": "The accusative marker. In casual speech it is very often dropped when the object is obvious from context.",
+      "structure": "noun + 을 (consonant) / 를 (vowel)",
+      "formula_engine": {"type": "batchim_alternation", "with": "을", "without": "를"},
+      "examples": [
+        {"target": "밥을 먹어요.", "english": "I eat rice.", "note": "밥 ends in ㅂ → 을."},
+        {"target": "커피를 마셔요.", "english": "I drink coffee.", "note": "커피 ends in a vowel → 를."},
+        {"target": "한국어를 공부해요.", "english": "I study Korean."},
+        {"target": "밥 먹었어요?", "english": "Have you eaten?", "note": "The 을 is dropped. Extremely common in speech."}
+      ],
+      "mistakes": [
+        {"wrong": "학교를 가요.", "right": "학교에 가요.",
+         "why": "가다 takes a destination, not an object. The place you go to takes 에."},
+        {"wrong": "친구에게 만나요.", "right": "친구를 만나요.",
+         "why": "만나다 takes 을/를 in Korean, even though English says 'meet WITH'."},
+        {"wrong": "버스에 타요.", "right": "버스를 타요.",
+         "why": "타다 also takes 을/를. So does 좋아하다."}
+      ],
+      "similar": [], "contrast": ["ko-g-005"],
+      "practice": {"type": "particle_choice", "options": ["을", "를"], "count": 8},
+      "listening": {"type": "listen_fill_particle", "count": 6},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say three things you did today."], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Tell someone you are studying Korean.", "target": "한국어를 공부해요."}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ko-g-005", "ordinal": 5, "name": "에 (place / time)", "name_native": "에",
+      "category": "particle", "meaning": "to, at, in, on", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "An arrow pointing at a place, or a pin stuck in a moment. Where you're going, where something IS, or when something happens.",
+      "technical": "Marks a destination with verbs of motion, a static location with 있다/없다, and a point in time. It does not mark the location of an activity — that is 에서.",
+      "structure": "noun + 에",
+      "examples": [
+        {"target": "학교에 가요.", "english": "I go to school.", "note": "Destination."},
+        {"target": "집에 있어요.", "english": "I'm at home.", "note": "있다 always takes 에."},
+        {"target": "세 시에 만나요.", "english": "Let's meet at three.", "note": "A point in time."},
+        {"target": "책상 위에 있어요.", "english": "It's on the desk."}
+      ],
+      "mistakes": [
+        {"wrong": "학교에서 가요.", "right": "학교에 가요.", "why": "가다 needs a destination — that is 에."},
+        {"wrong": "집에서 있어요.", "right": "집에 있어요.", "why": "있다 takes 에, always, with no exceptions."},
+        {"wrong": "오늘에 만나요.", "right": "오늘 만나요.",
+         "why": "오늘, 내일, 어제, 지금 and 언제 never take 에. Neither does 매일."}
+      ],
+      "similar": ["ko-g-006"], "contrast": ["ko-g-006"], "confusion_id": "e_vs_eseo",
+      "practice": {"type": "particle_choice", "options": ["에", "에서"], "count": 10},
+      "listening": {"type": "listen_fill_particle", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["어디에 가요?", "지금 어디에 있어요?"], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Someone asks where you are. You're at home.", "target": "집에 있어요."}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ko-g-006", "ordinal": 6, "name": "에서 (activity place / from)", "name_native": "에서",
+      "category": "particle", "meaning": "at (doing something), from", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "A little stage the action happens on. If you could film someone doing the verb there, use 에서.",
+      "technical": "Marks the location of a dynamic activity, or a point of origin.",
+      "structure": "noun + 에서",
+      "examples": [
+        {"target": "학교에서 공부해요.", "english": "I study at school.", "note": "The studying happens there."},
+        {"target": "식당에서 밥을 먹어요.", "english": "I eat at a restaurant."},
+        {"target": "한국에서 왔어요.", "english": "I'm from Korea.", "note": "Origin."},
+        {"target": "집에서 일해요.", "english": "I work from home."}
+      ],
+      "mistakes": [
+        {"wrong": "학교에 공부해요.", "right": "학교에서 공부해요.",
+         "why": "공부하다 is an activity, so its location takes 에서."},
+        {"wrong": "한국에 왔어요.", "right": "한국에서 왔어요.",
+         "why": "Both are grammatical but mean opposite things: 한국에 왔어요 is 'I came TO Korea'."}
+      ],
+      "similar": ["ko-g-005"], "contrast": ["ko-g-005"], "confusion_id": "e_vs_eseo",
+      "practice": {"type": "particle_choice", "options": ["에", "에서"], "count": 10},
+      "listening": {"type": "listen_fill_particle", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["어디에서 일해요?", "어디에서 왔어요?"], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Tell someone which country you're from.", "target": "___에서 왔어요."}
+      ]},
+      "tags": ["particles", "essential"]
+    },
+    {
+      "id": "ko-g-007", "ordinal": 7, "name": "아 / 어요 (present polite)", "name_native": "-아/어요",
+      "category": "ending", "meaning": "present tense, polite", "formality": "polite (해요체)",
+      "attaches_to": "verb or adjective stem",
+      "simple": "This is the ending you will use more than any other. Take the dictionary form, chop off 다, and add 아요 or 어요 — 아요 if the last vowel is ㅏ or ㅗ, 어요 otherwise. Then a few of them squash together.",
+      "technical": "The polite non-formal declarative. Selection follows vowel harmony; the resulting vowel sequence contracts obligatorily in speech.",
+      "structure": "stem + 아요 (last vowel ㅏ/ㅗ) / 어요 (otherwise); 하다 → 해요",
+      "formula_engine": {"type": "conjugate", "form": "present_polite"},
+      "examples": [
+        {"target": "먹다 → 먹어요", "english": "eat", "note": "ㅓ is not ㅏ or ㅗ, so 어요. Stem ends in a consonant, so no contraction."},
+        {"target": "가다 → 가요", "english": "go", "note": "가 + 아 squashes into 가."},
+        {"target": "보다 → 봐요", "english": "see", "note": "ㅗ + ㅏ = ㅘ."},
+        {"target": "마시다 → 마셔요", "english": "drink", "note": "ㅣ + ㅓ = ㅕ."},
+        {"target": "하다 → 해요", "english": "do", "note": "Its own special case. Every -하다 verb follows it."}
+      ],
+      "mistakes": [
+        {"wrong": "가아요", "right": "가요", "why": "가 + 아 must contract. Two identical vowels never sit side by side."},
+        {"wrong": "춥어요", "right": "추워요", "why": "춥다 is ㅂ-irregular: the ㅂ becomes 우 before a vowel."},
+        {"wrong": "쓰어요", "right": "써요", "why": "으-irregular: the ㅡ drops out entirely."},
+        {"wrong": "듣어요", "right": "들어요", "why": "ㄷ-irregular: ㄷ becomes ㄹ before a vowel."}
+      ],
+      "similar": ["ko-g-008"], "contrast": [],
+      "practice": {"type": "conjugate", "form": "present_polite", "include_irregulars": true, "count": 12},
+      "listening": {"type": "listen_type", "form": "present_polite", "count": 8},
+      "speaking": {"type": "repeat_then_produce", "prompts": ["Say five things you do every day."], "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Tell a friend you're drinking coffee right now.", "target": "커피를 마셔요."}
+      ]},
+      "tags": ["conjugation", "essential"]
+    },
+    {
+      "id": "ko-g-008", "ordinal": 8, "name": "았 / 었어요 (past)", "name_native": "-았/었어요",
+      "category": "ending", "meaning": "past tense, polite", "formality": "polite (해요체)",
+      "attaches_to": "verb or adjective stem",
+      "simple": "Make the present-tense form first, then push a ㅆ underneath the last syllable and add 어요. 먹어 becomes 먹었어요. Once you can do the present tense, the past is free.",
+      "technical": "The past marker -았/-었- inserts between stem and ending, selected by the same vowel harmony as the present. Building it from the already-contracted present form avoids re-deriving every irregular.",
+      "structure": "present form + ㅆ + 어요",
+      "formula_engine": {"type": "conjugate", "form": "past_polite"},
+      "examples": [
+        {"target": "먹어요 → 먹었어요", "english": "ate"},
+        {"target": "가요 → 갔어요", "english": "went", "note": "가 already contracted, so the ㅆ goes straight underneath."},
+        {"target": "해요 → 했어요", "english": "did"},
+        {"target": "추워요 → 추웠어요", "english": "was cold"},
+        {"target": "어제 뭐 했어요?", "english": "What did you do yesterday?"}
+      ],
+      "mistakes": [
+        {"wrong": "먹었였어요", "right": "먹었어요", "why": "One past marker is enough."},
+        {"wrong": "가았어요", "right": "갔어요", "why": "Contract first, then add ㅆ."},
+        {"wrong": "어제 학교에 가요.", "right": "어제 학교에 갔어요.",
+         "why": "Korean marks past tense on the verb even when the time word already says it."}
+      ],
+      "similar": ["ko-g-007"], "contrast": [],
+      "practice": {"type": "conjugate", "form": "past_polite", "include_irregulars": true, "count": 12},
+      "listening": {"type": "listen_type", "form": "past_polite", "count": 8},
+      "speaking": {"type": "question_answer", "prompts": ["어제 뭐 했어요?", "주말에 뭐 했어요?"], "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "A friend asks what you did yesterday. You watched a film.", "target": "영화를 봤어요."}
+      ]},
+      "tags": ["conjugation", "essential"]
+    },
+    {
+      "id": "ko-g-009", "ordinal": 9, "name": "있어요 / 없어요", "name_native": "있어요/없어요",
+      "category": "verb", "meaning": "there is / there isn't; I have / I don't have", "formality": "polite",
+      "attaches_to": "sentence",
+      "simple": "A box with something in it, or a box with nothing in it. Korean uses the same word for 'there is' and 'I have' — context tells you which.",
+      "technical": "Existential verbs. They take 이/가 on their argument, never 을/를, and 없다 is a separate lexical item rather than a negation of 있다.",
+      "structure": "noun + 이/가 + 있어요 / 없어요",
+      "examples": [
+        {"target": "시간이 있어요.", "english": "I have time."},
+        {"target": "돈이 없어요.", "english": "I have no money."},
+        {"target": "화장실이 어디에 있어요?", "english": "Where is the toilet?"},
+        {"target": "질문 있어요?", "english": "Any questions?", "note": "Particle dropped in casual speech."}
+      ],
+      "mistakes": [
+        {"wrong": "시간을 있어요.", "right": "시간이 있어요.", "why": "있다 takes 이/가."},
+        {"wrong": "안 있어요.", "right": "없어요.", "why": "The negative of 있다 is the separate word 없다."},
+        {"wrong": "저는 학생 있어요.", "right": "저는 학생이에요.",
+         "why": "'I am a student' is identity, not existence. That is 이에요."}
+      ],
+      "similar": [], "contrast": ["ko-g-001"], "confusion_id": "isseoyo_vs_ieyo",
+      "practice": {"type": "choose_verb", "options": ["있어요", "없어요", "이에요", "예요"], "count": 10},
+      "listening": {"type": "listen_choose", "pool": ["있어요", "없어요", "이에요"], "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["시간 있어요?", "형제가 있어요?"], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "You need the toilet in a café. Ask where it is.", "target": "화장실이 어디에 있어요?"}
+      ]},
+      "tags": ["verbs", "essential"]
+    },
+    {
+      "id": "ko-g-010", "ordinal": 10, "name": "아니에요", "name_native": "아니에요",
+      "category": "copula", "meaning": "is not", "formality": "polite",
+      "attaches_to": "noun",
+      "simple": "The opposite of 이에요. Note that the noun in front takes 이/가, not 은/는.",
+      "technical": "The negative copula 아니다. Its complement is marked with 이/가.",
+      "structure": "noun + 이/가 + 아니에요",
+      "examples": [
+        {"target": "저는 학생이 아니에요.", "english": "I'm not a student."},
+        {"target": "이거 제 거 아니에요.", "english": "This isn't mine."},
+        {"target": "아니에요.", "english": "Not at all. / You're welcome.", "note": "Standard modest reply to thanks or a compliment."}
+      ],
+      "mistakes": [
+        {"wrong": "저는 학생을 아니에요.", "right": "저는 학생이 아니에요.", "why": "아니다 takes 이/가."},
+        {"wrong": "저는 학생 안 이에요.", "right": "저는 학생이 아니에요.", "why": "안 does not negate the copula. 아니다 is its own word."}
+      ],
+      "similar": ["ko-g-001"], "contrast": ["ko-g-001"],
+      "practice": {"type": "transform", "from": "이에요", "to": "아니에요", "count": 8},
+      "listening": {"type": "listen_true_false", "count": 6},
+      "speaking": {"type": "correction_drill", "prompts": ["Correct a wrong guess about your job."], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Someone assumes you're a teacher. You're not.", "target": "선생님이 아니에요."}
+      ]},
+      "tags": ["copula"]
+    },
+    {
+      "id": "ko-g-011", "ordinal": 11, "name": "도 (also)", "name_native": "도",
+      "category": "particle", "meaning": "also, too, even", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "'Too'. It pushes out 은/는, 이/가 and 을/를 — you never write both.",
+      "technical": "An additive particle that replaces the topic, subject and object markers rather than stacking with them.",
+      "structure": "noun + 도",
+      "examples": [
+        {"target": "저도 학생이에요.", "english": "I'm a student too."},
+        {"target": "김치도 좋아해요.", "english": "I like kimchi too."},
+        {"target": "물도 주세요.", "english": "Water as well, please."}
+      ],
+      "mistakes": [
+        {"wrong": "저는도 학생이에요.", "right": "저도 학생이에요.", "why": "도 replaces 는."},
+        {"wrong": "김치를도 좋아해요.", "right": "김치도 좋아해요.", "why": "도 replaces 를."}
+      ],
+      "similar": [], "contrast": ["ko-g-002"],
+      "practice": {"type": "particle_replace", "count": 8},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "agreement_drill", "prompts": ["Agree that you also like something."], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Your friend says they're a student. So are you.", "target": "저도 학생이에요."}
+      ]},
+      "tags": ["particles"]
+    },
+    {
+      "id": "ko-g-012", "ordinal": 12, "name": "와 / 과, 하고 (and)", "name_native": "와/과, 하고",
+      "category": "particle", "meaning": "and, with", "formality": "neutral / casual",
+      "attaches_to": "noun",
+      "simple": "Three ways to say 'and' between two nouns. 하고 is what people actually say; 와/과 is what they write.",
+      "technical": "와 after a vowel, 과 after a consonant — note this is the reverse of the usual pattern. 하고 and 랑/이랑 are the colloquial equivalents, 랑 being the most casual.",
+      "structure": "noun + 와 (vowel) / 과 (consonant) / 하고 / (이)랑",
+      "formula_engine": {"type": "batchim_alternation", "with": "과", "without": "와"},
+      "examples": [
+        {"target": "커피와 빵", "english": "coffee and bread", "note": "커피 ends in a vowel → 와. Written register."},
+        {"target": "빵과 커피", "english": "bread and coffee", "note": "빵 ends in a consonant → 과."},
+        {"target": "친구하고 같이 가요.", "english": "I'm going with a friend.", "note": "하고 also means 'with'."},
+        {"target": "저랑 갈래요?", "english": "Want to come with me?", "note": "랑 is the most casual."}
+      ],
+      "mistakes": [
+        {"wrong": "빵와 커피", "right": "빵과 커피",
+         "why": "와/과 run backwards compared to every other particle: 와 after a vowel."},
+        {"wrong": "저는 그리고 친구 갔어요.", "right": "저는 친구하고 갔어요.",
+         "why": "그리고 joins sentences, not nouns."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "batchim_choice", "pairs": [["커피", "와"], ["빵", "과"], ["친구", "와"], ["선생님", "과"]], "count": 8},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "list_drill", "prompts": ["Order two things at a café."], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Say you went with a friend.", "target": "친구하고 갔어요."}
+      ]},
+      "tags": ["particles"]
+    },
+    {
+      "id": "ko-g-013", "ordinal": 13, "name": "주세요 (please give / please do)", "name_native": "-주세요",
+      "category": "request", "meaning": "please give me / please do it for me", "formality": "polite",
+      "attaches_to": "noun or verb",
+      "simple": "The most useful thing you can learn in your first week. Put it after a noun to ask for the thing, or after a verb's 아/어 form to ask someone to do it.",
+      "technical": "The honorific imperative of 주다. After a noun it requests the item; after the 아/어 form of a verb it requests the action as a favour.",
+      "structure": "noun + 주세요  |  verb 아/어 form + 주세요",
+      "examples": [
+        {"target": "물 주세요.", "english": "Water, please."},
+        {"target": "김치찌개 하나 주세요.", "english": "One kimchi stew, please."},
+        {"target": "천천히 말해 주세요.", "english": "Please speak slowly.", "note": "Learn this one by heart."},
+        {"target": "다시 한번 말해 주세요.", "english": "Please say that again."},
+        {"target": "조금만 기다려 주세요.", "english": "Please wait a moment."}
+      ],
+      "mistakes": [
+        {"wrong": "물을 주세요를", "right": "물 주세요", "why": "Nothing goes after 주세요. The object particle is usually dropped too."},
+        {"wrong": "말하 주세요", "right": "말해 주세요", "why": "It attaches to the 아/어 form, so 말하다 → 말해."},
+        {"wrong": "주세요 물", "right": "물 주세요", "why": "Korean verbs go last, always."}
+      ],
+      "similar": ["ko-g-016"], "contrast": [],
+      "practice": {"type": "build_request", "count": 10},
+      "listening": {"type": "listen_choose", "pool": ["물 주세요", "천천히 말해 주세요", "다시 말해 주세요"], "count": 6},
+      "speaking": {"type": "roleplay", "scenario": "ordering at a café", "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "The person is speaking too fast for you. Ask them to slow down.", "target": "천천히 말해 주세요."}
+      ]},
+      "tags": ["requests", "survival", "essential"]
+    },
+    {
+      "id": "ko-g-014", "ordinal": 14, "name": "고 싶어요 (want to)", "name_native": "-고 싶어요",
+      "category": "auxiliary", "meaning": "want to", "formality": "polite",
+      "attaches_to": "verb stem",
+      "simple": "Chop 다 off a verb and add 고 싶어요. It only works for what YOU want — talking about what someone else wants needs a different ending.",
+      "technical": "-고 싶다 expresses first-person desire. For a third-person subject Korean requires -고 싶어하다, because inner states of others cannot be asserted directly.",
+      "structure": "verb stem + 고 싶어요",
+      "formula_engine": {"type": "conjugate", "form": "aux_want"},
+      "examples": [
+        {"target": "한국에 가고 싶어요.", "english": "I want to go to Korea."},
+        {"target": "뭐 먹고 싶어요?", "english": "What do you want to eat?"},
+        {"target": "쉬고 싶어요.", "english": "I want to rest."},
+        {"target": "동생이 자고 싶어해요.", "english": "My sibling wants to sleep.", "note": "Third person → 싶어해요."}
+      ],
+      "mistakes": [
+        {"wrong": "가다고 싶어요", "right": "가고 싶어요", "why": "It attaches to the stem, so 다 comes off first."},
+        {"wrong": "친구가 가고 싶어요.", "right": "친구가 가고 싶어해요.",
+         "why": "You cannot state someone else's inner desire as fact in Korean."},
+        {"wrong": "저는 학생이고 싶어요.", "right": "저는 학생이 되고 싶어요.",
+         "why": "For 'want to be', Korean uses 되다 (become)."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "conjugate", "form": "aux_want", "count": 8},
+      "listening": {"type": "listen_type", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["뭐 하고 싶어요?", "어디에 가고 싶어요?"], "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "You're hungry and want to tell your friend what you'd like to do.", "target": "밥 먹고 싶어요."}
+      ]},
+      "tags": ["auxiliary", "essential"]
+    },
+    {
+      "id": "ko-g-015", "ordinal": 15, "name": "안 and 못 (negation)", "name_native": "안 / 못",
+      "category": "negation", "meaning": "don't / can't", "formality": "neutral",
+      "attaches_to": "verb",
+      "simple": "안 is a choice — you decided not to. 못 is a wall — something stops you. 'I don't drink' is 안. 'I can't eat spicy food' is 못.",
+      "technical": "안 is simple negation and cannot combine with adjectives of ability. 못 negates ability or possibility. Both precede the verb; -하다 compounds split around them.",
+      "structure": "안 / 못 + verb  |  noun + 안/못 + 해요 for -하다 verbs",
+      "formula_engine": {"type": "conjugate", "form": "negative_short"},
+      "examples": [
+        {"target": "저는 술을 안 마셔요.", "english": "I don't drink alcohol.", "note": "A choice."},
+        {"target": "매운 음식을 못 먹어요.", "english": "I can't eat spicy food.", "note": "Inability."},
+        {"target": "오늘은 못 가요.", "english": "I can't go today.", "note": "Something is preventing it."},
+        {"target": "공부 안 해요.", "english": "I don't study.", "note": "공부하다 splits around 안."}
+      ],
+      "mistakes": [
+        {"wrong": "안 공부해요", "right": "공부 안 해요",
+         "why": "-하다 verbs split: the noun comes first, then 안, then 해요."},
+        {"wrong": "저는 한국어를 안 알아요.", "right": "저는 한국어를 몰라요.",
+         "why": "알다 has no 안 form. Its negative is the separate verb 모르다."},
+        {"wrong": "안 있어요", "right": "없어요", "why": "Same idea — 있다's negative is 없다."}
+      ],
+      "similar": [], "contrast": [], "confusion_id": "an_vs_mot",
+      "practice": {"type": "choose_negation", "options": ["안", "못"], "count": 10},
+      "listening": {"type": "listen_choose", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["매운 거 먹을 수 있어요?", "술 마셔요?"], "count": 4},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "You'd love to come but you have to work.", "target": "오늘은 못 가요."}
+      ]},
+      "tags": ["negation", "essential"]
+    },
+    {
+      "id": "ko-g-016", "ordinal": 16, "name": "-(으)세요 (polite request / honorific)", "name_native": "-(으)세요",
+      "category": "ending", "meaning": "please do; also 'you (respected) do'", "formality": "polite honorific",
+      "attaches_to": "verb stem",
+      "simple": "Two jobs in one ending. Said to someone, it's a polite 'please do this'. Said about someone you respect, it raises them. 안녕하세요 is literally this ending on 안녕하다.",
+      "technical": "The honorific marker -(으)시- fused with the polite ending. 으 appears after a consonant-final stem; ㄹ-stems drop their ㄹ. Several common verbs use suppletive honorific stems instead.",
+      "structure": "stem + 으세요 (consonant) / 세요 (vowel or ㄹ-stem)",
+      "formula_engine": {"type": "conjugate", "form": "honorific_present"},
+      "examples": [
+        {"target": "여기 앉으세요.", "english": "Please sit here."},
+        {"target": "안녕히 가세요.", "english": "Goodbye (to someone leaving)."},
+        {"target": "천천히 하세요.", "english": "Take your time."},
+        {"target": "할머니께서 주무세요.", "english": "Grandmother is sleeping.", "note": "자다 → 주무시다, a separate honorific word."}
+      ],
+      "mistakes": [
+        {"wrong": "제가 가세요.", "right": "제가 가요.",
+         "why": "Never use an honorific about yourself. This is the most common honorific error."},
+        {"wrong": "할머니가 먹으세요.", "right": "할머니께서 드세요.",
+         "why": "먹다's honorific is the separate verb 드시다, and 께서 replaces 가."},
+        {"wrong": "살으세요", "right": "사세요", "why": "ㄹ-stems drop their ㄹ before ㅅ."}
+      ],
+      "similar": ["ko-g-013"], "contrast": [],
+      "practice": {"type": "conjugate", "form": "honorific_present", "count": 10},
+      "listening": {"type": "listen_type", "count": 6},
+      "speaking": {"type": "roleplay", "scenario": "welcoming a guest", "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "An older colleague is standing. Offer them a seat.", "target": "여기 앉으세요."}
+      ]},
+      "tags": ["honorifics", "essential"]
+    },
+    {
+      "id": "ko-g-017", "ordinal": 17, "name": "-(으)ㄹ까요? (shall we?)", "name_native": "-(으)ㄹ까요?",
+      "category": "ending", "meaning": "shall we? / shall I? / I wonder", "formality": "polite",
+      "attaches_to": "verb stem",
+      "simple": "Suggests something while leaving the other person room to say no. Much softer than -(으)ㅂ시다, which can sound like an order.",
+      "technical": "Expresses a proposal or conjecture. With a first-person plural subject it proposes; with a third-person subject it wonders aloud.",
+      "structure": "stem + 을까요 (consonant) / ㄹ까요 (vowel)",
+      "formula_engine": {"type": "conjugate", "form": "propositive_polite"},
+      "examples": [
+        {"target": "같이 갈까요?", "english": "Shall we go together?"},
+        {"target": "커피 마실까요?", "english": "Shall we get a coffee?"},
+        {"target": "제가 도와드릴까요?", "english": "Shall I help you?"},
+        {"target": "비가 올까요?", "english": "Do you think it'll rain?", "note": "Wondering, not proposing."}
+      ],
+      "mistakes": [
+        {"wrong": "선생님, 같이 갑시다.", "right": "선생님, 같이 갈까요?",
+         "why": "-(으)ㅂ시다 sounds bossy directed upward. Use -(으)ㄹ까요? with anyone senior."},
+        {"wrong": "가을까요", "right": "갈까요", "why": "가 ends in a vowel, so no 으."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "conjugate", "form": "propositive_polite", "count": 8},
+      "listening": {"type": "listen_type", "count": 6},
+      "speaking": {"type": "roleplay", "scenario": "making plans with a colleague", "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Suggest getting coffee with a colleague senior to you.", "target": "커피 마실까요?"}
+      ]},
+      "tags": ["mood"]
+    },
+    {
+      "id": "ko-g-018", "ordinal": 18, "name": "-(으)ㄹ 거예요 (will / going to)", "name_native": "-(으)ㄹ 거예요",
+      "category": "ending", "meaning": "will, plan to, probably", "formality": "polite",
+      "attaches_to": "verb stem",
+      "simple": "Your plan for the future. Note the space — 거 is a real noun meaning 'thing', so this literally reads 'it is a thing that I will do'.",
+      "technical": "The prospective modifier -(으)ㄹ plus the bound noun 것 plus the copula. With a third-person subject it reads as conjecture rather than intention.",
+      "structure": "stem + 을 거예요 (consonant) / ㄹ 거예요 (vowel)",
+      "formula_engine": {"type": "conjugate", "form": "future_polite"},
+      "examples": [
+        {"target": "내일 갈 거예요.", "english": "I'll go tomorrow."},
+        {"target": "한국어를 공부할 거예요.", "english": "I'm going to study Korean."},
+        {"target": "비가 올 거예요.", "english": "It's going to rain.", "note": "Conjecture."},
+        {"target": "뭐 할 거예요?", "english": "What are you going to do?"}
+      ],
+      "mistakes": [
+        {"wrong": "갈거예요", "right": "갈 거예요", "why": "거 is a separate noun, so it takes a space."},
+        {"wrong": "가을 거예요", "right": "갈 거예요", "why": "가 ends in a vowel, so ㄹ attaches directly."},
+        {"wrong": "먹ㄹ 거예요", "right": "먹을 거예요", "why": "먹 ends in a consonant, so it needs 을."}
+      ],
+      "similar": [], "contrast": [],
+      "practice": {"type": "conjugate", "form": "future_polite", "count": 10},
+      "listening": {"type": "listen_type", "count": 6},
+      "speaking": {"type": "question_answer", "prompts": ["주말에 뭐 할 거예요?", "언제 갈 거예요?"], "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Tell someone your plan for the weekend.", "target": "주말에 ___ 거예요."}
+      ]},
+      "tags": ["tense", "essential"]
+    },
+    {
+      "id": "ko-g-019", "ordinal": 19, "name": "-ㅂ니다 / 습니다 (formal)", "name_native": "-ㅂ니다/습니다",
+      "category": "ending", "meaning": "present tense, formal", "formality": "formal (하십시오체)",
+      "attaches_to": "verb or adjective stem",
+      "simple": "The formal register. You will hear it constantly from shop staff, on the news and in announcements — and you use it in presentations and interviews. Remember it is always pronounced [슴니다], never [습니다].",
+      "technical": "The deferential style. -ㅂ니다 after a vowel-final stem, -습니다 after a consonant-final one; ㄹ-stems drop their ㄹ. Nasalisation makes the ㅂ surface as [ㅁ].",
+      "structure": "stem + ㅂ니다 (vowel) / 습니다 (consonant)",
+      "formula_engine": {"type": "conjugate", "form": "present_formal"},
+      "examples": [
+        {"target": "감사합니다.", "english": "Thank you.", "note": "Pronounced [감사함니다]."},
+        {"target": "저는 학생입니다.", "english": "I am a student.", "note": "The copula's formal form is 입니다."},
+        {"target": "안녕히 계십시오.", "english": "Goodbye.", "note": "The formal imperative."},
+        {"target": "만나서 반갑습니다.", "english": "Nice to meet you."}
+      ],
+      "mistakes": [
+        {"wrong": "먹ㅂ니다", "right": "먹습니다", "why": "먹 ends in a consonant."},
+        {"wrong": "살습니다", "right": "삽니다", "why": "ㄹ-stems drop the ㄹ and take ㅂ니다."},
+        {"wrong": "Pronouncing it [습니다]", "right": "[슴니다]",
+         "why": "ㅂ before ㄴ becomes ㅁ. This happens every single time."}
+      ],
+      "similar": ["ko-g-007"], "contrast": ["ko-g-007"],
+      "practice": {"type": "conjugate", "form": "present_formal", "count": 10},
+      "listening": {"type": "listen_type", "count": 8},
+      "speaking": {"type": "register_switch", "prompts": ["Say the same sentence in 해요체 then 합니다체."], "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "You're introducing yourself at a job interview.", "target": "저는 ___입니다."}
+      ]},
+      "tags": ["conjugation", "register"]
+    },
+    {
+      "id": "ko-g-020", "ordinal": 20, "name": "Native and Sino-Korean numbers", "name_native": "고유어 수 / 한자어 수",
+      "category": "numbers", "meaning": "two counting systems", "formality": "neutral",
+      "attaches_to": "noun",
+      "simple": "Korean has two complete sets of numbers and uses both every day. Count things you can see with 하나 둘 셋. Read numbers off a page — money, dates, minutes, phone numbers — with 일 이 삼.",
+      "technical": "Native numerals combine with counters for objects, people, age and hours. Sino-Korean numerals are used for dates, money, minutes, addresses, floors and numbers above 99. Native 하나/둘/셋/넷/스물 shorten to 한/두/세/네/스무 before a counter.",
+      "structure": "native + counter  |  Sino for written numbers",
+      "examples": [
+        {"target": "커피 두 잔 주세요.", "english": "Two coffees, please.", "note": "둘 shortens to 두 before 잔."},
+        {"target": "삼십 분", "english": "thirty minutes", "note": "Minutes are always Sino."},
+        {"target": "두 시 삼십 분", "english": "2:30", "note": "Hour is native, minutes are Sino. Both systems in one phrase."},
+        {"target": "스무 살이에요.", "english": "I'm twenty.", "note": "스물 shortens to 스무."},
+        {"target": "오천 원이에요.", "english": "It's 5,000 won.", "note": "Money is Sino."}
+      ],
+      "mistakes": [
+        {"wrong": "둘 잔 주세요", "right": "두 잔 주세요", "why": "Before a counter, 둘 becomes 두."},
+        {"wrong": "이 시 삼십 분", "right": "두 시 삼십 분", "why": "Hours use native numbers, minutes use Sino."},
+        {"wrong": "하나 원", "right": "일 원", "why": "Money is always Sino-Korean."}
+      ],
+      "similar": [], "contrast": [], "confusion_id": "native_vs_sino_numbers",
+      "practice": {"type": "number_choice", "count": 12},
+      "listening": {"type": "listen_number", "count": 10},
+      "speaking": {"type": "roleplay", "scenario": "ordering and paying", "count": 6},
+      "production": {"type": "concept_to_korean", "prompts": [
+        {"situation": "Order three coffees.", "target": "커피 세 잔 주세요."},
+        {"situation": "Say it's half past two.", "target": "두 시 삼십 분이에요."}
+      ]},
+      "tags": ["numbers", "essential"]
+    }
+  ]
+}

@@ -1,0 +1,633 @@
+{
+  "language": "ko",
+  "writing_system": "hangul",
+  "intro": {
+    "child_version": "Sometimes a Korean syllable has a little consonant sitting underneath, holding the block up from below. Korean calls that letter 받침 — it literally means 'a support', the same word used for the prop under a shelf.",
+    "then_show": {
+      "syllable": "한",
+      "formula": "ㅎ + ㅏ + ㄴ = 한",
+      "point_to": "ㄴ"
+    },
+    "technical_version": "받침 is the coda position of a Korean syllable block — the optional final consonant slot, written beneath the initial-plus-medial cluster.",
+    "why_it_matters": "받침 is where almost every Korean pronunciation rule lives. It also decides which form a particle takes: 책은 but 사과는. You cannot read Korean aloud, or attach a particle correctly, without it."
+  },
+  "the_seven_sounds": {
+    "headline": "27 batchim can be written. Only 7 can be heard.",
+    "child_version": "Korean is strict about how a block is allowed to end. No matter which letter is written underneath, it comes out as one of only seven sounds: ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ. Everything else changes into whichever of the seven is closest.",
+    "technical_version": "음절의 끝소리 규칙: coda consonants neutralise to one of seven unreleased archiphonemes.",
+    "groups": [
+      {
+        "sound": "ㄱ",
+        "written_as": [
+          "ㄱ",
+          "ㄲ",
+          "ㅋ",
+          "ㄳ",
+          "ㄺ"
+        ],
+        "how": "The back of your tongue seals against the soft palate and stays there. No air escapes.",
+        "examples": [
+          {
+            "written": "국",
+            "spoken": "국",
+            "meaning": "soup"
+          },
+          {
+            "written": "밖",
+            "spoken": "박",
+            "meaning": "outside"
+          },
+          {
+            "written": "부엌",
+            "spoken": "부억",
+            "meaning": "kitchen"
+          },
+          {
+            "written": "닭",
+            "spoken": "닥",
+            "meaning": "chicken"
+          }
+        ]
+      },
+      {
+        "sound": "ㄴ",
+        "written_as": [
+          "ㄴ",
+          "ㄵ",
+          "ㄶ"
+        ],
+        "how": "Tongue tip on the ridge, air goes out through your nose.",
+        "examples": [
+          {
+            "written": "산",
+            "spoken": "산",
+            "meaning": "mountain"
+          },
+          {
+            "written": "앉",
+            "spoken": "안",
+            "meaning": "sit (stem)"
+          },
+          {
+            "written": "많",
+            "spoken": "만",
+            "meaning": "many (stem)"
+          }
+        ]
+      },
+      {
+        "sound": "ㄷ",
+        "written_as": [
+          "ㄷ",
+          "ㅅ",
+          "ㅆ",
+          "ㅈ",
+          "ㅊ",
+          "ㅌ",
+          "ㅎ"
+        ],
+        "how": "Tongue tip presses the ridge and stops. Nothing is released — the sound just ends.",
+        "note": "This is the biggest group and the one that surprises learners most. ㅅ underneath does NOT sound like s.",
+        "examples": [
+          {
+            "written": "옷",
+            "spoken": "옫",
+            "meaning": "clothes"
+          },
+          {
+            "written": "꽃",
+            "spoken": "꼳",
+            "meaning": "flower"
+          },
+          {
+            "written": "밭",
+            "spoken": "받",
+            "meaning": "field"
+          },
+          {
+            "written": "낮",
+            "spoken": "낟",
+            "meaning": "daytime"
+          },
+          {
+            "written": "있",
+            "spoken": "읻",
+            "meaning": "exist (stem)"
+          }
+        ]
+      },
+      {
+        "sound": "ㄹ",
+        "written_as": [
+          "ㄹ",
+          "ㄼ",
+          "ㄽ",
+          "ㄾ",
+          "ㅀ"
+        ],
+        "how": "A clear l — tongue tip on the ridge, air flowing round the sides.",
+        "examples": [
+          {
+            "written": "물",
+            "spoken": "물",
+            "meaning": "water"
+          },
+          {
+            "written": "여덟",
+            "spoken": "여덜",
+            "meaning": "eight"
+          },
+          {
+            "written": "싫",
+            "spoken": "실",
+            "meaning": "dislike (stem)"
+          }
+        ]
+      },
+      {
+        "sound": "ㅁ",
+        "written_as": [
+          "ㅁ",
+          "ㄻ"
+        ],
+        "how": "Lips shut, air through the nose.",
+        "examples": [
+          {
+            "written": "밤",
+            "spoken": "밤",
+            "meaning": "night"
+          },
+          {
+            "written": "삶",
+            "spoken": "삼",
+            "meaning": "life"
+          }
+        ]
+      },
+      {
+        "sound": "ㅂ",
+        "written_as": [
+          "ㅂ",
+          "ㅍ",
+          "ㄿ",
+          "ㅄ"
+        ],
+        "how": "Lips shut and stay shut. No puff.",
+        "examples": [
+          {
+            "written": "밥",
+            "spoken": "밥",
+            "meaning": "rice, a meal"
+          },
+          {
+            "written": "앞",
+            "spoken": "압",
+            "meaning": "front"
+          },
+          {
+            "written": "값",
+            "spoken": "갑",
+            "meaning": "price"
+          }
+        ]
+      },
+      {
+        "sound": "ㅇ",
+        "written_as": [
+          "ㅇ"
+        ],
+        "how": "The ng of 'sing'. Back of the tongue up, air through the nose.",
+        "note": "The only batchim that never changes and never moves.",
+        "examples": [
+          {
+            "written": "강",
+            "spoken": "강",
+            "meaning": "river"
+          },
+          {
+            "written": "사랑",
+            "spoken": "사랑",
+            "meaning": "love"
+          }
+        ]
+      }
+    ]
+  },
+  "double_batchim": {
+    "child_version": "Sometimes TWO consonants are squeezed underneath one block. Korean never says both. One of them stays and the other goes quiet — until a vowel comes along and gives it somewhere to go.",
+    "technical_version": "자음군 단순화: a complex coda reduces to one segment unless it can be resyllabified.",
+    "table": [
+      {
+        "cluster": "ㄳ",
+        "alone": "ㄱ",
+        "before_vowel": "ㄱ + ㅆ",
+        "example": "몫 → [목], 몫을 → [목쓸]"
+      },
+      {
+        "cluster": "ㄵ",
+        "alone": "ㄴ",
+        "before_vowel": "ㄴ + ㅈ",
+        "example": "앉다 → [안따], 앉아 → [안자]"
+      },
+      {
+        "cluster": "ㄶ",
+        "alone": "ㄴ",
+        "before_vowel": "ㄴ (the ㅎ vanishes)",
+        "example": "많다 → [만타], 많아 → [마나]"
+      },
+      {
+        "cluster": "ㄺ",
+        "alone": "ㄱ",
+        "before_vowel": "ㄹ + ㄱ",
+        "example": "닭 → [닥], 읽어 → [일거]",
+        "note": "In a VERB stem it keeps ㄹ before ㄱ: 읽고 → [일꼬]. In a noun it does not: 닭고기 → [닥꼬기]."
+      },
+      {
+        "cluster": "ㄻ",
+        "alone": "ㅁ",
+        "before_vowel": "ㄹ + ㅁ",
+        "example": "삶 → [삼], 젊어 → [절머]"
+      },
+      {
+        "cluster": "ㄼ",
+        "alone": "ㄹ",
+        "before_vowel": "ㄹ + ㅂ",
+        "example": "여덟 → [여덜], 넓어 → [널버]",
+        "note": "밟다 is the exception and keeps ㅂ: [밥따]."
+      },
+      {
+        "cluster": "ㄽ",
+        "alone": "ㄹ",
+        "before_vowel": "ㄹ + ㅆ",
+        "example": "외곬 → [외골]"
+      },
+      {
+        "cluster": "ㄾ",
+        "alone": "ㄹ",
+        "before_vowel": "ㄹ + ㅌ",
+        "example": "핥다 → [할따], 핥아 → [할타]"
+      },
+      {
+        "cluster": "ㄿ",
+        "alone": "ㅂ",
+        "before_vowel": "ㄹ + ㅍ",
+        "example": "읊다 → [읍따], 읊어 → [을퍼]"
+      },
+      {
+        "cluster": "ㅀ",
+        "alone": "ㄹ",
+        "before_vowel": "ㄹ (the ㅎ vanishes)",
+        "example": "싫다 → [실타], 싫어 → [시러]"
+      },
+      {
+        "cluster": "ㅄ",
+        "alone": "ㅂ",
+        "before_vowel": "ㅂ + ㅆ",
+        "example": "값 → [갑], 값이 → [갑씨]"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "liaison",
+      "ko": "연음",
+      "en": "Linking",
+      "order": 1,
+      "difficulty": 1,
+      "headline": "한국어 → 한구거",
+      "child_version": "A 받침 has nowhere to go — it is stuck under its block. But the very next block starts with ㅇ, which is a silent, empty seat. So the 받침 slides across and sits in it.",
+      "technical_version": "A coda consonant is resyllabified as the onset of a following vowel-initial syllable. Because the move happens before neutralisation, the underlying consonant surfaces intact.",
+      "why_it_matters": "This is why written Korean and spoken Korean look so different, and why particles seem to 'disappear'. It happens constantly, because every particle and ending starts with a vowel.",
+      "examples": [
+        {
+          "written": "한국어",
+          "spoken": "한구거",
+          "meaning": "Korean language",
+          "walkthrough": "국's ㄱ moves into 어's empty seat"
+        },
+        {
+          "written": "책을",
+          "spoken": "채글",
+          "meaning": "book (object)"
+        },
+        {
+          "written": "음악",
+          "spoken": "으막",
+          "meaning": "music"
+        },
+        {
+          "written": "꽃이",
+          "spoken": "꼬치",
+          "meaning": "flower (subject)",
+          "walkthrough": "ㅊ moves across unchanged — it does NOT first become ㄷ"
+        },
+        {
+          "written": "밭에",
+          "spoken": "바테",
+          "meaning": "in the field"
+        },
+        {
+          "written": "맛있어요",
+          "spoken": "마시써요",
+          "meaning": "it's delicious"
+        }
+      ],
+      "exceptions": [
+        {
+          "case": "ㅇ never moves",
+          "example": "강아지 → [강아지]",
+          "why": "It is already a nasal filling the coda; there is nothing to hand over."
+        },
+        {
+          "case": "Across a compound word boundary the coda neutralises first",
+          "example": "첫인상 → [처딘상]",
+          "why": "The ㅅ becomes ㄷ before it links, because a new word begins."
+        }
+      ]
+    },
+    {
+      "id": "tensification",
+      "ko": "경음화",
+      "en": "Tensification",
+      "order": 2,
+      "difficulty": 2,
+      "headline": "학교 → 학꾜",
+      "child_version": "After a ㄱ, ㄷ or ㅂ sound, your throat is already squeezed shut. The next consonant comes out tight and hard, whether you meant it to or not.",
+      "technical_version": "A lax obstruent onset becomes tense following an obstruent coda. This one is fully automatic — no exceptions, no lexical conditioning.",
+      "examples": [
+        {
+          "written": "학교",
+          "spoken": "학꾜",
+          "meaning": "school"
+        },
+        {
+          "written": "먹다",
+          "spoken": "먹따",
+          "meaning": "to eat"
+        },
+        {
+          "written": "국밥",
+          "spoken": "국빱",
+          "meaning": "gukbap"
+        },
+        {
+          "written": "입다",
+          "spoken": "입따",
+          "meaning": "to wear"
+        },
+        {
+          "written": "책상",
+          "spoken": "책쌍",
+          "meaning": "desk"
+        },
+        {
+          "written": "숟가락",
+          "spoken": "숟까락",
+          "meaning": "spoon"
+        }
+      ]
+    },
+    {
+      "id": "nasalisation",
+      "ko": "비음화",
+      "en": "Nasalisation",
+      "order": 3,
+      "difficulty": 2,
+      "headline": "한국말 → 한궁말",
+      "child_version": "Your mouth is closed for the ㄱ, and the next sound needs to come out of your nose. Rather than jump between the two, your mouth just gives in and sends the ㄱ through your nose as well — which turns it into ㅇ.",
+      "technical_version": "Obstruent codas assimilate in nasality before a nasal onset: ㄱ → [ㅇ], ㄷ → [ㄴ], ㅂ → [ㅁ].",
+      "examples": [
+        {
+          "written": "한국말",
+          "spoken": "한궁말",
+          "meaning": "the Korean language"
+        },
+        {
+          "written": "국물",
+          "spoken": "궁물",
+          "meaning": "broth"
+        },
+        {
+          "written": "감사합니다",
+          "spoken": "감사함니다",
+          "meaning": "thank you",
+          "walkthrough": "ㅂ + ㄴ → ㅁ + ㄴ. You have been hearing 함니다 all along."
+        },
+        {
+          "written": "먹는",
+          "spoken": "멍는",
+          "meaning": "eating (modifier)"
+        },
+        {
+          "written": "있는",
+          "spoken": "인는",
+          "meaning": "existing (modifier)"
+        },
+        {
+          "written": "작년",
+          "spoken": "장년",
+          "meaning": "last year"
+        }
+      ],
+      "note": "-습니다 and -ㅂ니다 are said [습니다]→[슴니다] and [ㅂ니다]→[ㅁ니다] every single time. Learn this rule and the most common ending in formal Korean stops being a mystery."
+    },
+    {
+      "id": "lateralisation",
+      "ko": "유음화",
+      "en": "Lateralisation",
+      "order": 4,
+      "difficulty": 3,
+      "headline": "신라 → 실라",
+      "child_version": "ㄴ and ㄹ are made in almost the same place, and swapping between them mid-word is awkward. So Korean gives up and makes both of them ㄹ.",
+      "technical_version": "/n/ and /l/ in contact assimilate to [ll] in either order.",
+      "examples": [
+        {
+          "written": "신라",
+          "spoken": "실라",
+          "meaning": "Silla (dynasty)"
+        },
+        {
+          "written": "설날",
+          "spoken": "설랄",
+          "meaning": "Lunar New Year"
+        },
+        {
+          "written": "연락",
+          "spoken": "열락",
+          "meaning": "contact"
+        },
+        {
+          "written": "관리",
+          "spoken": "괄리",
+          "meaning": "management"
+        }
+      ],
+      "exceptions": [
+        {
+          "case": "Some Sino-Korean compounds go the other way",
+          "example": "의견란 → [의견난]",
+          "why": "The boundary between the two morphemes blocks assimilation."
+        }
+      ]
+    },
+    {
+      "id": "aspiration",
+      "ko": "격음화",
+      "en": "Aspiration",
+      "order": 5,
+      "difficulty": 3,
+      "headline": "축하 → 추카",
+      "child_version": "ㅎ is a puff of air. When it meets ㄱ, ㄷ, ㅂ or ㅈ, the two melt into a single breathy letter: ㅋ, ㅌ, ㅍ, ㅊ. It works in either order.",
+      "technical_version": "ㅎ coalesces with an adjacent lax obstruent to yield the corresponding aspirate.",
+      "examples": [
+        {
+          "written": "축하",
+          "spoken": "추카",
+          "meaning": "congratulations",
+          "walkthrough": "ㄱ + ㅎ → ㅋ"
+        },
+        {
+          "written": "좋고",
+          "spoken": "조코",
+          "meaning": "is good and...",
+          "walkthrough": "ㅎ + ㄱ → ㅋ"
+        },
+        {
+          "written": "많다",
+          "spoken": "만타",
+          "meaning": "to be many"
+        },
+        {
+          "written": "입학",
+          "spoken": "이팍",
+          "meaning": "school admission"
+        },
+        {
+          "written": "좁히다",
+          "spoken": "조피다",
+          "meaning": "to narrow"
+        }
+      ]
+    },
+    {
+      "id": "h_deletion",
+      "ko": "ㅎ 탈락",
+      "en": "ㅎ deletion",
+      "order": 6,
+      "difficulty": 2,
+      "headline": "좋아요 → 조아요",
+      "child_version": "In front of a vowel, ㅎ simply gives up and disappears.",
+      "technical_version": "Intervocalic /h/ deletes. In ㄶ and ㅀ the /h/ deletes and the remaining sonorant resyllabifies.",
+      "examples": [
+        {
+          "written": "좋아요",
+          "spoken": "조아요",
+          "meaning": "it's good"
+        },
+        {
+          "written": "많아요",
+          "spoken": "마나요",
+          "meaning": "there are many"
+        },
+        {
+          "written": "싫어요",
+          "spoken": "시러요",
+          "meaning": "I don't like it"
+        },
+        {
+          "written": "괜찮아요",
+          "spoken": "괜차나요",
+          "meaning": "it's fine"
+        }
+      ],
+      "note": "In relaxed everyday speech ㅎ also weakens between a nasal and a vowel — 전화 becomes [저놔] and 결혼 becomes [겨론]. That is not the prescriptive standard, but it is what you will hear, so listen for both."
+    },
+    {
+      "id": "palatalisation",
+      "ko": "구개음화",
+      "en": "Palatalisation",
+      "order": 7,
+      "difficulty": 3,
+      "headline": "같이 → 가치",
+      "child_version": "The 이 sound pulls your tongue up toward the roof of your mouth. A ㄷ or ㅌ underneath gets dragged along with it and comes out as ㅈ or ㅊ.",
+      "technical_version": "Coronal stops palatalise before a suffixal /i/ or /hi/.",
+      "examples": [
+        {
+          "written": "같이",
+          "spoken": "가치",
+          "meaning": "together"
+        },
+        {
+          "written": "굳이",
+          "spoken": "구지",
+          "meaning": "insistently"
+        },
+        {
+          "written": "해돋이",
+          "spoken": "해도지",
+          "meaning": "sunrise"
+        },
+        {
+          "written": "닫히다",
+          "spoken": "다치다",
+          "meaning": "to be closed"
+        }
+      ],
+      "note": "Only across a morpheme boundary. Inside a single morpheme nothing happens: 디자인 stays [디자인]."
+    }
+  ],
+  "practice_sets": {
+    "listening_discrimination": [
+      {
+        "pair": [
+          "옷",
+          "옫"
+        ],
+        "answer": "same",
+        "why": "옷 is pronounced [옫]."
+      },
+      {
+        "pair": [
+          "밖",
+          "박"
+        ],
+        "answer": "same",
+        "why": "Different spelling, identical sound."
+      },
+      {
+        "pair": [
+          "달",
+          "탈"
+        ],
+        "answer": "different",
+        "why": "ㄷ vs ㅌ — plain vs aspirated."
+      },
+      {
+        "pair": [
+          "살",
+          "쌀"
+        ],
+        "answer": "different",
+        "why": "ㅅ vs ㅆ — plain vs tense."
+      }
+    ],
+    "write_what_you_hear": [
+      "한국어",
+      "감사합니다",
+      "맛있어요",
+      "괜찮아요",
+      "학교",
+      "꽃",
+      "닭"
+    ],
+    "predict_the_sound": [
+      "앞에",
+      "밭이",
+      "값이",
+      "읽어요",
+      "좋아해요",
+      "몇 시",
+      "옷을"
+    ]
+  }
+}

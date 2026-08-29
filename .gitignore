@@ -1,0 +1,22 @@
+# The learner's data. Never committed — it is the one irreplaceable thing here.
+data/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.backup-*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/ui-smoke-shots/
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/

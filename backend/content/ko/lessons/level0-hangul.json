@@ -1,0 +1,3693 @@
+{
+  "unit": {
+    "id": "ko-level0-hangul",
+    "level": "level0",
+    "title": "Hangul: Learning to Read Korean",
+    "title_ko": "한글",
+    "summary": "From not knowing what 한글 is, to reading real Korean sentences aloud. Nothing here assumes any prior Korean.",
+    "gate": {
+      "message": "This unit must be finished before any Korean lesson unlocks. Reading has to come first — everything after this is built on it.",
+      "requires": {
+        "hangul_mastery": 0.9,
+        "all_lessons_completed": true
+      }
+    },
+    "language": "ko"
+  },
+  "exercise_types": {
+    "jamo_recognition": "Show a letter, choose its sound (or the reverse).",
+    "jamo_audio": "Play a sound, choose the letter that makes it.",
+    "syllable_build": "Given jamo, assemble the block.",
+    "syllable_decompose": "Given a block, name its parts.",
+    "syllable_read": "Read a block and choose what it says.",
+    "word_read": "Read a real word.",
+    "listen_type": "Dictation — type what you hear.",
+    "listen_discriminate": "Two sounds: same or different?",
+    "batchim_predict": "Given the spelling, predict the pronunciation.",
+    "trace": "Write the letter, stroke by stroke.",
+    "multiple_choice": "Hand-written question with options.",
+    "pronounce": "Record yourself and compare."
+  },
+  "lessons": [
+    {
+      "id": "ko-hangul-000",
+      "ordinal": 0,
+      "title": "What is Korean, and what is 한글?",
+      "title_ko": "한국어와 한글",
+      "est_minutes": 6,
+      "objectives": [
+        "Understand that 한글 is an alphabet, not a set of pictures",
+        "Recognise that Korean letters group into square blocks",
+        "Know roughly what is coming and in what order"
+      ],
+      "prerequisites": [],
+      "tags": [
+        "orientation"
+      ],
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Korean is not Chinese, and 한글 is not hard",
+          "body": [
+            "Korean writing is called 한글 (hangeul). It is an alphabet — 24 basic letters, each with one sound, exactly like the alphabet you already use.",
+            "It is not a set of thousands of pictures. That is Chinese characters, which are a different system. Korean occasionally borrows some (they are called 한자) but you can read newspapers, menus and messages without knowing a single one.",
+            "한글 was invented, on purpose, in 1443, by a committee working for King Sejong. Before that, Korean was written with Chinese characters that only the wealthy had time to learn. The stated goal was an alphabet an ordinary person could learn in a morning.",
+            "That goal shaped the design, and it is why you are going to move faster than you expect."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "comparison",
+          "heading": "The one thing that looks strange at first",
+          "body": "English writes letters in a line: h-a-n. Korean packs the same letters into a square block: 한. Same three letters, stacked into one syllable.",
+          "visual": {
+            "type": "block_diagram",
+            "syllable": "한",
+            "parts": [
+              "ㅎ",
+              "ㅏ",
+              "ㄴ"
+            ]
+          },
+          "point": "One block = one syllable. Always. So a four-block word has four syllables, and you can count them at a glance."
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "heading": "You already recognise more than you think",
+          "items": [
+            {
+              "target": "커피",
+              "english": "coffee",
+              "note": "keo-pi. Say it out loud — that is the whole word."
+            },
+            {
+              "target": "바나나",
+              "english": "banana",
+              "note": "ba-na-na. Three blocks, three syllables."
+            },
+            {
+              "target": "택시",
+              "english": "taxi"
+            },
+            {
+              "target": "피자",
+              "english": "pizza"
+            },
+            {
+              "target": "아이스크림",
+              "english": "ice cream"
+            }
+          ],
+          "closing": "Korean has borrowed a lot of English. Once you can read the letters, hundreds of words are free."
+        },
+        {
+          "step": "apply",
+          "type": "count_syllables",
+          "instruction": "You cannot read these yet. Just count the blocks.",
+          "items": [
+            {
+              "target": "안녕하세요",
+              "answer": 5
+            },
+            {
+              "target": "감사합니다",
+              "answer": 5
+            },
+            {
+              "target": "물",
+              "answer": 1
+            },
+            {
+              "target": "한국",
+              "answer": 2
+            }
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "한글 is an alphabet with 24 basic letters.",
+            "Letters are grouped into square blocks; each block is one syllable.",
+            "It was designed to be learnable quickly, and it is.",
+            "Next: your first three vowels, and the letter that makes no sound at all."
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-001",
+      "ordinal": 1,
+      "title": "Your first vowels: ㅏ ㅣ ㅗ",
+      "title_ko": "첫 모음",
+      "est_minutes": 10,
+      "objectives": [
+        "Read ㅏ ㅣ ㅗ",
+        "Understand why ㅇ is silent at the start",
+        "Read 아 이 오"
+      ],
+      "prerequisites": [
+        "ko-hangul-000"
+      ],
+      "tags": [
+        "vowels",
+        "hangul"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㅏ",
+          "ㅣ",
+          "ㅗ",
+          "ㅇ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "recall_previous",
+          "from": [
+            "ko-hangul-000"
+          ],
+          "questions": [
+            {
+              "q": "One Korean block equals one what?",
+              "a": "syllable"
+            }
+          ]
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㅏ",
+            "ㅣ",
+            "ㅗ"
+          ],
+          "heading": "Three vowels, three shapes",
+          "body": "These three are drawn from just two pieces: a standing person ㅣ and the flat earth ㅡ, with a short stroke for the sun."
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The letter that makes no sound",
+          "body": [
+            "Every Korean block must start with a consonant. But 'a' has no consonant in front of it. So Korean uses a placeholder: ㅇ.",
+            "At the start of a block, ㅇ is completely silent. It is an empty chair holding the vowel's place.",
+            "아 is just 'a'. 이 is just 'i'. 오 is just 'o'. Do not try to pronounce the circle."
+          ],
+          "caution": "ㅇ has a second job later — underneath a block it becomes the 'ng' of 'sing'. For now: silent at the front."
+        },
+        {
+          "step": "examples",
+          "type": "syllable_showcase",
+          "items": [
+            {
+              "syllable": "아",
+              "parts": [
+                "ㅇ",
+                "ㅏ"
+              ],
+              "sound": "a",
+              "hint": "as in 'father'"
+            },
+            {
+              "syllable": "이",
+              "parts": [
+                "ㅇ",
+                "ㅣ"
+              ],
+              "sound": "i",
+              "hint": "as in 'see'"
+            },
+            {
+              "syllable": "오",
+              "parts": [
+                "ㅇ",
+                "ㅗ"
+              ],
+              "sound": "o",
+              "hint": "as in 'go', but pure"
+            }
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Where the vowel sits",
+          "body": [
+            "ㅏ and ㅣ stand up tall, so they go to the RIGHT of the consonant: 아, 이.",
+            "ㅗ lies flat, so it goes UNDERNEATH: 오.",
+            "That is the whole rule. Tall vowels to the right, flat vowels below."
+          ],
+          "visual": {
+            "type": "layout_diagram",
+            "examples": [
+              "아",
+              "이",
+              "오"
+            ]
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 8,
+            "hints": true
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_audio",
+            "pool": [
+              "아",
+              "이",
+              "오"
+            ],
+            "count": 6
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "trace",
+            "pool": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ]
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 6,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "instruction": "Two real Korean words, using only what you know.",
+          "items": [
+            {
+              "target": "아이",
+              "meaning": "child",
+              "breakdown": "아 + 이"
+            },
+            {
+              "target": "오이",
+              "meaning": "cucumber",
+              "breakdown": "오 + 이"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㅏ",
+            "ㅣ",
+            "ㅗ",
+            "아이",
+            "오이"
+          ]
+        },
+        {
+          "step": "challenge",
+          "type": "generated",
+          "optional": true,
+          "generator": {
+            "type": "listen_type",
+            "pool": [
+              "아",
+              "이",
+              "오",
+              "아이",
+              "오이"
+            ],
+            "count": 5
+          }
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㅏ = a, ㅣ = i, ㅗ = o",
+            "ㅇ at the front of a block is silent",
+            "Tall vowels go right, flat vowels go below",
+            "You can now read 아이 and 오이"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-002",
+      "ordinal": 2,
+      "title": "Your first consonants: ㄴ and ㅁ",
+      "title_ko": "ㄴ, ㅁ",
+      "est_minutes": 10,
+      "objectives": [
+        "Read ㄴ and ㅁ",
+        "Combine them with ㅏ ㅣ ㅗ",
+        "Read 나 너 미 모"
+      ],
+      "prerequisites": [
+        "ko-hangul-001"
+      ],
+      "tags": [
+        "consonants",
+        "hangul"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㄴ",
+          "ㅁ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 4
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㄴ",
+            "ㅁ"
+          ],
+          "heading": "Two consonants you already know how to say",
+          "body": "ㄴ is exactly the n of 'no'. ㅁ is exactly the m of 'me'. No adjustment needed — and both letters are pictures of how your mouth makes them."
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The letters are diagrams",
+          "body": [
+            "ㄴ is a picture of your tongue tip curling up to touch the ridge behind your top teeth. Say 'n' and feel it happen.",
+            "ㅁ is a picture of your mouth, seen from the front — a closed square. Say 'm' and your lips do exactly that.",
+            "This is not a memory trick invented for learners. It is written down in the 1446 document that explains the alphabet."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "syllable_showcase",
+          "items": [
+            {
+              "syllable": "나",
+              "parts": [
+                "ㄴ",
+                "ㅏ"
+              ],
+              "sound": "na",
+              "meaning": "I, me"
+            },
+            {
+              "syllable": "니",
+              "parts": [
+                "ㄴ",
+                "ㅣ"
+              ],
+              "sound": "ni"
+            },
+            {
+              "syllable": "노",
+              "parts": [
+                "ㄴ",
+                "ㅗ"
+              ],
+              "sound": "no"
+            },
+            {
+              "syllable": "마",
+              "parts": [
+                "ㅁ",
+                "ㅏ"
+              ],
+              "sound": "ma"
+            },
+            {
+              "syllable": "미",
+              "parts": [
+                "ㅁ",
+                "ㅣ"
+              ],
+              "sound": "mi"
+            },
+            {
+              "syllable": "모",
+              "parts": [
+                "ㅁ",
+                "ㅗ"
+              ],
+              "sound": "mo"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_build",
+            "initials": [
+              "ㄴ",
+              "ㅁ",
+              "ㅇ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 8
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㄴ",
+              "ㅁ",
+              "ㅇ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 8
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "initials": [
+              "ㄴ",
+              "ㅁ",
+              "ㅇ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 6,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "나",
+              "meaning": "I, me (casual)"
+            },
+            {
+              "target": "이모",
+              "meaning": "aunt (mother's sister)"
+            },
+            {
+              "target": "나이",
+              "meaning": "age"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㄴ",
+            "ㅁ",
+            "나",
+            "이모",
+            "나이"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㄴ = n, ㅁ = m",
+            "Korean letters are drawings of the mouth",
+            "You can now read 나이 and 이모"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-003",
+      "ordinal": 3,
+      "title": "The two hardest vowels: ㅓ and ㅡ",
+      "title_ko": "어려운 모음: ㅓ, ㅡ",
+      "est_minutes": 14,
+      "objectives": [
+        "Distinguish ㅓ from ㅗ",
+        "Distinguish ㅡ from ㅜ",
+        "Read ㅜ"
+      ],
+      "prerequisites": [
+        "ko-hangul-002"
+      ],
+      "tags": [
+        "vowels",
+        "pronunciation",
+        "difficult"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㅓ",
+          "ㅜ",
+          "ㅡ"
+        ]
+      },
+      "difficulty_warning": "These two vowels do not exist in English. Expect to get them wrong at first — everyone does. This lesson is longer on purpose.",
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㄴ",
+              "ㅁ",
+              "ㅇ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅣ",
+              "ㅗ"
+            ],
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㅓ",
+            "ㅜ",
+            "ㅡ"
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "ㅓ is ㅗ with your lips relaxed",
+          "body": [
+            "Say ㅗ. Feel your lips push forward into a circle.",
+            "Now make the same kind of sound but let your lips go completely slack and flat. Drop your jaw a little. That is ㅓ.",
+            "The only difference is your lips. Nothing else moves.",
+            "Use a mirror for this. If your lips move forward, you said ㅗ."
+          ],
+          "visual": {
+            "type": "mouth_comparison",
+            "pair": [
+              "ㅓ",
+              "ㅗ"
+            ]
+          }
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "ㅡ is ㅜ with your lips relaxed",
+          "body": [
+            "Same trick. Say ㅜ (the oo of 'food') and feel your lips round.",
+            "Now pull your lips back into a flat, wide, slightly unpleasant smile while keeping your tongue where it is. That is ㅡ.",
+            "English has nothing like ㅡ, which is why it feels odd. It is a very common vowel in Korean, so it is worth the effort now."
+          ],
+          "visual": {
+            "type": "mouth_comparison",
+            "pair": [
+              "ㅡ",
+              "ㅜ"
+            ]
+          }
+        },
+        {
+          "step": "examples",
+          "type": "minimal_pairs",
+          "heading": "Real words that differ only in this",
+          "items": [
+            {
+              "pair": [
+                "서",
+                "소"
+              ],
+              "meanings": [
+                "stand (stem)",
+                "cow"
+              ],
+              "contrast": "ㅓ vs ㅗ"
+            },
+            {
+              "pair": [
+                "멀다",
+                "몰라"
+              ],
+              "meanings": [
+                "to be far",
+                "don't know"
+              ],
+              "contrast": "ㅓ vs ㅗ"
+            },
+            {
+              "pair": [
+                "그",
+                "구"
+              ],
+              "meanings": [
+                "that",
+                "nine"
+              ],
+              "contrast": "ㅡ vs ㅜ"
+            },
+            {
+              "pair": [
+                "느리다",
+                "누리다"
+              ],
+              "meanings": [
+                "to be slow",
+                "to enjoy"
+              ],
+              "contrast": "ㅡ vs ㅜ"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_discriminate",
+            "pairs": [
+              [
+                "ㅓ",
+                "ㅗ"
+              ],
+              [
+                "ㅡ",
+                "ㅜ"
+              ]
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㄴ",
+              "ㅁ",
+              "ㅇ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "pronounce",
+          "targets": [
+            "어",
+            "오",
+            "으",
+            "우",
+            "너",
+            "노",
+            "느",
+            "누"
+          ],
+          "note": "Record each one. Compare against the model. This is the single best use of five minutes at this stage."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "initials": [
+              "ㄴ",
+              "ㅁ",
+              "ㅇ"
+            ],
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "어머니",
+              "meaning": "mother"
+            },
+            {
+              "target": "우유",
+              "meaning": "milk",
+              "note": "you have not met ㅠ yet — it is ㅜ with a y in front"
+            },
+            {
+              "target": "누나",
+              "meaning": "older sister (said by a male)"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㅓ",
+            "ㅜ",
+            "ㅡ",
+            "어머니",
+            "누나"
+          ]
+        },
+        {
+          "step": "challenge",
+          "type": "generated",
+          "optional": true,
+          "generator": {
+            "type": "listen_discriminate",
+            "pairs": [
+              [
+                "ㅓ",
+                "ㅗ"
+              ],
+              [
+                "ㅡ",
+                "ㅜ"
+              ],
+              [
+                "ㅓ",
+                "ㅡ"
+              ]
+            ],
+            "count": 12,
+            "speed": "fast"
+          }
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㅓ = ㅗ without rounded lips",
+            "ㅡ = ㅜ without rounded lips",
+            "These take weeks, not minutes. They will come back in every review.",
+            "You now know all ten basic vowels except the y-versions"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-004",
+      "ordinal": 4,
+      "title": "ㄱ, ㄷ, ㅂ — the plain consonants",
+      "title_ko": "ㄱ, ㄷ, ㅂ",
+      "est_minutes": 12,
+      "objectives": [
+        "Read ㄱ ㄷ ㅂ",
+        "Understand that they sit between English g/k, d/t, b/p"
+      ],
+      "prerequisites": [
+        "ko-hangul-003"
+      ],
+      "tags": [
+        "consonants",
+        "hangul"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㄱ",
+          "ㄷ",
+          "ㅂ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ",
+              "ㄴ",
+              "ㅁ"
+            ],
+            "count": 6
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㄱ",
+            "ㄷ",
+            "ㅂ"
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Not quite g, not quite k",
+          "body": [
+            "English splits these sounds two ways: g/k, d/t, b/p. The difference is whether your vocal cords buzz.",
+            "Korean splits them three ways, and the difference is how much AIR comes out. ㄱ ㄷ ㅂ are the quiet ones — very little air.",
+            "To an English ear they land somewhere between 'g' and 'k'. At the start of a word they sound more like k, t, p. Between two vowels they soften toward g, d, b. That is why 부산 is spelled 'Busan' but often sounds like 'Pusan'.",
+            "You do not need to control this. It happens automatically. Just do not push out a big puff of air."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "syllable_showcase",
+          "items": [
+            {
+              "syllable": "가",
+              "parts": [
+                "ㄱ",
+                "ㅏ"
+              ],
+              "sound": "ga/ka",
+              "meaning": "go (stem)"
+            },
+            {
+              "syllable": "구",
+              "parts": [
+                "ㄱ",
+                "ㅜ"
+              ],
+              "sound": "gu",
+              "meaning": "nine"
+            },
+            {
+              "syllable": "다",
+              "parts": [
+                "ㄷ",
+                "ㅏ"
+              ],
+              "sound": "da/ta",
+              "meaning": "all"
+            },
+            {
+              "syllable": "도",
+              "parts": [
+                "ㄷ",
+                "ㅗ"
+              ],
+              "sound": "do"
+            },
+            {
+              "syllable": "바",
+              "parts": [
+                "ㅂ",
+                "ㅏ"
+              ],
+              "sound": "ba/pa"
+            },
+            {
+              "syllable": "부",
+              "parts": [
+                "ㅂ",
+                "ㅜ"
+              ],
+              "sound": "bu"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_build",
+            "initials": [
+              "ㄱ",
+              "ㄷ",
+              "ㅂ",
+              "ㄴ",
+              "ㅁ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㄱ",
+              "ㄷ",
+              "ㅂ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "initials": [
+              "ㄱ",
+              "ㄷ",
+              "ㅂ",
+              "ㄴ",
+              "ㅁ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "고기",
+              "meaning": "meat"
+            },
+            {
+              "target": "바나나",
+              "meaning": "banana"
+            },
+            {
+              "target": "구두",
+              "meaning": "dress shoes"
+            },
+            {
+              "target": "누구",
+              "meaning": "who"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㄱ",
+            "ㄷ",
+            "ㅂ",
+            "고기",
+            "누구",
+            "바나나"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㄱ ㄷ ㅂ are the low-air versions",
+            "They shift between g/k, d/t, b/p depending on position — automatically",
+            "You can now read four-syllable words"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-005",
+      "ordinal": 5,
+      "title": "ㅅ, ㅈ, ㅎ, ㄹ",
+      "title_ko": "ㅅ, ㅈ, ㅎ, ㄹ",
+      "est_minutes": 14,
+      "objectives": [
+        "Read ㅅ ㅈ ㅎ ㄹ",
+        "Know that ㅅ becomes 'sh' before ㅣ",
+        "Start on the ㄹ sound"
+      ],
+      "prerequisites": [
+        "ko-hangul-004"
+      ],
+      "tags": [
+        "consonants",
+        "hangul",
+        "difficult"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㅅ",
+          "ㅈ",
+          "ㅎ",
+          "ㄹ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㄱ",
+              "ㄷ",
+              "ㅂ",
+              "ㄴ",
+              "ㅁ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 6
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㅅ",
+            "ㅈ",
+            "ㅎ",
+            "ㄹ"
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "ㅅ has a secret",
+          "body": [
+            "ㅅ is normally the s of 'sun'. But in front of an i-sound it automatically becomes 'sh'.",
+            "So 시 is 'shi', not 'si'. 사 stays 'sa'.",
+            "Nobody decides to do this — it happens in every Korean mouth. Just expect it when you see 시."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "ㄹ is the one that takes time",
+          "body": [
+            "ㄹ is not the English r and not the English l. It is one sound that lands between them.",
+            "At the start of a syllable it is a single quick flap of the tongue — the sound in the middle of American 'butter' or 'ladder'. Say 'butter' fast and notice the tongue tap. That tap is ㄹ.",
+            "At the END of a syllable it is a clear l: 물 is 'mul'.",
+            "Do not curl your tongue back like an English r. Do not hold it like an English l. Tap and move on.",
+            "This one takes weeks. That is normal, and it is not blocking anything — you can read ㄹ correctly long before you can say it perfectly."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "syllable_showcase",
+          "items": [
+            {
+              "syllable": "사",
+              "parts": [
+                "ㅅ",
+                "ㅏ"
+              ],
+              "sound": "sa"
+            },
+            {
+              "syllable": "시",
+              "parts": [
+                "ㅅ",
+                "ㅣ"
+              ],
+              "sound": "shi",
+              "note": "not 'si'"
+            },
+            {
+              "syllable": "자",
+              "parts": [
+                "ㅈ",
+                "ㅏ"
+              ],
+              "sound": "ja"
+            },
+            {
+              "syllable": "하",
+              "parts": [
+                "ㅎ",
+                "ㅏ"
+              ],
+              "sound": "ha"
+            },
+            {
+              "syllable": "라",
+              "parts": [
+                "ㄹ",
+                "ㅏ"
+              ],
+              "sound": "ra/la"
+            },
+            {
+              "syllable": "리",
+              "parts": [
+                "ㄹ",
+                "ㅣ"
+              ],
+              "sound": "ri/li"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㅅ",
+              "ㅈ",
+              "ㅎ",
+              "ㄹ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "pronounce",
+          "targets": [
+            "라",
+            "러",
+            "로",
+            "루",
+            "리"
+          ],
+          "note": "Tap, do not curl. Try saying 'butter' first, then 러."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "initials": [
+              "ㅅ",
+              "ㅈ",
+              "ㅎ",
+              "ㄹ",
+              "ㄱ",
+              "ㄴ",
+              "ㅁ",
+              "ㄷ",
+              "ㅂ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 10,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "사자",
+              "meaning": "lion"
+            },
+            {
+              "target": "하나",
+              "meaning": "one"
+            },
+            {
+              "target": "다리",
+              "meaning": "leg; bridge"
+            },
+            {
+              "target": "허리",
+              "meaning": "waist"
+            },
+            {
+              "target": "지도",
+              "meaning": "map"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㅅ",
+            "ㅈ",
+            "ㅎ",
+            "ㄹ",
+            "하나",
+            "다리",
+            "지도"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㅅ = s, but 'sh' before ㅣ",
+            "ㅈ = j",
+            "ㅎ = h",
+            "ㄹ = a tongue tap at the start, an l at the end. Give it time.",
+            "You now know 9 of the 14 basic consonants"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-006",
+      "ordinal": 6,
+      "title": "The breathy consonants: ㅋ ㅌ ㅍ ㅊ",
+      "title_ko": "거센소리",
+      "est_minutes": 11,
+      "objectives": [
+        "Read ㅋ ㅌ ㅍ ㅊ",
+        "Hear the difference from ㄱ ㄷ ㅂ ㅈ",
+        "Notice the extra-stroke pattern"
+      ],
+      "prerequisites": [
+        "ko-hangul-005"
+      ],
+      "tags": [
+        "consonants",
+        "aspirated",
+        "hangul"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㅋ",
+          "ㅌ",
+          "ㅍ",
+          "ㅊ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㄱ",
+              "ㄷ",
+              "ㅂ",
+              "ㅈ",
+              "ㅅ",
+              "ㅎ",
+              "ㄹ"
+            ],
+            "count": 6
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㅋ",
+            "ㅌ",
+            "ㅍ",
+            "ㅊ"
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "An extra stroke means more air",
+          "body": [
+            "Look at these pairs: ㄱ→ㅋ, ㄷ→ㅌ, ㅂ→ㅍ, ㅈ→ㅊ. Each one has gained a stroke.",
+            "That is not decoration. In 한글, an added stroke systematically means 'the same sound, with more air'.",
+            "So you are not learning four new letters. You are learning one rule applied to four letters you already know.",
+            "Hold your palm in front of your mouth. Say ㄱ — almost nothing. Say ㅋ — you should feel a clear puff."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "minimal_pairs",
+          "items": [
+            {
+              "pair": [
+                "갈",
+                "칼"
+              ],
+              "meanings": [
+                "go (stem)",
+                "knife"
+              ],
+              "contrast": "ㄱ vs ㅋ"
+            },
+            {
+              "pair": [
+                "달",
+                "탈"
+              ],
+              "meanings": [
+                "moon",
+                "mask"
+              ],
+              "contrast": "ㄷ vs ㅌ"
+            },
+            {
+              "pair": [
+                "불",
+                "풀"
+              ],
+              "meanings": [
+                "fire",
+                "grass"
+              ],
+              "contrast": "ㅂ vs ㅍ"
+            },
+            {
+              "pair": [
+                "자다",
+                "차다"
+              ],
+              "meanings": [
+                "to sleep",
+                "to kick"
+              ],
+              "contrast": "ㅈ vs ㅊ"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_discriminate",
+            "pairs": [
+              [
+                "ㄱ",
+                "ㅋ"
+              ],
+              [
+                "ㄷ",
+                "ㅌ"
+              ],
+              [
+                "ㅂ",
+                "ㅍ"
+              ],
+              [
+                "ㅈ",
+                "ㅊ"
+              ]
+            ],
+            "count": 12
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㅋ",
+              "ㅌ",
+              "ㅍ",
+              "ㅊ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "initials": [
+              "ㄱ",
+              "ㅋ",
+              "ㄷ",
+              "ㅌ",
+              "ㅂ",
+              "ㅍ",
+              "ㅈ",
+              "ㅊ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅣ"
+            ],
+            "count": 10,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "커피",
+              "meaning": "coffee"
+            },
+            {
+              "target": "코",
+              "meaning": "nose"
+            },
+            {
+              "target": "포도",
+              "meaning": "grape"
+            },
+            {
+              "target": "치마",
+              "meaning": "skirt"
+            },
+            {
+              "target": "토마토",
+              "meaning": "tomato"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㅋ",
+            "ㅌ",
+            "ㅍ",
+            "ㅊ",
+            "커피",
+            "포도",
+            "치마"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "An extra stroke = more air",
+            "ㄱ→ㅋ, ㄷ→ㅌ, ㅂ→ㅍ, ㅈ→ㅊ",
+            "All 14 basic consonants are now covered"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-007",
+      "ordinal": 7,
+      "title": "The tight consonants: ㄲ ㄸ ㅃ ㅆ ㅉ",
+      "title_ko": "된소리",
+      "est_minutes": 13,
+      "objectives": [
+        "Read the five doubled consonants",
+        "Produce the three-way contrast",
+        "Understand tense articulation"
+      ],
+      "prerequisites": [
+        "ko-hangul-006"
+      ],
+      "tags": [
+        "consonants",
+        "tense",
+        "hangul",
+        "difficult"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㄲ",
+          "ㄸ",
+          "ㅃ",
+          "ㅆ",
+          "ㅉ"
+        ]
+      },
+      "difficulty_warning": "This is the contrast English speakers find hardest. Recognition comes first; production takes longer, and that is fine.",
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "listen_discriminate",
+            "pairs": [
+              [
+                "ㄱ",
+                "ㅋ"
+              ],
+              [
+                "ㄷ",
+                "ㅌ"
+              ],
+              [
+                "ㅂ",
+                "ㅍ"
+              ]
+            ],
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㄲ",
+            "ㄸ",
+            "ㅃ",
+            "ㅆ",
+            "ㅉ"
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Three, not two",
+          "body": [
+            "English has two of these: 'g' and 'k'. Korean has three: ㄱ, ㅋ and ㄲ.",
+            "ㄱ = a little air. ㅋ = a lot of air. ㄲ = no air at all, with your throat squeezed tight.",
+            "To find ㄲ: imagine you are about to lift something heavy and you tense up and hold your breath. Now say 'k' from that position. Nothing should come out onto your hand.",
+            "Doubling the letter is the visual clue: ㄱㄱ written together means tighten it."
+          ],
+          "visual": {
+            "type": "three_way_diagram",
+            "series": [
+              "ㄱ",
+              "ㅋ",
+              "ㄲ"
+            ]
+          }
+        },
+        {
+          "step": "examples",
+          "type": "minimal_pairs",
+          "heading": "Three-way sets — the real test",
+          "items": [
+            {
+              "triple": [
+                "불",
+                "풀",
+                "뿔"
+              ],
+              "meanings": [
+                "fire",
+                "grass",
+                "horn"
+              ]
+            },
+            {
+              "triple": [
+                "달",
+                "탈",
+                "딸"
+              ],
+              "meanings": [
+                "moon",
+                "mask",
+                "daughter"
+              ]
+            },
+            {
+              "triple": [
+                "자다",
+                "차다",
+                "짜다"
+              ],
+              "meanings": [
+                "to sleep",
+                "to kick",
+                "to be salty"
+              ]
+            },
+            {
+              "pair": [
+                "살",
+                "쌀"
+              ],
+              "meanings": [
+                "flesh",
+                "uncooked rice"
+              ]
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_discriminate",
+            "triples": [
+              [
+                "ㄱ",
+                "ㅋ",
+                "ㄲ"
+              ],
+              [
+                "ㄷ",
+                "ㅌ",
+                "ㄸ"
+              ],
+              [
+                "ㅂ",
+                "ㅍ",
+                "ㅃ"
+              ],
+              [
+                "ㅈ",
+                "ㅊ",
+                "ㅉ"
+              ]
+            ],
+            "count": 15
+          }
+        },
+        {
+          "step": "practice",
+          "type": "pronounce",
+          "targets": [
+            "가",
+            "카",
+            "까",
+            "다",
+            "타",
+            "따",
+            "바",
+            "파",
+            "빠",
+            "사",
+            "싸"
+          ],
+          "note": "Hold a hand in front of your mouth. ㄲ ㄸ ㅃ should move nothing at all."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "initials": [
+              "ㄱ",
+              "ㅋ",
+              "ㄲ",
+              "ㄷ",
+              "ㅌ",
+              "ㄸ",
+              "ㅂ",
+              "ㅍ",
+              "ㅃ",
+              "ㅅ",
+              "ㅆ",
+              "ㅈ",
+              "ㅊ",
+              "ㅉ"
+            ],
+            "medials": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅣ"
+            ],
+            "count": 12,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "빵",
+              "meaning": "bread"
+            },
+            {
+              "target": "꼬리",
+              "meaning": "tail"
+            },
+            {
+              "target": "오빠",
+              "meaning": "older brother (said by a female)"
+            },
+            {
+              "target": "찌개",
+              "meaning": "stew"
+            },
+            {
+              "target": "따뜻하다",
+              "meaning": "to be warm"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㄲ",
+            "ㄸ",
+            "ㅃ",
+            "ㅆ",
+            "ㅉ",
+            "빵",
+            "오빠",
+            "꼬리"
+          ]
+        },
+        {
+          "step": "challenge",
+          "type": "generated",
+          "optional": true,
+          "generator": {
+            "type": "listen_discriminate",
+            "triples": [
+              [
+                "ㄱ",
+                "ㅋ",
+                "ㄲ"
+              ],
+              [
+                "ㄷ",
+                "ㅌ",
+                "ㄸ"
+              ],
+              [
+                "ㅂ",
+                "ㅍ",
+                "ㅃ"
+              ],
+              [
+                "ㅈ",
+                "ㅊ",
+                "ㅉ"
+              ]
+            ],
+            "count": 20,
+            "speed": "fast"
+          }
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Doubled letter = tense, no air",
+            "Korean has a three-way contrast where English has two",
+            "Recognition before production. These will keep coming back in review.",
+            "All 19 consonants are now covered"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-008",
+      "ordinal": 8,
+      "title": "The y-vowels: ㅑ ㅕ ㅛ ㅠ",
+      "title_ko": "이중 모음",
+      "est_minutes": 8,
+      "objectives": [
+        "Read ㅑ ㅕ ㅛ ㅠ",
+        "Recognise the two-stroke pattern"
+      ],
+      "prerequisites": [
+        "ko-hangul-007"
+      ],
+      "tags": [
+        "vowels",
+        "hangul"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㅑ",
+          "ㅕ",
+          "ㅛ",
+          "ㅠ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㅏ",
+              "ㅓ",
+              "ㅗ",
+              "ㅜ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㅑ",
+            "ㅕ",
+            "ㅛ",
+            "ㅠ"
+          ],
+          "heading": "Four letters, one rule",
+          "body": "Add a second stroke to a vowel and you add a y in front of it. That is the entire lesson."
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "items": [
+            {
+              "target": "ㅏ → ㅑ",
+              "english": "a → ya"
+            },
+            {
+              "target": "ㅓ → ㅕ",
+              "english": "eo → yeo"
+            },
+            {
+              "target": "ㅗ → ㅛ",
+              "english": "o → yo"
+            },
+            {
+              "target": "ㅜ → ㅠ",
+              "english": "u → yu"
+            }
+          ],
+          "closing": "ㅡ and ㅣ have no y-versions — try saying 'y-eu' or 'y-i' and you will hear why."
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㅇ",
+              "ㄱ",
+              "ㄴ",
+              "ㅎ",
+              "ㅅ"
+            ],
+            "medials": [
+              "ㅑ",
+              "ㅕ",
+              "ㅛ",
+              "ㅠ"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "medials": [
+              "ㅏ",
+              "ㅑ",
+              "ㅓ",
+              "ㅕ",
+              "ㅗ",
+              "ㅛ",
+              "ㅜ",
+              "ㅠ"
+            ],
+            "initials": [
+              "ㅇ",
+              "ㄴ",
+              "ㄱ"
+            ],
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "야구",
+              "meaning": "baseball"
+            },
+            {
+              "target": "여자",
+              "meaning": "woman"
+            },
+            {
+              "target": "요리",
+              "meaning": "cooking"
+            },
+            {
+              "target": "우유",
+              "meaning": "milk"
+            },
+            {
+              "target": "교수",
+              "meaning": "professor"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㅑ",
+            "ㅕ",
+            "ㅛ",
+            "ㅠ",
+            "여자",
+            "우유",
+            "야구"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Two strokes = add a y",
+            "All 10 basic vowels are now covered"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-009",
+      "ordinal": 9,
+      "title": "Combined vowels: ㅐ ㅔ ㅘ ㅝ ㅚ ㅟ ㅢ",
+      "title_ko": "합성 모음",
+      "est_minutes": 12,
+      "objectives": [
+        "Read the compound vowels",
+        "Know which ones have merged in modern speech",
+        "Understand ㅢ's three pronunciations"
+      ],
+      "prerequisites": [
+        "ko-hangul-008"
+      ],
+      "tags": [
+        "vowels",
+        "hangul"
+      ],
+      "introduces": {
+        "jamo": [
+          "ㅐ",
+          "ㅔ",
+          "ㅒ",
+          "ㅖ",
+          "ㅘ",
+          "ㅙ",
+          "ㅚ",
+          "ㅝ",
+          "ㅞ",
+          "ㅟ",
+          "ㅢ"
+        ]
+      },
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "jamo_recognition",
+            "pool": [
+              "ㅑ",
+              "ㅕ",
+              "ㅛ",
+              "ㅠ",
+              "ㅡ",
+              "ㅣ"
+            ],
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "jamo_intro",
+          "jamo": [
+            "ㅘ",
+            "ㅝ",
+            "ㅚ",
+            "ㅟ",
+            "ㅐ",
+            "ㅔ",
+            "ㅢ"
+          ],
+          "heading": "They sound like they look",
+          "body": "ㅗ + ㅏ written together is ㅘ, and it is pronounced 'wa' — ㅗ sliding into ㅏ. The compound vowels are the friendliest part of Hangul: read the parts, say them quickly, done."
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The good news nobody tells beginners",
+          "body": [
+            "ㅐ and ㅔ used to be different sounds. For most Korean speakers today they are identical. So are ㅙ, ㅚ and ㅞ.",
+            "This means you cannot learn them by ear, because there is nothing to hear. They are a spelling problem, learned word by word — exactly like 'their' and 'there' in English.",
+            "Native speakers mix them up too, and often spell 네 as 니 in messages just to keep it apart from 내."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "ㅢ is the awkward one",
+          "body": [
+            "ㅢ is pronounced three different ways depending on where it sits:",
+            "At the start of a word — a real ㅢ: 의사 (doctor).",
+            "After a consonant — simply ㅣ: 희망 is said [히망].",
+            "As the possessive particle 'of' — usually ㅔ: 우리의 is said [우리에].",
+            "One spelling, three sounds. Learn the three positions and it stops being confusing."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "syllable_showcase",
+          "items": [
+            {
+              "syllable": "와",
+              "parts": [
+                "ㅇ",
+                "ㅘ"
+              ],
+              "sound": "wa",
+              "meaning": "comes; and"
+            },
+            {
+              "syllable": "워",
+              "parts": [
+                "ㅇ",
+                "ㅝ"
+              ],
+              "sound": "wo"
+            },
+            {
+              "syllable": "외",
+              "parts": [
+                "ㅇ",
+                "ㅚ"
+              ],
+              "sound": "we"
+            },
+            {
+              "syllable": "위",
+              "parts": [
+                "ㅇ",
+                "ㅟ"
+              ],
+              "sound": "wi",
+              "meaning": "above"
+            },
+            {
+              "syllable": "애",
+              "parts": [
+                "ㅇ",
+                "ㅐ"
+              ],
+              "sound": "ae"
+            },
+            {
+              "syllable": "에",
+              "parts": [
+                "ㅇ",
+                "ㅔ"
+              ],
+              "sound": "e",
+              "meaning": "at, to (particle)"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "initials": [
+              "ㅇ",
+              "ㄱ",
+              "ㅎ",
+              "ㅁ",
+              "ㅅ"
+            ],
+            "medials": [
+              "ㅐ",
+              "ㅔ",
+              "ㅘ",
+              "ㅝ",
+              "ㅚ",
+              "ㅟ",
+              "ㅢ"
+            ],
+            "count": 12
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "pool": [
+              "과일",
+              "왜",
+              "회사",
+              "귀",
+              "개",
+              "네",
+              "의사"
+            ],
+            "count": 7,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "과일",
+              "meaning": "fruit"
+            },
+            {
+              "target": "회사",
+              "meaning": "company"
+            },
+            {
+              "target": "의사",
+              "meaning": "doctor"
+            },
+            {
+              "target": "화장실",
+              "meaning": "toilet"
+            },
+            {
+              "target": "왜",
+              "meaning": "why"
+            },
+            {
+              "target": "귀",
+              "meaning": "ear"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "ㅘ",
+            "ㅝ",
+            "ㅚ",
+            "ㅟ",
+            "ㅢ",
+            "과일",
+            "회사",
+            "의사",
+            "화장실"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Compound vowels sound like their parts said quickly",
+            "ㅐ/ㅔ and ㅙ/ㅚ/ㅞ have merged — learn the spelling per word",
+            "ㅢ has three pronunciations depending on position",
+            "Every Korean letter is now covered. Next: the consonant that sits underneath."
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-001",
+      "ordinal": 10,
+      "title": "받침: the letter underneath",
+      "title_ko": "받침이 뭐예요?",
+      "est_minutes": 12,
+      "objectives": [
+        "Recognise a 받침",
+        "Read blocks with a final consonant",
+        "Know the word 받침"
+      ],
+      "prerequisites": [
+        "ko-hangul-009"
+      ],
+      "tags": [
+        "batchim",
+        "hangul"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_read",
+            "count": 6
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "A little consonant sitting underneath",
+          "body": [
+            "So far every block has had two parts: a consonant and a vowel. 하, 나, 가.",
+            "Sometimes a third letter sits underneath, holding the block up from below.",
+            "Korean calls it 받침 — the word literally means 'a support', the same word for the prop under a shelf.",
+            "한 is ㅎ + ㅏ + ㄴ. The ㄴ is the 받침."
+          ],
+          "visual": {
+            "type": "block_diagram",
+            "syllable": "한",
+            "parts": [
+              "ㅎ",
+              "ㅏ",
+              "ㄴ"
+            ],
+            "highlight": "final"
+          }
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Now the proper term",
+          "body": [
+            "In linguistic terms, 받침 is the coda of the syllable — the final consonant position.",
+            "It is optional: 하 has none, 한 has one. It changes both the sound of the block and, later, which grammar particles you attach.",
+            "받침 is where nearly every Korean pronunciation rule happens. Getting comfortable with it now makes the next five lessons straightforward."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "syllable_showcase",
+          "items": [
+            {
+              "syllable": "한",
+              "parts": [
+                "ㅎ",
+                "ㅏ",
+                "ㄴ"
+              ],
+              "sound": "han"
+            },
+            {
+              "syllable": "국",
+              "parts": [
+                "ㄱ",
+                "ㅜ",
+                "ㄱ"
+              ],
+              "sound": "guk",
+              "meaning": "soup"
+            },
+            {
+              "syllable": "물",
+              "parts": [
+                "ㅁ",
+                "ㅜ",
+                "ㄹ"
+              ],
+              "sound": "mul",
+              "meaning": "water"
+            },
+            {
+              "syllable": "밤",
+              "parts": [
+                "ㅂ",
+                "ㅏ",
+                "ㅁ"
+              ],
+              "sound": "bam",
+              "meaning": "night"
+            },
+            {
+              "syllable": "강",
+              "parts": [
+                "ㄱ",
+                "ㅏ",
+                "ㅇ"
+              ],
+              "sound": "gang",
+              "meaning": "river"
+            },
+            {
+              "syllable": "밥",
+              "parts": [
+                "ㅂ",
+                "ㅏ",
+                "ㅂ"
+              ],
+              "sound": "bap",
+              "meaning": "cooked rice"
+            }
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "ㅇ finally does its other job",
+          "body": "Remember that ㅇ is silent at the front of a block. Underneath, it is a real sound: the ng of 'sing'. 강 is 'gang'. 사랑 is 'sarang'."
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_decompose",
+            "pool": [
+              "한",
+              "국",
+              "물",
+              "밤",
+              "강",
+              "밥",
+              "산",
+              "집",
+              "말"
+            ],
+            "count": 9
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_build",
+            "with_final": true,
+            "count": 10
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "with_final": true,
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "한국",
+              "meaning": "Korea"
+            },
+            {
+              "target": "사람",
+              "meaning": "person"
+            },
+            {
+              "target": "선생님",
+              "meaning": "teacher"
+            },
+            {
+              "target": "김밥",
+              "meaning": "gimbap"
+            },
+            {
+              "target": "물",
+              "meaning": "water"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "한국",
+            "사람",
+            "물",
+            "김밥",
+            "선생님"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "받침 = the consonant underneath a block",
+            "받침 ㅇ is 'ng'; initial ㅇ is silent",
+            "받침 decides pronunciation rules AND grammar particles later"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-002",
+      "ordinal": 11,
+      "title": "27 written, 7 heard",
+      "title_ko": "음절의 끝소리 규칙",
+      "est_minutes": 14,
+      "objectives": [
+        "Know the seven final sounds",
+        "Predict how any written 받침 is pronounced",
+        "Stop releasing final stops"
+      ],
+      "prerequisites": [
+        "ko-batchim-001"
+      ],
+      "tags": [
+        "batchim",
+        "pronunciation",
+        "rules"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "syllable_decompose",
+            "with_final": true,
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Korean is strict about endings",
+          "body": [
+            "27 different letters can be written as a 받침. Only seven sounds can actually come out: ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ.",
+            "Everything else changes into whichever of the seven is closest.",
+            "So 옷 is written with ㅅ but pronounced [옫]. 꽃 is written with ㅊ but pronounced [꼳]. 부엌 is [부억].",
+            "This surprises everyone, and it is the reason spelling and pronunciation diverge in Korean."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Why it happens",
+          "body": [
+            "At the end of a syllable, Korean stops the air and does not release it. Your tongue or lips get into position — and then just stay there.",
+            "Because nothing is released, the fine differences between ㅅ, ㅆ, ㅈ, ㅊ, ㅌ and ㅎ never get a chance to be heard. They all collapse into a held ㄷ.",
+            "Try it: say 'cat' but freeze before the t escapes. That silent, held ending is what a Korean 받침 sounds like."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "batchim_table",
+          "source": "content/ko/hangul/batchim.json#the_seven_sounds"
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "pool": [
+              "옷",
+              "꽃",
+              "밭",
+              "낮",
+              "부엌",
+              "밖",
+              "앞",
+              "숲",
+              "빛",
+              "히읗"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_discriminate",
+            "pairs": [
+              [
+                "옷",
+                "옫"
+              ],
+              [
+                "밖",
+                "박"
+              ],
+              [
+                "앞",
+                "압"
+              ]
+            ],
+            "count": 8,
+            "note": "These pairs sound identical — that is the point."
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "count": 10,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "옷",
+              "meaning": "clothes",
+              "pronounced": "옫"
+            },
+            {
+              "target": "꽃",
+              "meaning": "flower",
+              "pronounced": "꼳"
+            },
+            {
+              "target": "부엌",
+              "meaning": "kitchen",
+              "pronounced": "부억"
+            },
+            {
+              "target": "앞",
+              "meaning": "front",
+              "pronounced": "압"
+            },
+            {
+              "target": "빛",
+              "meaning": "light",
+              "pronounced": "빋"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "옷",
+            "꽃",
+            "부엌",
+            "앞",
+            "빛"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Seven final sounds: ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ",
+            "ㅅ ㅆ ㅈ ㅊ ㅌ ㅎ all become [ㄷ] underneath",
+            "ㄲ ㅋ become [ㄱ]; ㅍ becomes [ㅂ]",
+            "Final stops are never released"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-003",
+      "ordinal": 12,
+      "title": "연음: when the 받침 moves house",
+      "title_ko": "연음",
+      "est_minutes": 14,
+      "objectives": [
+        "Apply liaison",
+        "Explain why 한국어 sounds like 한구거",
+        "Read particles correctly"
+      ],
+      "prerequisites": [
+        "ko-batchim-002"
+      ],
+      "tags": [
+        "batchim",
+        "rules",
+        "important"
+      ],
+      "importance": "This is the single most useful pronunciation rule in Korean. Every particle and every verb ending starts with a vowel, so this fires constantly.",
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "한국어 → 한구거",
+          "body": [
+            "The 받침 ㄱ in 국 is stuck underneath its block with nowhere to go.",
+            "But the very next block, 어, begins with ㅇ — which is silent. An empty chair.",
+            "So the ㄱ slides across and sits in it. 한-구-거.",
+            "Nothing is added or removed. The letters just re-shuffle across the boundary."
+          ],
+          "visual": {
+            "type": "liaison_animation",
+            "word": "한국어",
+            "result": "한구거"
+          }
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The important detail",
+          "body": [
+            "When a 받침 moves, it moves as its ORIGINAL letter — not as one of the seven.",
+            "꽃 alone is [꼳]. But 꽃이 is [꼬치], not [꼬디]. The ㅊ was there all along; it just needed somewhere to go.",
+            "This is why Korean spelling keeps letters that seem never to be pronounced. They are pronounced — as soon as a vowel follows.",
+            "In linguistics this is called resyllabification. Korean calls it 연음."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "items": [
+            {
+              "target": "한국어 → 한구거",
+              "english": "Korean language"
+            },
+            {
+              "target": "책을 → 채글",
+              "english": "book (object)"
+            },
+            {
+              "target": "음악 → 으막",
+              "english": "music"
+            },
+            {
+              "target": "꽃이 → 꼬치",
+              "english": "flower (subject)"
+            },
+            {
+              "target": "밭에 → 바테",
+              "english": "in the field"
+            },
+            {
+              "target": "맛있어요 → 마시써요",
+              "english": "it's delicious"
+            }
+          ],
+          "closing": "The last one is worth saying aloud a few times. You have almost certainly heard 마시써요 without knowing why it was spelled 맛있어요."
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Two exceptions",
+          "body": [
+            "받침 ㅇ never moves — it is already a nasal filling the slot: 강아지 stays [강아지].",
+            "받침 ㅎ vanishes instead of moving: 좋아요 is [조아요], not [조하요]."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "liaison",
+            "pool": [
+              "한국어",
+              "책을",
+              "음악을",
+              "꽃이",
+              "밭에",
+              "옷을",
+              "앞에",
+              "집에",
+              "밖에",
+              "값이"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "rule": "liaison",
+            "count": 8
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "liaison",
+            "count": 10,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "read_aloud",
+          "instruction": "Read each one aloud, applying 연음. Then check.",
+          "items": [
+            "한국어를 공부해요",
+            "음악이 좋아요",
+            "책을 읽어요",
+            "밥을 먹어요"
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "한국어",
+            "책을",
+            "꽃이",
+            "맛있어요"
+          ]
+        },
+        {
+          "step": "challenge",
+          "type": "generated",
+          "optional": true,
+          "generator": {
+            "type": "listen_type",
+            "rule": "liaison",
+            "count": 10,
+            "speed": "fast"
+          }
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "A 받침 moves into a following empty ㅇ",
+            "It moves as its original letter, not its seven-sound version",
+            "받침 ㅇ never moves; 받침 ㅎ disappears",
+            "This is why written and spoken Korean look so different"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-004",
+      "ordinal": 13,
+      "title": "경음화: why 학교 sounds like 학꾜",
+      "title_ko": "경음화",
+      "est_minutes": 10,
+      "objectives": [
+        "Apply tensification after ㄱ ㄷ ㅂ",
+        "Hear it in common words"
+      ],
+      "prerequisites": [
+        "ko-batchim-003"
+      ],
+      "tags": [
+        "batchim",
+        "rules"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "liaison",
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Your throat is already tight",
+          "body": [
+            "After a ㄱ, ㄷ or ㅂ 받침, your throat is closed and tense.",
+            "The next consonant has to start from there — so it comes out as the tight version, whether you meant it or not.",
+            "학교 becomes [학꾜]. 먹다 becomes [먹따]. 국밥 becomes [국빱].",
+            "You do not choose this. It is physically what happens."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The technical version",
+          "body": "경음화 (tensification): a lax obstruent onset becomes tense following an obstruent coda. ㄱ→ㄲ, ㄷ→ㄸ, ㅂ→ㅃ, ㅅ→ㅆ, ㅈ→ㅉ. This one is fully automatic — no exceptions, no memorisation."
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "items": [
+            {
+              "target": "학교 → 학꾜",
+              "english": "school"
+            },
+            {
+              "target": "먹다 → 먹따",
+              "english": "to eat"
+            },
+            {
+              "target": "국밥 → 국빱",
+              "english": "gukbap"
+            },
+            {
+              "target": "책상 → 책쌍",
+              "english": "desk"
+            },
+            {
+              "target": "입다 → 입따",
+              "english": "to wear"
+            },
+            {
+              "target": "숟가락 → 숟까락",
+              "english": "spoon"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "tensification",
+            "count": 10
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "tensification",
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "read_aloud",
+          "items": [
+            "학교에 가요",
+            "밥을 먹다",
+            "책상 위에"
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "학교",
+            "먹다",
+            "국밥",
+            "책상"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "After ㄱ ㄷ ㅂ, the next consonant goes tense",
+            "Fully automatic, no exceptions"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-005",
+      "ordinal": 14,
+      "title": "비음화: why 감사합니다 sounds like 감사함니다",
+      "title_ko": "비음화",
+      "est_minutes": 11,
+      "objectives": [
+        "Apply nasalisation",
+        "Hear -습니다 correctly",
+        "Handle ㄹ after a consonant"
+      ],
+      "prerequisites": [
+        "ko-batchim-004"
+      ],
+      "tags": [
+        "batchim",
+        "rules",
+        "important"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "tensification",
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "The mouth takes the easy route",
+          "body": [
+            "In 국물, your mouth is sealed for the ㄱ, and then the ㅁ needs air out of your nose.",
+            "Rather than switch abruptly, your mouth just sends the ㄱ out of your nose too — which turns it into ㅇ. [궁물].",
+            "Same thing in 감사합니다: the ㅂ before ㄴ becomes ㅁ. [감사함니다].",
+            "You have been hearing 함니다 since your very first Korean phrase."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The pattern",
+          "body": [
+            "Before ㄴ or ㅁ: ㄱ → [ㅇ], ㄷ → [ㄴ], ㅂ → [ㅁ].",
+            "This matters enormously because -습니다 and -ㅂ니다 are the most common formal endings in Korean, and both are affected every single time."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "items": [
+            {
+              "target": "감사합니다 → 감사함니다",
+              "english": "thank you"
+            },
+            {
+              "target": "국물 → 궁물",
+              "english": "broth"
+            },
+            {
+              "target": "한국말 → 한궁말",
+              "english": "the Korean language"
+            },
+            {
+              "target": "먹는 → 멍는",
+              "english": "eating (modifier)"
+            },
+            {
+              "target": "있는 → 인는",
+              "english": "existing (modifier)"
+            },
+            {
+              "target": "작년 → 장년",
+              "english": "last year"
+            }
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "And ㄹ gets dragged in",
+          "body": [
+            "After ㅁ, ㅇ, ㄱ or ㅂ, a following ㄹ turns into ㄴ. 종로 is [종노].",
+            "If the coda was ㄱ or ㅂ, that new ㄴ then triggers nasalisation as well: 국립 → 국닙 → [궁닙]. Two rules in a row."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "nasalisation",
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "rule": "nasalisation",
+            "count": 6
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "nasalisation",
+            "count": 10,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "read_aloud",
+          "items": [
+            "감사합니다",
+            "한국말을 배웁니다",
+            "국물이 맛있어요"
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "감사합니다",
+            "국물",
+            "한국말",
+            "먹는"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Before ㄴ/ㅁ: ㄱ→ㅇ, ㄷ→ㄴ, ㅂ→ㅁ",
+            "-습니다 is always [슴니다]",
+            "ㄹ becomes ㄴ after a non-ㄹ consonant, which can then feed nasalisation"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-006",
+      "ordinal": 15,
+      "title": "Two consonants underneath",
+      "title_ko": "겹받침",
+      "est_minutes": 13,
+      "objectives": [
+        "Read double 받침",
+        "Know which half survives",
+        "Handle them before a vowel"
+      ],
+      "prerequisites": [
+        "ko-batchim-005"
+      ],
+      "tags": [
+        "batchim",
+        "difficult"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "nasalisation",
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Squeezed in together",
+          "body": [
+            "Sometimes two consonants share the space underneath one block: 값, 닭, 앉, 삶.",
+            "Korean never says both. One stays and the other goes silent.",
+            "But it is not gone forever — when a vowel comes along, the silent one wakes up and moves into it. 값 is [갑], but 값이 is [갑씨]."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Which one survives?",
+          "body": [
+            "Unfortunately this is lexical — you learn it per cluster. The good news is there are only eleven, and a handful account for almost everything you will read.",
+            "The four you will actually meet: ㄺ (닭, 읽다), ㄻ (삶, 젊다), ㄼ (여덟, 넓다), ㅄ (값, 없다)."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "batchim_table",
+          "source": "content/ko/hangul/batchim.json#double_batchim"
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "pool": [
+              "값",
+              "값이",
+              "닭",
+              "닭이",
+              "앉다",
+              "앉아",
+              "삶",
+              "젊어",
+              "여덟",
+              "없어",
+              "읽다",
+              "읽어"
+            ],
+            "count": 12
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "cluster_only": true,
+            "count": 10,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {
+              "target": "닭",
+              "meaning": "chicken",
+              "pronounced": "닥"
+            },
+            {
+              "target": "값",
+              "meaning": "price",
+              "pronounced": "갑"
+            },
+            {
+              "target": "여덟",
+              "meaning": "eight",
+              "pronounced": "여덜"
+            },
+            {
+              "target": "없어요",
+              "meaning": "there isn't",
+              "pronounced": "업써요"
+            },
+            {
+              "target": "읽어요",
+              "meaning": "reads",
+              "pronounced": "일거요"
+            }
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "닭",
+            "값",
+            "여덟",
+            "없어요",
+            "읽어요"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Two 받침, only one sound",
+            "The silent one returns when a vowel follows",
+            "Four clusters cover most real text: ㄺ ㄻ ㄼ ㅄ"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-007",
+      "ordinal": 16,
+      "title": "ㅎ: the letter that melts and vanishes",
+      "title_ko": "격음화와 ㅎ 탈락",
+      "est_minutes": 11,
+      "objectives": [
+        "Apply aspiration in both directions",
+        "Apply ㅎ deletion",
+        "Recognise casual ㅎ weakening"
+      ],
+      "prerequisites": [
+        "ko-batchim-006"
+      ],
+      "tags": [
+        "batchim",
+        "rules"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "cluster_only": true,
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "ㅎ is a puff of air, and air merges",
+          "body": [
+            "When ㅎ meets ㄱ, ㄷ, ㅂ or ㅈ, the two fuse into one breathy letter: ㅋ, ㅌ, ㅍ, ㅊ.",
+            "It works in either order. 축하 → [추카] (ㄱ then ㅎ). 좋고 → [조코] (ㅎ then ㄱ).",
+            "In front of a vowel, ㅎ simply gives up and disappears. 좋아요 → [조아요]."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "items": [
+            {
+              "target": "축하 → 추카",
+              "english": "congratulations"
+            },
+            {
+              "target": "좋고 → 조코",
+              "english": "is good and..."
+            },
+            {
+              "target": "많다 → 만타",
+              "english": "to be many"
+            },
+            {
+              "target": "입학 → 이팍",
+              "english": "school admission"
+            },
+            {
+              "target": "좋아요 → 조아요",
+              "english": "it's good"
+            },
+            {
+              "target": "괜찮아요 → 괜차나요",
+              "english": "it's fine"
+            }
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "What you will actually hear",
+          "body": [
+            "Between a nasal and a vowel, ㅎ often weakens in ordinary speech too: 전화 becomes [저놔], 결혼 becomes [겨론], 은행 becomes [으냉].",
+            "This is not the prescriptive standard, so a textbook will tell you 전화 is [전화]. Both are worth recognising — say the standard, expect the casual."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "aspiration",
+            "count": 10
+          }
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "listen_discriminate",
+            "mode": "standard_vs_casual",
+            "pool": [
+              "전화",
+              "결혼",
+              "은행"
+            ],
+            "count": 6
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "aspiration",
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "read_aloud",
+          "items": [
+            "축하해요",
+            "좋아해요",
+            "괜찮아요",
+            "전화번호"
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "축하",
+            "좋아요",
+            "괜찮아요",
+            "전화"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㅎ + ㄱㄷㅂㅈ → ㅋㅌㅍㅊ, in either order",
+            "ㅎ + vowel → ㅎ disappears",
+            "In casual speech ㅎ also weakens after ㄴ ㄹ ㅁ ㅇ"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-batchim-008",
+      "ordinal": 17,
+      "title": "유음화 and 구개음화",
+      "title_ko": "유음화, 구개음화",
+      "est_minutes": 10,
+      "objectives": [
+        "Apply ㄴ+ㄹ → ㄹㄹ",
+        "Apply ㄷ/ㅌ + 이 → ㅈ/ㅊ"
+      ],
+      "prerequisites": [
+        "ko-batchim-007"
+      ],
+      "tags": [
+        "batchim",
+        "rules"
+      ],
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rule": "aspiration",
+            "count": 5
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "ㄴ and ㄹ cannot sit next to each other",
+          "body": [
+            "They are made in nearly the same place, and switching between them mid-word is awkward. So Korean makes both of them ㄹ.",
+            "신라 → [실라]. 설날 → [설랄]. 연락 → [열락]. It works in both orders."
+          ]
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "이 pulls ㄷ and ㅌ upward",
+          "body": [
+            "The 이 sound is made with your tongue high and forward. A ㄷ or ㅌ underneath gets pulled along and comes out as ㅈ or ㅊ.",
+            "같이 → [가치]. 굳이 → [구지]. 해돋이 → [해도지].",
+            "This only happens across a word boundary — inside one piece of a word nothing changes: 디자인 stays [디자인]."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "showcase",
+          "items": [
+            {
+              "target": "신라 → 실라",
+              "english": "Silla dynasty"
+            },
+            {
+              "target": "설날 → 설랄",
+              "english": "Lunar New Year"
+            },
+            {
+              "target": "연락 → 열락",
+              "english": "contact"
+            },
+            {
+              "target": "같이 → 가치",
+              "english": "together"
+            },
+            {
+              "target": "굳이 → 구지",
+              "english": "insistently"
+            },
+            {
+              "target": "닫히다 → 다치다",
+              "english": "to be closed"
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rules": [
+              "lateralisation",
+              "palatalisation"
+            ],
+            "count": 10
+          }
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "rules": [
+              "lateralisation",
+              "palatalisation"
+            ],
+            "count": 8,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "read_aloud",
+          "items": [
+            "같이 가요",
+            "연락 주세요",
+            "설날이에요"
+          ]
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": [
+            "신라",
+            "설날",
+            "연락",
+            "같이"
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "ㄴ + ㄹ or ㄹ + ㄴ → ㄹㄹ",
+            "ㄷ/ㅌ + 이 → ㅈ/ㅊ"
+          ]
+        }
+      ],
+      "language": "ko"
+    },
+    {
+      "id": "ko-hangul-final",
+      "ordinal": 18,
+      "title": "Reading real Korean",
+      "title_ko": "이제 읽을 수 있어요",
+      "est_minutes": 15,
+      "objectives": [
+        "Read unfamiliar Korean aloud",
+        "Apply all seven rules together",
+        "Pass the Hangul gate"
+      ],
+      "prerequisites": [
+        "ko-batchim-008"
+      ],
+      "tags": [
+        "batchim",
+        "assessment",
+        "milestone"
+      ],
+      "is_gate": true,
+      "steps": [
+        {
+          "step": "warmup",
+          "type": "generated",
+          "generator": {
+            "type": "batchim_predict",
+            "all_rules": true,
+            "count": 8
+          }
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Everything at once",
+          "body": [
+            "Real Korean applies several rules in one word. 읽습니다 needs cluster simplification, then tensification, then nasalisation — and comes out [익씀니다].",
+            "You do not have to compute this consciously. Read the word, apply what you know, and check. The pattern-matching becomes automatic faster than you expect."
+          ]
+        },
+        {
+          "step": "examples",
+          "type": "multi_rule_walkthrough",
+          "items": [
+            {
+              "word": "읽습니다",
+              "spoken": "익씀니다",
+              "steps": [
+                "ㄺ → ㄱ (cluster simplification)",
+                "ㄱ + ㅅ → ㄱ + ㅆ (tensification)",
+                "ㅂ + ㄴ → ㅁ + ㄴ (nasalisation)"
+              ]
+            },
+            {
+              "word": "맛있어요",
+              "spoken": "마시써요",
+              "steps": [
+                "ㅅ links into 있 (liaison)",
+                "ㅆ links into 어 (liaison)"
+              ]
+            },
+            {
+              "word": "괜찮아요",
+              "spoken": "괜차나요",
+              "steps": [
+                "ㄶ loses its ㅎ (ㅎ deletion)",
+                "the remaining ㄴ links into 아 (liaison)"
+              ]
+            }
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "read_aloud",
+          "instruction": "Read each aloud, then check your pronunciation.",
+          "items": [
+            "안녕하세요",
+            "감사합니다",
+            "만나서 반갑습니다",
+            "한국어를 공부해요",
+            "저는 학생이에요",
+            "물 좀 주세요",
+            "화장실이 어디예요?"
+          ]
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {
+            "type": "listen_type",
+            "all_rules": true,
+            "count": 12,
+            "hints": false
+          }
+        },
+        {
+          "step": "apply",
+          "type": "reading_passage",
+          "heading": "Your first paragraph",
+          "text": "안녕하세요. 저는 리티시예요. 한국어를 배워요. 한국 음식을 좋아해요. 김치찌개가 맛있어요.",
+          "translation": "Hello. I'm Rithish. I'm learning Korean. I like Korean food. Kimchi jjigae is delicious.",
+          "note": "You are not expected to understand the grammar yet. The point is that you can now READ it — every letter, every sound.",
+          "tasks": [
+            "Read it aloud",
+            "Mark where 연음 happens",
+            "Mark where 경음화 happens"
+          ]
+        },
+        {
+          "step": "review",
+          "type": "gate_assessment",
+          "requires": {
+            "jamo_accuracy": 0.9,
+            "syllable_accuracy": 0.9,
+            "batchim_accuracy": 0.8
+          },
+          "on_pass": {
+            "unlock": [
+              "ko-level-a1"
+            ],
+            "achievement": "hangul_master",
+            "message": "한글 마스터. You can read Korean. Everything from here on is language, not letters."
+          },
+          "on_fail": {
+            "message": "Not quite yet — and that is completely normal. The letters you missed are going into your review queue and you can retake this whenever you like.",
+            "action": "targeted_review"
+          }
+        },
+        {
+          "step": "challenge",
+          "type": "reading_passage",
+          "optional": true,
+          "heading": "For the ambitious",
+          "text": "한글은 1443년에 만들어졌습니다. 세종대왕이 백성들을 위해 만들었습니다.",
+          "translation": "Hangul was created in 1443. King Sejong made it for the common people.",
+          "note": "Much harder. Read it aloud without worrying about the meaning."
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "You can read every Korean letter and every syllable block",
+            "You know the seven pronunciation rules and can apply them together",
+            "Romanisation will now start fading out of your lessons — you no longer need it",
+            "Next unit: your first actual Korean sentences"
+          ]
+        }
+      ],
+      "language": "ko"
+    }
+  ],
+  "language": "ko"
+}

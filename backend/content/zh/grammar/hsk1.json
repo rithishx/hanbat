@@ -1,0 +1,221 @@
+{
+  "language": "zh",
+  "level": "HSK1",
+  "note": "Same eight-part structure as the Korean and Japanese grammar files, and almost no overlap in content. There are no particles here in the Korean or Japanese sense, no conjugation, and no politeness levels built into the verb. What there is instead: word order, measure words, and aspect. Each point has a `simple` explanation with no terminology and a `technical` one for when the learner wants it.",
+  "points": [
+    {
+      "id": "zh-g-001", "ordinal": 1, "name": "是", "name_native": "是",
+      "category": "copula", "meaning": "to be (linking two nouns)",
+      "attaches_to": "noun",
+      "structure": "A + 是 + B",
+      "simple": "是 joins two nouns: 我是学生 — I am a student. That is all it does. If you want to say something is big, or cold, or good, 是 is the wrong word — see the next point.",
+      "technical": "The copula, used for identity and category membership between nominals. It does not take adjectival complements; Mandarin adjectives are stative verbs and predicate directly.",
+      "examples": [
+        {"target": "我是学生。", "pinyin": "wǒ shì xuésheng", "english": "I am a student."},
+        {"target": "他是老师。", "pinyin": "tā shì lǎoshī", "english": "He is a teacher."},
+        {"target": "这是我的书。", "pinyin": "zhè shì wǒ de shū", "english": "This is my book."},
+        {"target": "我不是医生。", "pinyin": "wǒ bú shì yīshēng", "english": "I'm not a doctor.", "note": "不是 is said bú shì — 不 rises before a fourth tone."}
+      ],
+      "mistakes": [
+        {"wrong": "我是高。", "right": "我很高。", "why": "是 links nouns. With an adjective you use 很."}
+      ],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-002", "ordinal": 2, "name": "很 + adjective", "name_native": "很＋形容词",
+      "category": "predicate", "meaning": "describing something",
+      "attaches_to": "adjective",
+      "structure": "Subject + 很 + adjective",
+      "simple": "To say something is big, you say 很大 — not 是大. The word 很 usually translates as 'very', but here it is mostly holding the sentence together, and 我很好 means 'I'm fine', not 'I'm VERY good'.\n\nWithout 很, a bare adjective sounds like a comparison: 我好 hints at 'I'm good (and someone else isn't)'.",
+      "technical": "Mandarin adjectives are stative verbs and predicate without a copula. 很 functions as a default degree adverb whose semantic force is bleached in neutral statements; its absence triggers a contrastive reading.",
+      "examples": [
+        {"target": "我很好。", "pinyin": "wǒ hěn hǎo", "english": "I'm fine.", "note": "Said wó hěn hǎo — third-tone sandhi."},
+        {"target": "今天很热。", "pinyin": "jīntiān hěn rè", "english": "It's hot today."},
+        {"target": "他的房子很大。", "pinyin": "tā de fángzi hěn dà", "english": "His house is big."},
+        {"target": "这个不贵。", "pinyin": "zhè ge bú guì", "english": "This isn't expensive.", "note": "In the negative, 很 drops out."}
+      ],
+      "mistakes": [
+        {"wrong": "今天是热。", "right": "今天很热。", "why": "Adjectives do not take 是."}
+      ],
+      "similar": ["zh-g-001"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-003", "ordinal": 3, "name": "不 and 没", "name_native": "不和没",
+      "category": "negation", "meaning": "the two negatives",
+      "attaches_to": "verb or adjective",
+      "structure": "不 / 没 + verb",
+      "simple": "不 is about what you don't do, won't do, or never do. It is about choice and habit. 我不吃肉 means you're vegetarian.\n\n没 is about something that did not happen. 我没吃饭 means you haven't eaten yet.\n\nAnd 有 is the exception that never bends: it is always 没有, never 不有.",
+      "technical": "不 negates volition, habitual action and stative predicates; 没(有) negates the realisation of an event and is incompatible with 了. 有 is lexically restricted to 没 negation.",
+      "examples": [
+        {"target": "我不喝咖啡。", "pinyin": "wǒ bù hē kāfēi", "english": "I don't drink coffee.", "note": "A habit."},
+        {"target": "我没喝咖啡。", "pinyin": "wǒ méi hē kāfēi", "english": "I didn't drink the coffee.", "note": "A specific occasion."},
+        {"target": "我没有钱。", "pinyin": "wǒ méi yǒu qián", "english": "I don't have money.", "note": "有 always takes 没."},
+        {"target": "他明天不来。", "pinyin": "tā míngtiān bù lái", "english": "He's not coming tomorrow.", "note": "Future intention takes 不, not 没."}
+      ],
+      "mistakes": [
+        {"wrong": "我不有钱。", "right": "我没有钱。", "why": "有 is only ever negated with 没."},
+        {"wrong": "我没喜欢他。", "right": "我不喜欢他。", "why": "Liking is a state, not an event that failed to happen."}
+      ],
+      "contrast": ["bu_vs_mei"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-004", "ordinal": 4, "name": "吗 questions", "name_native": "吗问句",
+      "category": "questions", "meaning": "turning a statement into a yes/no question",
+      "attaches_to": "sentence",
+      "structure": "statement + 吗？",
+      "simple": "Say the statement, then add 吗 at the end. Nothing else moves. 你是学生 is 'you are a student'; 你是学生吗？is 'are you a student?'\n\nThis is far easier than English, which has to shuffle the words around.",
+      "technical": "A sentence-final interrogative particle forming polar questions with no change to constituent order. Always neutral tone.",
+      "examples": [
+        {"target": "你好吗？", "pinyin": "nǐ hǎo ma", "english": "How are you?"},
+        {"target": "你是老师吗？", "pinyin": "nǐ shì lǎoshī ma", "english": "Are you a teacher?"},
+        {"target": "他来吗？", "pinyin": "tā lái ma", "english": "Is he coming?"}
+      ],
+      "similar": ["zh-g-005"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-005", "ordinal": 5, "name": "Question words stay put", "name_native": "疑问词",
+      "category": "questions", "meaning": "asking what, who, where, when",
+      "attaches_to": "sentence",
+      "structure": "the question word sits where the answer would sit",
+      "simple": "In English, 'what' jumps to the front: 'What are you eating?' In Mandarin it stays exactly where the answer goes.\n\n你吃什么？— literally 'you eat what?'\n他是谁？— 'he is who?'\n你去哪儿？— 'you go where?'\n\nSo to ask a question, take the answer and swap in the question word. Nothing moves, and you do not add 吗.",
+      "technical": "Mandarin is wh-in-situ. Interrogative pronouns remain in argument position; no fronting and no auxiliary inversion. 吗 is incompatible with a wh-word in the same clause.",
+      "examples": [
+        {"target": "你吃什么？", "pinyin": "nǐ chī shénme", "english": "What are you eating?"},
+        {"target": "他是谁？", "pinyin": "tā shì shéi", "english": "Who is he?"},
+        {"target": "你去哪儿？", "pinyin": "nǐ qù nǎr", "english": "Where are you going?"},
+        {"target": "多少钱？", "pinyin": "duōshao qián", "english": "How much is it?"}
+      ],
+      "mistakes": [
+        {"wrong": "什么你吃？", "right": "你吃什么？", "why": "The question word does not move to the front."},
+        {"wrong": "你吃什么吗？", "right": "你吃什么？", "why": "A wh-question never takes 吗."}
+      ],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-006", "ordinal": 6, "name": "的", "name_native": "的",
+      "category": "modification", "meaning": "possession and description",
+      "attaches_to": "noun or phrase",
+      "structure": "possessor + 的 + noun",
+      "simple": "的 attaches a description to a noun. 我的书 is 'my book'. 老师的车 is 'the teacher's car'. The order is the reverse of English's 'of': the owner comes first.\n\nIt is dropped for close relationships and for the place you belong to: 我妈妈, not 我的妈妈. 我们学校, not 我们的学校.",
+      "technical": "A subordinating particle marking a modifier–head relation. Omitted with inalienable possession, kinship terms and institutional membership when the modifier is a pronoun.",
+      "examples": [
+        {"target": "我的书", "pinyin": "wǒ de shū", "english": "my book"},
+        {"target": "老师的车", "pinyin": "lǎoshī de chē", "english": "the teacher's car"},
+        {"target": "我妈妈", "pinyin": "wǒ māma", "english": "my mum", "note": "No 的 — family."},
+        {"target": "很好吃的菜", "pinyin": "hěn hǎochī de cài", "english": "a delicious dish", "note": "的 also attaches a whole descriptive phrase."}
+      ],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-007", "ordinal": 7, "name": "Measure words", "name_native": "量词",
+      "category": "measure_words", "meaning": "counting things",
+      "attaches_to": "noun",
+      "structure": "number + measure word + noun",
+      "simple": "You cannot say 'three books' in Mandarin. You say 'three [bound-thing] book' — 三本书.\n\nEnglish does this too, but only for some words: 'two slices of bread', 'three sheets of paper'. Mandarin does it for everything.\n\n本 for books. 张 for flat things. 只 for animals. 条 for long floppy things. 杯 for cups of something. And 个 for everything else, which is what to use when you cannot remember.",
+      "technical": "Mandarin nouns are non-count and require a classifier between a determiner or numeral and the noun. Classifier choice is lexically determined and only loosely predictable from the noun's semantics.",
+      "examples": [
+        {"target": "三本书", "pinyin": "sān běn shū", "english": "three books"},
+        {"target": "两张纸", "pinyin": "liǎng zhāng zhǐ", "english": "two sheets of paper", "note": "两, not 二, before a measure word."},
+        {"target": "一只猫", "pinyin": "yì zhī māo", "english": "one cat"},
+        {"target": "这个人", "pinyin": "zhè ge rén", "english": "this person", "note": "这 and 那 need one too."}
+      ],
+      "mistakes": [
+        {"wrong": "三书", "right": "三本书", "why": "A number can never sit directly against a noun."},
+        {"wrong": "二个人", "right": "两个人", "why": "Before a measure word, two is 两."}
+      ],
+      "contrast": ["measure_words"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-008", "ordinal": 8, "name": "有", "name_native": "有",
+      "category": "existence", "meaning": "to have; there is",
+      "attaches_to": "noun",
+      "structure": "Subject + 有 + object   /   Place + 有 + thing",
+      "simple": "有 does two jobs. With a person in front it means 'have': 我有一本书.\n\nWith a place in front it means 'there is': 桌子上有一本书 — 'on the table there is a book'.\n\nIts negative is 没有, always.",
+      "technical": "An existential and possessive verb. In the existential frame the locative phrase is the subject and the possessed noun is typically indefinite.",
+      "examples": [
+        {"target": "我有一个朋友。", "pinyin": "wǒ yǒu yí ge péngyou", "english": "I have a friend."},
+        {"target": "桌子上有一本书。", "pinyin": "zhuōzi shàng yǒu yì běn shū", "english": "There's a book on the table."},
+        {"target": "我没有钱。", "pinyin": "wǒ méi yǒu qián", "english": "I don't have any money."},
+        {"target": "你有没有时间？", "pinyin": "nǐ yǒu méi yǒu shíjiān", "english": "Do you have time?", "note": "有没有 is a very common way to ask a yes/no question."}
+      ],
+      "similar": ["zh-g-003"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-009", "ordinal": 9, "name": "了", "name_native": "了",
+      "category": "aspect", "meaning": "completion and change",
+      "attaches_to": "verb or sentence",
+      "structure": "verb + 了   /   sentence + 了",
+      "simple": "了 is NOT the past tense. Mandarin has no past tense.\n\n了 says one of two things. After a verb, it says the action finished: 我吃了饭 — I've eaten.\n\nAt the end of a sentence, it says something has changed: 下雨了 — it's started raining. That one is about right now, not the past.\n\nAnd 明天我就走了 has 了 and is about tomorrow. If you want to say when something happened, use a time word — 昨天, 明天. That is where time lives in this language.",
+      "technical": "An aspect marker with two positions. Verb-final 了 (perfective -le) marks a bounded event; sentence-final 了 (inchoative le) marks a change of state or newly relevant situation. Neither encodes tense; temporal reference is adverbial.",
+      "examples": [
+        {"target": "我吃了饭。", "pinyin": "wǒ chī le fàn", "english": "I've eaten.", "note": "Completed."},
+        {"target": "下雨了。", "pinyin": "xià yǔ le", "english": "It's started raining.", "note": "A change, happening now."},
+        {"target": "明天我就走了。", "pinyin": "míngtiān wǒ jiù zǒu le", "english": "I'm leaving tomorrow.", "note": "Future — and still 了."},
+        {"target": "我昨天去学校。", "pinyin": "wǒ zuótiān qù xuéxiào", "english": "I went to school yesterday.", "note": "Past — and no 了, because it describes a habit rather than an event."}
+      ],
+      "mistakes": [
+        {"wrong": "我昨天吃了饭了了。", "right": "我昨天吃了饭。", "why": "One 了 is enough; piling them up does not make it more past."}
+      ],
+      "contrast": ["le_is_not_past"],
+      "tags": ["core", "HSK1", "difficult"]
+    },
+    {
+      "id": "zh-g-010", "ordinal": 10, "name": "Word order", "name_native": "语序",
+      "category": "word_order", "meaning": "where time and place go",
+      "attaches_to": "sentence",
+      "structure": "Subject — Time — Place — Manner — Verb — Object",
+      "simple": "Everything that sets the scene comes BEFORE the verb.\n\nEnglish: 'I'm going to Beijing tomorrow.' Time at the end.\nMandarin: 我明天去北京 — literally 'I tomorrow go Beijing'. Time before the verb.\n\nSame for place: 我在图书馆看书 — 'I at library read books'.\n\nAnd where two time words meet, the bigger one comes first: 明天早上, not 早上明天.",
+      "technical": "SVO with strictly pre-verbal adjuncts. Temporal and locative phrases are ordered from larger to smaller scope and precede the verb phrase; post-verbal position is reserved for objects and complements.",
+      "examples": [
+        {"target": "我明天去北京。", "pinyin": "wǒ míngtiān qù Běijīng", "english": "I'm going to Beijing tomorrow."},
+        {"target": "我在图书馆看书。", "pinyin": "wǒ zài túshūguǎn kàn shū", "english": "I read at the library."},
+        {"target": "他每天早上跑步。", "pinyin": "tā měitiān zǎoshang pǎobù", "english": "He runs every morning."},
+        {"target": "我跟朋友一起吃饭。", "pinyin": "wǒ gēn péngyou yìqǐ chīfàn", "english": "I'm eating with friends."}
+      ],
+      "mistakes": [
+        {"wrong": "我去北京明天。", "right": "我明天去北京。", "why": "Time never goes at the end."}
+      ],
+      "contrast": ["word_order_time"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-011", "ordinal": 11, "name": "在", "name_native": "在",
+      "category": "location", "meaning": "being somewhere, and doing something now",
+      "attaches_to": "noun or verb",
+      "structure": "Subject + 在 + place   /   Subject + 在 + verb",
+      "simple": "在 before a place means 'at': 我在家 — I'm at home.\n\n在 before a verb means the action is happening right now: 我在吃饭 — I'm eating.\n\nSame word, two jobs, and which one it is depends on what comes after it.",
+      "technical": "A locative verb and preposition; pre-verbally it functions as a progressive aspect marker. Distinct from 着, which marks a resultant state rather than an ongoing action.",
+      "examples": [
+        {"target": "我在家。", "pinyin": "wǒ zài jiā", "english": "I'm at home."},
+        {"target": "我在吃饭。", "pinyin": "wǒ zài chīfàn", "english": "I'm eating."},
+        {"target": "他在学校学习。", "pinyin": "tā zài xuéxiào xuéxí", "english": "He's studying at school.", "note": "Both jobs at once: 在学校 is the place, and it sits before the verb."},
+        {"target": "门开着。", "pinyin": "mén kāi zhe", "english": "The door is open.", "note": "着, not 在 — a state, not an action."}
+      ],
+      "contrast": ["zai_vs_zhe"],
+      "tags": ["core", "HSK1"]
+    },
+    {
+      "id": "zh-g-012", "ordinal": 12, "name": "会, 能, 想", "name_native": "会、能、想",
+      "category": "modals", "meaning": "can, able to, want to",
+      "attaches_to": "verb",
+      "structure": "Subject + 会/能/想 + verb",
+      "simple": "会 — you learned how. 我会说汉语 — I can speak Chinese, because I studied it.\n\n能 — you are able to right now. 我今天不能来 — I can't come today, because something is in the way.\n\n想 — you want to. 我想喝茶 — I'd like some tea.\n\nAll three sit in front of the verb, and none of them change shape.",
+      "technical": "Pre-verbal modal auxiliaries. 会 encodes acquired ability and, separately, future likelihood; 能 encodes circumstantial possibility and permission; 想 encodes desire or intention. Negation is with 不 in all three cases.",
+      "examples": [
+        {"target": "我会说汉语。", "pinyin": "wǒ huì shuō Hànyǔ", "english": "I can speak Chinese."},
+        {"target": "我今天不能来。", "pinyin": "wǒ jīntiān bù néng lái", "english": "I can't come today."},
+        {"target": "我想喝茶。", "pinyin": "wǒ xiǎng hē chá", "english": "I'd like some tea."},
+        {"target": "明天会下雨。", "pinyin": "míngtiān huì xià yǔ", "english": "It'll rain tomorrow.", "note": "会 also predicts."}
+      ],
+      "mistakes": [
+        {"wrong": "我能说汉语。", "right": "我会说汉语。", "why": "A learned skill takes 会. 能 would suggest something is temporarily allowing you to speak."}
+      ],
+      "tags": ["core", "HSK1"]
+    }
+  ]
+}

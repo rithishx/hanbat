@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Themes are CSS variables rather than Tailwind's dark: variants everywhere,
+  because there are four of them — light, dark, high contrast, and the
+  dyslexia-friendly font setting — and they compose. A component asks for
+  `bg-paper text-ink` and never has to know which is active.
+*/
+:root {
+  --ink: 24 24 27;
+  --muted: 82 82 91;
+  --faint: 140 140 150;
+  --paper: 250 250 249;
+  --raised: 255 255 255;
+  --line: 228 228 231;
+  --brand: 22 101 152;
+  --brand-soft: 224 240 250;
+  --good: 21 128 61;
+  --warn: 161 98 7;
+  --bad: 185 28 28;
+
+  --font-ui: "Inter", "Segoe UI", system-ui;
+  --font-ko: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui;
+  --font-ja: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", system-ui;
+  --font-zh: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui;
+
+  --step: 1rem;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --ink: 244 244 245;
+  --muted: 168 168 178;
+  --faint: 115 115 125;
+  --paper: 16 17 20;
+  --raised: 27 28 33;
+  --line: 47 48 55;
+  --brand: 110 190 240;
+  --brand-soft: 24 45 60;
+  --good: 74 190 120;
+  --warn: 224 174 60;
+  --bad: 248 113 113;
+  color-scheme: dark;
+}
+
+[data-contrast="high"] {
+  --ink: 0 0 0;
+  --muted: 30 30 30;
+  --paper: 255 255 255;
+  --raised: 255 255 255;
+  --line: 0 0 0;
+  --brand: 0 60 130;
+  --brand-soft: 220 235 255;
+}
+[data-theme="dark"][data-contrast="high"] {
+  --ink: 255 255 255;
+  --muted: 235 235 235;
+  --paper: 0 0 0;
+  --raised: 0 0 0;
+  --line: 255 255 255;
+  --brand: 140 210 255;
+  --brand-soft: 0 40 70;
+}
+
+[data-font="dyslexia"] {
+  --font-ui: "OpenDyslexic", "Comic Sans MS", "Verdana", system-ui;
+  letter-spacing: 0.012em;
+  word-spacing: 0.08em;
+}
+
+[data-size="small"]  { --step: 0.9rem; }
+[data-size="medium"] { --step: 1rem; }
+[data-size="large"]  { --step: 1.15rem; }
+[data-size="xlarge"] { --step: 1.35rem; }
+
+html { font-size: var(--step); }
+
+body {
+  @apply bg-paper text-ink antialiased;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  overscroll-behavior-y: none;
+}
+
+/* Respect the OS setting, and the in-app one, without the components caring. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* A visible focus ring on everything, always. Keyboard learners exist, and so
+   do learners who cannot use a mouse at all. */
+:focus-visible {
+  @apply outline-none ring-2 ring-brand ring-offset-2;
+  --tw-ring-offset-color: rgb(var(--paper));
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-raised;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5
+           text-sm font-semibold transition-colors disabled:opacity-40
+           disabled:cursor-not-allowed;
+  }
+  .btn-primary { @apply btn bg-brand text-white hover:brightness-110; }
+  .btn-ghost   { @apply btn border border-line bg-raised hover:bg-brand-soft; }
+  .btn-quiet   { @apply btn text-muted hover:text-ink hover:bg-brand-soft; }
+  .field {
+    @apply w-full rounded-xl border border-line bg-raised px-4 py-3 text-base
+           placeholder:text-faint;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line
+           px-2.5 py-1 text-xs font-medium text-muted;
+  }
+  .label { @apply text-xs font-semibold uppercase tracking-wide text-faint; }
+  .prose-teach p { @apply mb-3 leading-relaxed text-ink/90; }
+  .prose-teach p:last-child { @apply mb-0; }
+}
+
+/* Target-language text is set larger and in its own stack. A learner cannot
+   copy a character they cannot see the strokes of. */
+.target { @apply leading-snug; }
+.target-ko { font-family: var(--font-ko); }
+.target-ja { font-family: var(--font-ja); }
+.target-zh { font-family: var(--font-zh); }
+
+.skip-link {
+  @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50
+         focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white;
+}

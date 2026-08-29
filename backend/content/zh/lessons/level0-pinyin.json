@@ -1,0 +1,739 @@
+{
+  "language": "zh",
+  "note": "The Mandarin equivalent of the Korean Hangul path and the Japanese kana path — and deliberately not a translation of either. Korean's level 0 teaches an alphabet; Japanese's teaches two syllabaries. Mandarin's teaches a sound system, because the writing system (hanzi) cannot be learned in ten lessons and pinyin can. A learner who finishes this can hear and produce every sound in the language, which is the thing that has to come first.",
+  "unit": {
+    "id": "zh-level0-pinyin",
+    "language": "zh",
+    "level": "pre-HSK1",
+    "title": "Sounds and Tones: Learning to Hear Mandarin",
+    "title_native": "拼音和声调",
+    "summary": "From no Mandarin at all to hearing tones reliably and reading pinyin accurately. Characters come after this, not during it.",
+    "gate": {
+      "message": "Tones are not decoration and they are not optional. A learner who moves on before they can hear the difference between mǎi and mài will spend years being misunderstood and will not know why. This gate exists because tone deafness is the single most common way adult learners of Mandarin get permanently stuck.",
+      "requires": {
+        "script_mastery": 0.85,
+        "all_lessons_completed": true
+      }
+    }
+  },
+  "lessons": [
+    {
+      "id": "zh-pinyin-001",
+      "language": "zh",
+      "ordinal": 1,
+      "title": "What pinyin is, and what it is not",
+      "title_native": "拼音是什么",
+      "level": "pre-HSK1",
+      "est_minutes": 8,
+      "objectives": [
+        "Understand that pinyin spells sounds, not English",
+        "Read a syllable as initial + final + tone"
+      ],
+      "prerequisites": [],
+      "tags": ["pinyin", "orientation"],
+      "importance": "critical",
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Chinese is written in characters. Pinyin is how you type it.",
+          "body": [
+            "Mandarin is written with characters — 你好, 谢谢, 中国. There is no alphabet. A character does not tell you how it sounds.",
+            "So there is a second system, written in the letters you already know, called pinyin. 你好 is nǐ hǎo. 谢谢 is xièxie. Pinyin is not a translation and it is not a simplification — it is a precise recording of the sounds.",
+            "Every Chinese person types on a phone using pinyin. Dictionaries are ordered by it. It is not a beginner's crutch you outgrow; it is part of the language's infrastructure, and you will still be using it in ten years."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The letters do not have their English values",
+          "body": [
+            "This is the trap, and it catches everyone. Pinyin uses the Latin alphabet, so your brain reads it as English. It is not English.",
+            "q is not 'kw'. It is a 'ch' sound made with the tongue flat and forward.\nx is not 'ks'. It is a soft 'sh' with the tongue flat and forward.\nc is not 'k'. It is 'ts', as in 'cats'.\nzh, ch, sh are made with the tongue curled back, which English does not do.",
+            "Read qī as 'chee', not 'kwee'. Read xī as 'shee', not 'ksee'. Read cài as 'tsigh', not 'kigh'. Getting this straight now saves you a year of being politely misunderstood."
+          ]
+        },
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Three parts, always in the same order",
+          "body": [
+            "Every Mandarin syllable is at most three things: an initial (the consonant at the front), a final (the vowel part), and a tone (the pitch shape).",
+            "hǎo = h + ao + tone 3.\nzhōng = zh + ong + tone 1.\nài = (no initial) + ai + tone 4.",
+            "There are 21 initials and about 35 finals, and not every combination exists — only around 400 syllables in the whole language. That is a small enough set that you can genuinely learn all of it."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "pinyin_read", "count": 6, "hints": true}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "pinyin_build", "count": 5, "hints": true}
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {"type": "pinyin_read", "count": 5, "hints": false}
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Characters are the writing; pinyin is the sound",
+            "Pinyin letters are not English letters",
+            "Initial + final + tone, always in that order"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-002",
+      "language": "zh",
+      "ordinal": 2,
+      "title": "The four tones",
+      "title_native": "四声",
+      "level": "pre-HSK1",
+      "est_minutes": 12,
+      "objectives": [
+        "Hear and name all four tones",
+        "Understand that a tone is part of the word, not an accent"
+      ],
+      "prerequisites": ["zh-pinyin-001"],
+      "tags": ["tones"],
+      "importance": "critical",
+      "is_gate": true,
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "The pitch is part of the word",
+          "body": [
+            "In English, pitch carries feeling. You raise your voice at the end of a question and drop it at the end of a statement, and the word stays the same word.",
+            "In Mandarin the pitch IS the word. Change it and you have said something else, the same way changing 'cat' to 'cot' gives you a different animal.",
+            "mā 妈 mother — high and flat, like holding a note.\nmá 麻 hemp — rising, like the end of an English question.\nmǎ 马 horse — dipping down and back up.\nmà 骂 to scold — falling sharply, like a firm 'No!'.\nma 吗 — no tone at all, light and quick.",
+            "Four different words. Same letters. This is not a fine distinction that native speakers politely overlook — it is the difference between words."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Where the mark goes",
+          "body": [
+            "The little mark sits over a vowel, and its shape is a picture of what your voice does. ā is flat. á climbs. ǎ dips and rises. à drops.",
+            "When a final has several vowels, the mark lands on the one carrying the sound: a and e always win, then ou takes the o, otherwise it goes on the last vowel. hǎo, not haǒ. xiè, not xiè's neighbour.",
+            "No mark at all means the fifth 'tone' — a neutral, unstressed syllable. It is not a mistake or a missing mark; it is a real category, as in xièxie, where the second syllable is deliberately toneless."
+          ]
+        },
+        {
+          "step": "hear",
+          "type": "generated",
+          "generator": {"type": "tone_identify", "count": 8}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "tone_minimal_pair", "count": 5}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["mā", "má", "mǎ", "mà", "ma"],
+          "note": "Exaggerate. Every learner who sounds natural now sounded ridiculous at this stage. Overshooting the tone and then relaxing it works; being subtle from the start does not."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {"type": "tone_identify", "count": 6}
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": ["mā", "má", "mǎ", "mà", "ma"]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Four tones plus neutral",
+            "The tone is part of the word, not an emotion",
+            "The mark's shape is a picture of the pitch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-003",
+      "language": "zh",
+      "ordinal": 3,
+      "title": "The easy initials: b p m f, d t n l",
+      "title_native": "声母（一）",
+      "level": "pre-HSK1",
+      "est_minutes": 10,
+      "objectives": [
+        "Produce b/p and d/t as an aspiration contrast, not a voicing one",
+        "Read simple syllables aloud with a tone"
+      ],
+      "prerequisites": ["zh-pinyin-002"],
+      "tags": ["initials"],
+      "introduces": {"initials": ["b", "p", "m", "f", "d", "t", "n", "l"]},
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Eight sounds you already have — almost",
+          "body": [
+            "b p m f d t n l are close enough to English that you can start using them today. There is exactly one adjustment.",
+            "In English, 'b' and 'p' differ by whether your voice box buzzes. In Mandarin they differ by whether a puff of air comes out.",
+            "Hold your palm in front of your mouth. Say pà — you should feel a puff. Say bà — you should feel almost nothing. That puff is the whole difference. Same for t and d, and later for k and g."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Why this matters more than it sounds like it should",
+          "body": [
+            "爸 bà is 'dad'. 怕 pà is 'afraid'. If you rely on voicing instead of the puff, a listener will hear the wrong one about half the time.",
+            "The good news: English speakers already make this puff at the start of words without noticing. Say 'pin' — puff. Say 'spin' — no puff. You have both sounds already; you just have to attach them to the right letters."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "initial_discriminate", "pairs": [{"pair": ["b", "p"], "why": "Aspiration, not voicing. Hold a hand to your mouth: p moves it, b does not."}, {"pair": ["d", "t"], "why": "Same contrast: t has the puff, d does not."}], "count": 6}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "pinyin_build", "pool": ["bā", "pá", "mǎ", "fà", "dà", "tā", "nǐ", "lái"], "count": 6}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["bā", "pā", "dà", "tà", "mā", "fā"],
+          "note": "Palm in front of your mouth for the whole set. Feel the difference rather than listening for it."
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {"term": "bàba", "meaning": "dad", "note": "爸爸 — second syllable neutral."},
+            {"term": "māma", "meaning": "mum", "note": "妈妈 — same pattern."},
+            {"term": "dà", "meaning": "big", "note": "大"},
+            {"term": "nǐ", "meaning": "you", "note": "你"}
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "b/p and d/t differ by a puff of air, not by voicing",
+            "You already make both sounds in English",
+            "爸 and 怕 are one puff apart"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-004",
+      "language": "zh",
+      "ordinal": 4,
+      "title": "The hard initials: j q x versus zh ch sh r",
+      "title_native": "声母（二）",
+      "level": "pre-HSK1",
+      "est_minutes": 14,
+      "objectives": [
+        "Tell j/zh, q/ch and x/sh apart by ear",
+        "Know where the tongue goes for each"
+      ],
+      "prerequisites": ["zh-pinyin-003"],
+      "tags": ["initials", "difficult"],
+      "importance": "critical",
+      "difficulty_warning": "This is the hardest lesson in the unit. Expect to come back to it more than once — that is normal and not a sign anything has gone wrong.",
+      "introduces": {"initials": ["j", "q", "x", "zh", "ch", "sh", "r", "z", "c", "s"]},
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Two sets that both sound like English 'j', 'ch' and 'sh'",
+          "body": [
+            "English has one 'j', one 'ch' and one 'sh'. Mandarin has two of each, and they are different words.",
+            "j q x are made with the tongue FLAT and pushed FORWARD, tip behind your bottom teeth. The sound is thin and bright.\nzh ch sh r are made with the tongue tip CURLED BACK toward the roof of your mouth. The sound is thick and hollow.",
+            "jī 鸡 is chicken. zhī 知 is to know. Both sound like 'jee' to an English ear on day one. They stop sounding alike surprisingly quickly once you know what to listen for."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "A trick that actually works",
+          "body": [
+            "Say the English word 'cheese'. Your tongue is flat and forward. That is roughly Mandarin q.",
+            "Now say 'church' with an American accent and hold the 'r' feeling — the tongue pulls back. Start a 'ch' from that position and you have Mandarin ch.",
+            "There is a third set, z c s, made with the tongue tip against the teeth: z is 'ds' as in 'kids', c is 'ts' as in 'cats', s is a plain 's'. Three sets, three tongue positions: teeth, flat-forward, curled-back."
+          ]
+        },
+        {
+          "step": "hear",
+          "type": "generated",
+          "generator": {"type": "initial_discriminate", "count": 8}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "confusion_drill", "confusion_id": "j_vs_zh", "count": 4}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["jī", "zhī", "qī", "chī", "xī", "shī", "zì", "cì", "sì"],
+          "note": "Say them in threes: jī–zhī, qī–chī, xī–shī. The contrast is easier to feel than the sound is to produce in isolation."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {"type": "initial_discriminate", "count": 6}
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": ["jī", "zhī", "qī", "chī", "xī", "shī"]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "j q x: tongue flat and forward",
+            "zh ch sh r: tongue curled back",
+            "z c s: tongue tip at the teeth",
+            "鸡 jī and 知 zhī are different words"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-005",
+      "language": "zh",
+      "ordinal": 5,
+      "title": "Finals, and the ü that hides",
+      "title_native": "韵母",
+      "level": "pre-HSK1",
+      "est_minutes": 12,
+      "objectives": [
+        "Read the common finals accurately",
+        "Know when u is really ü"
+      ],
+      "prerequisites": ["zh-pinyin-004"],
+      "tags": ["finals"],
+      "introduces": {"finals": ["a", "o", "e", "i", "u", "ü", "ai", "ei", "ao", "ou", "an", "en", "ang", "eng", "ong"]},
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "The vowel part of the syllable",
+          "body": [
+            "Six simple vowels: a o e i u ü. Everything else is a combination of them.",
+            "a as in 'father'. o as in 'more'. e is the odd one — an unrounded sound made at the back of the mouth, like the 'u' in 'duh' held longer. i as in 'see'. u as in 'boot'.",
+            "ü has no English equivalent. Say 'ee' and then round your lips as if to whistle, without moving your tongue. That is ü."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The dots that disappear",
+          "body": [
+            "After j, q, x and y, the dots are dropped and ü is written as plain u — because those initials can never take a real u, so there is no ambiguity. ju is really jü. xue is really xüe. yu is really yü.",
+            "After n and l, both are possible, so the dots stay and matter: nǔ 努 is 'to exert' and nǚ 女 is 'woman'. lù 路 is 'road' and lǜ 绿 is 'green'.",
+            "There are only a handful of these pairs, but they are common words, so it is worth knowing the rule rather than guessing."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "pinyin_read", "pool": ["e", "ü", "ao", "ou", "ian", "üe", "ong", "er"], "count": 6}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "pinyin_build", "pool": ["nǚ", "lǜ", "jū", "qù", "xué", "yǔ", "hǎo", "gǒu"], "count": 6}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["nǔ", "nǚ", "lù", "lǜ", "qù", "xué"],
+          "note": "Lips rounded but tongue forward for every ü. If your tongue slides back you have said u."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {"type": "pinyin_build", "count": 5, "hints": false}
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Six vowels build every final",
+            "ü is 'ee' with rounded lips",
+            "After j q x y the dots vanish; after n and l they matter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-006",
+      "language": "zh",
+      "ordinal": 6,
+      "title": "-n and -ng: where the nasal ends",
+      "title_native": "前鼻音和后鼻音",
+      "level": "pre-HSK1",
+      "est_minutes": 10,
+      "objectives": [
+        "Distinguish -n from -ng by ear and in production"
+      ],
+      "prerequisites": ["zh-pinyin-005"],
+      "tags": ["finals", "difficult"],
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Two different endings, not one lazy one",
+          "body": [
+            "English ends words with -n and -ng too ('sin', 'sing'), so you have both sounds. The difficulty is that English lets you be sloppy and Mandarin does not.",
+            "-n: the tip of your tongue touches the ridge behind your top teeth. The sound stops at the front of your mouth.",
+            "-ng: the tongue tip stays down and the BACK of your tongue rises. The sound stays at the back and the vowel before it changes colour."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Real words, real confusion",
+          "body": [
+            "山 shān is 'mountain'. 商 shāng is 'commerce'.\n真 zhēn is 'real'. 正 zhèng is 'correct'.\n饭 fàn is 'rice, a meal'. 房 fáng is 'house'.",
+            "Listen for the vowel, not the ending. Speakers often barely release the final consonant, so what you actually hear is that 'an' is bright and forward while 'ang' is dark and open."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "confusion_drill", "confusion_id": "n_vs_ng", "count": 5}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "initial_discriminate", "pairs": [{"pair": ["an", "ang"], "why": "Tongue tip forward for -n; back of the tongue for -ng."}, {"pair": ["en", "eng"], "why": "Same contrast, different vowel."}, {"pair": ["in", "ing"], "why": "Same contrast again."}], "count": 6}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["shān", "shāng", "zhēn", "zhèng", "fàn", "fáng"],
+          "note": "Say each pair back to back. Put a finger lightly under your chin — for -ng you should feel the back of the tongue lift."
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "-n stops at the front, -ng at the back",
+            "The vowel changes colour, which is the easier cue",
+            "山 and 商 are one ending apart"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-007",
+      "language": "zh",
+      "ordinal": 7,
+      "title": "Tone pairs: tones in the wild",
+      "title_native": "声调组合",
+      "level": "pre-HSK1",
+      "est_minutes": 14,
+      "objectives": [
+        "Produce two-syllable words with the right tone contour",
+        "Stop resetting your pitch between syllables"
+      ],
+      "prerequisites": ["zh-pinyin-002"],
+      "tags": ["tones"],
+      "importance": "critical",
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Nobody speaks in single syllables",
+          "body": [
+            "You can produce four perfect isolated tones and still be unable to say 明天 (míngtiān, tomorrow). That is normal, and it is why isolated-tone drills are not enough.",
+            "In connected speech, tones flow into each other. The end of one tone is the starting height of the next, so the pair — not the syllable — is the unit worth practising.",
+            "There are twenty pairs (four tones times five, including neutral). Drilling all twenty is a finite, achievable job, and it is the single highest-value thing a beginner can do for their accent."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The hard ones",
+          "body": [
+            "2-1 and 2-2 are hard because a rising tone leaves your voice high, and you have to get back down to start the next one.",
+            "4-4 is hard because you have to fall twice, which means jumping back up in between without it sounding like a rising tone.",
+            "3-2 is hard because it involves a sandhi change, which the next lesson covers. For now: just copy what you hear."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "tone_pair", "difficulty": "easy", "count": 5}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "tone_pair", "difficulty": "hard", "count": 6}
+        },
+        {
+          "step": "hear",
+          "type": "generated",
+          "generator": {"type": "listen_choose", "pool": ["jīntiān", "míngtiān", "Běijīng", "zàijiàn", "péngyou", "lǎoshī"], "count": 6}
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {"type": "tone_pair", "count": 6}
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": ["jīntiān", "míngtiān", "Běijīng", "zàijiàn", "péngyou", "lǎoshī"]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "The tone pair is the real unit of practice",
+            "Twenty pairs, all learnable",
+            "2-1, 2-2, 4-4 and 3-2 need the most work"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-008",
+      "language": "zh",
+      "ordinal": 8,
+      "title": "When tones change: the third-tone rule",
+      "title_native": "变调",
+      "level": "pre-HSK1",
+      "est_minutes": 14,
+      "objectives": [
+        "Apply third-tone sandhi automatically",
+        "Understand that written tones and spoken tones can differ"
+      ],
+      "prerequisites": ["zh-pinyin-007"],
+      "tags": ["tones", "sandhi"],
+      "importance": "critical",
+      "is_gate": true,
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "你好 is not said the way it is written",
+          "body": [
+            "你 is nǐ, third tone. 好 is hǎo, third tone. Written together: nǐ hǎo, two third tones.",
+            "But nobody says it that way. It comes out as ní hǎo — the first one becomes a rising tone.",
+            "This is not sloppiness or an accent. It is a rule every speaker follows every time, and it has a reason: a third tone dips low, and you cannot sink twice in a row without room in between. So the first one gives up its dip and rises instead."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Two more changes worth knowing early",
+          "body": [
+            "不 bù drops to bú before a fourth tone: 不是 is bú shì, not bù shì. Everywhere else it stays bù.",
+            "一 yī changes twice: it becomes yì before tones 1, 2 and 3, and yí before tone 4. 一个 is yí gè. 一起 is yì qǐ. When it means the number itself — counting, or a date — it stays yī.",
+            "Everything else you write as written. These three rules cover essentially all of the tone change a beginner meets."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "tone_sandhi_predict", "count": 6, "hints": true}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "confusion_drill", "confusion_id": "tone_2_vs_3", "count": 4}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["nǐ hǎo", "hěn hǎo", "wǒ hěn hǎo", "bú shì", "yí gè", "yì qǐ"],
+          "note": "Say the spoken form, not the written one. If you are saying two low dips in a row, you are not saying 你好."
+        },
+        {
+          "step": "recall",
+          "type": "generated",
+          "generator": {"type": "tone_sandhi_predict", "count": 5, "hints": false}
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": ["nǐ hǎo", "wǒ hěn hǎo", "bú shì", "yí gè"]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "Third + third becomes rising + third",
+            "不 rises to bú before a fourth tone",
+            "一 shifts depending on what follows",
+            "The written tones stay written; only the saying changes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-009",
+      "language": "zh",
+      "ordinal": 9,
+      "title": "The neutral tone",
+      "title_native": "轻声",
+      "level": "pre-HSK1",
+      "est_minutes": 8,
+      "objectives": [
+        "Recognise the neutral tone as a real category",
+        "Say common neutral-tone words correctly"
+      ],
+      "prerequisites": ["zh-pinyin-008"],
+      "tags": ["tones"],
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Short, light, and no shape at all",
+          "body": [
+            "Some syllables have no tone. They are quick and light, and their pitch is decided by whatever came before.",
+            "妈妈 māma. 谢谢 xièxie. 朋友 péngyou. 我们 wǒmen. In each, the second syllable is neutral.",
+            "It is written with no mark. That is the mark."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "Where it turns up",
+          "body": [
+            "Grammatical particles are almost always neutral: 的 de, 了 le, 吗 ma, 呢 ne, 吧 ba.",
+            "So is the second half of a doubled family word (妈妈, 爸爸, 哥哥) and many common two-syllable nouns (东西 dōngxi, 意思 yìsi).",
+            "But it is not predictable from spelling, so it is learned word by word — which is why this app writes the tone the word actually has, rather than guessing. 中国 is Zhōngguó with a full second tone, even though 'guo' is neutral in other words."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "tone_pair", "pairs": ["1-5", "2-5", "3-5", "4-5"], "count": 6}
+        },
+        {
+          "step": "repeat",
+          "type": "pronounce",
+          "targets": ["māma", "bàba", "xièxie", "péngyou", "wǒmen", "dōngxi"],
+          "note": "The neutral syllable should be shorter and quieter than the one before it. If it takes the same amount of time, it is not neutral yet."
+        },
+        {
+          "step": "apply",
+          "type": "word_read",
+          "items": [
+            {"term": "谢谢", "meaning": "thank you", "pronounced": "xièxie"},
+            {"term": "朋友", "meaning": "friend", "pronounced": "péngyou"},
+            {"term": "我们", "meaning": "we, us", "pronounced": "wǒmen"},
+            {"term": "东西", "meaning": "thing", "pronounced": "dōngxi"}
+          ]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "No mark means neutral, not missing",
+            "Particles are almost always neutral",
+            "Which words take it is learned, not derived"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zh-pinyin-010",
+      "language": "zh",
+      "ordinal": 10,
+      "title": "Your first real sentences",
+      "title_native": "第一句话",
+      "level": "pre-HSK1",
+      "est_minutes": 12,
+      "objectives": [
+        "Greet someone and say your name",
+        "Read your first characters alongside their pinyin"
+      ],
+      "prerequisites": ["zh-pinyin-009"],
+      "tags": ["speaking", "first-words"],
+      "steps": [
+        {
+          "step": "learn",
+          "type": "reading",
+          "heading": "Everything you need for a first conversation",
+          "body": [
+            "你好 nǐ hǎo — hello. Literally 'you good'. Said ní hǎo.\n我叫… wǒ jiào… — I'm called…\n你叫什么名字? nǐ jiào shénme míngzi? — what's your name?\n谢谢 xièxie — thank you.\n再见 zàijiàn — goodbye. Literally 'again see'.",
+            "You now have enough to open and close a conversation with a stranger, which is more than most learners can do after a month of tone drills alone."
+          ]
+        },
+        {
+          "step": "understand",
+          "type": "reading",
+          "heading": "The characters, gently",
+          "body": [
+            "You are not learning to write characters yet. But it is worth seeing them next to the pinyin from the very beginning, so your brain starts pairing them up on its own.",
+            "你 you · 好 good · 我 I · 叫 to be called · 谢 thanks · 再 again · 见 to see.",
+            "Seven characters. Notice 你 and 好 both contain a shape on the left that gets reused everywhere — characters are built from parts, and that is what makes learning three thousand of them possible."
+          ]
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "hanzi_recognise", "count": 6}
+        },
+        {
+          "step": "practice",
+          "type": "generated",
+          "generator": {"type": "pinyin_type", "count": 5}
+        },
+        {
+          "step": "produce",
+          "type": "generated",
+          "generator": {
+            "type": "concept_to_target",
+            "prompts": [
+              {"situation": "You meet someone for the first time. Greet them.", "target": "你好", "note": "Said ní hǎo — third-tone sandhi."},
+              {"situation": "Tell them your name is Li.", "target": "我叫李", "note": "我叫 + name. No verb 'to be' needed."},
+              {"situation": "Ask what their name is.", "target": "你叫什么名字", "note": "The question word stays where the answer goes — no fronting."},
+              {"situation": "They help you. Thank them.", "target": "谢谢", "note": "Second syllable neutral."},
+              {"situation": "You are leaving. Say goodbye.", "target": "再见", "note": "Literally 'again see'."}
+            ]
+          }
+        },
+        {
+          "step": "repeat",
+          "type": "read_aloud",
+          "items": ["你好", "我叫李", "你叫什么名字", "谢谢", "再见"],
+          "note": "Read the characters, not the pinyin, if you can. Glance across only when you get stuck."
+        },
+        {
+          "step": "review",
+          "type": "srs_enqueue",
+          "items": ["你好", "我叫", "什么", "名字", "谢谢", "再见"]
+        },
+        {
+          "step": "summary",
+          "type": "summary",
+          "points": [
+            "You can open and close a conversation",
+            "你好 is written 3-3 and said 2-3",
+            "Characters are built from repeating parts",
+            "Next: characters, measure words, and 了"
+          ]
+        }
+      ]
+    }
+  ]
+}
