@@ -14,6 +14,7 @@ import { Loading } from "./components/ui";
 import { useApp } from "./lib/app-context";
 
 import Dashboard from "./pages/Dashboard";
+import Session from "./pages/Session";
 import Onboarding from "./pages/Onboarding";
 import Placement from "./pages/Placement";
 import Lessons from "./pages/Lessons";
@@ -26,6 +27,7 @@ import Grammar from "./pages/Grammar";
 import Pronunciation from "./pages/Pronunciation";
 import Conjugation from "./pages/Conjugation";
 import Mistakes from "./pages/Mistakes";
+import Remediation from "./pages/Remediation";
 import Tutor from "./pages/Tutor";
 import Search from "./pages/Search";
 import Progress from "./pages/Progress";
@@ -79,6 +81,7 @@ python3 -m uvicorn app.main:app --port 8756`}
     <Shell>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/session" element={<Session />} />
         <Route path="/learn" element={<Lessons />} />
         <Route path="/learn/:lessonId" element={<LessonPlayer />} />
         <Route path="/review" element={<Review />} />
@@ -90,6 +93,7 @@ python3 -m uvicorn app.main:app --port 8756`}
         <Route path="/pronunciation" element={<Pronunciation />} />
         <Route path="/conjugation" element={<Conjugation />} />
         <Route path="/mistakes" element={<Mistakes />} />
+        <Route path="/fix/:pointId" element={<Remediation />} />
         <Route path="/tutor" element={<Tutor />} />
         <Route path="/search" element={<Search />} />
         <Route path="/progress" element={<Progress />} />

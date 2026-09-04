@@ -86,10 +86,12 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    from .api import ai, content, data, languages, learner, progress, speech, study
+    from .api import (ai, content, data, languages, learner, progress,
+                      remediation, speech, study)
 
     for router in (languages.router, learner.router, content.router, study.router,
-                   progress.router, ai.router, data.router, speech.router):
+                   progress.router, remediation.router, ai.router, data.router,
+                   speech.router):
         app.include_router(router, prefix="/api")
 
     @app.get("/api/health")

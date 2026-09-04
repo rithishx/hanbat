@@ -35,7 +35,7 @@ from typing import Any, Iterable, Iterator, Optional
 
 from .config import DB_PATH
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 4
 
 _local = threading.local()
 
@@ -187,6 +187,31 @@ CREATE TABLE IF NOT EXISTS exercise (
 CREATE INDEX IF NOT EXISTS idx_exercise_lesson ON exercise(language, lesson_id, step);
 CREATE INDEX IF NOT EXISTS idx_exercise_skill  ON exercise(language, skill, level);
 
+-- Real sentences, so vocabulary and grammar can be practised in context
+-- rather than only as isolated flashcards. A sentence knows which words and
+-- which grammar points it uses, which is what lets a drill be built around a
+-- point the learner has just met — or just got wrong.
+CREATE TABLE IF NOT EXISTS sentence (
+    id           TEXT PRIMARY KEY,
+    language     TEXT NOT NULL,
+    target       TEXT NOT NULL,
+    english      TEXT NOT NULL DEFAULT '',
+    transliteration TEXT NOT NULL DEFAULT '',
+    pronunciation TEXT NOT NULL DEFAULT '',
+    level        TEXT NOT NULL DEFAULT '',
+    topic        TEXT NOT NULL DEFAULT '',
+    register     TEXT NOT NULL DEFAULT 'neutral',
+    vocab_ids    TEXT NOT NULL DEFAULT '[]',
+    grammar_ids  TEXT NOT NULL DEFAULT '[]',
+    chunks       TEXT NOT NULL DEFAULT '[]',
+    blanks       TEXT NOT NULL DEFAULT '[]',
+    transforms   TEXT NOT NULL DEFAULT '[]',
+    note         TEXT NOT NULL DEFAULT '',
+    audio_id     TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS idx_sentence_lang  ON sentence(language, level);
+CREATE INDEX IF NOT EXISTS idx_sentence_topic ON sentence(language, topic);
+
 CREATE TABLE IF NOT EXISTS scenario (
     id          TEXT PRIMARY KEY,
     language    TEXT NOT NULL,
@@ -315,9 +340,23 @@ CREATE TABLE IF NOT EXISTS mistake (
     confusion_id TEXT    NOT NULL DEFAULT '',
     lesson_id    TEXT    NOT NULL DEFAULT '',
     resolved     INTEGER NOT NULL DEFAULT 0,
-    times_seen   INTEGER NOT NULL DEFAULT 1
+    times_seen   INTEGER NOT NULL DEFAULT 1,
+    -- Why the answer was wrong, not which skill it happened in. See
+    -- engines/diagnosis.py. `category` is kept as the skill for continuity.
+    reason       TEXT    NOT NULL DEFAULT '',
+    reason_why   TEXT    NOT NULL DEFAULT '',
+    confidence   REAL    NOT NULL DEFAULT 0,
+    response_ms  INTEGER NOT NULL DEFAULT 0,
+    -- The specific point this mistake is about — one pronunciation rule, one
+    -- grammar point, one confusion — as `kind:id`. Empty when the evidence did
+    -- not isolate one, which is common and is not papered over. See
+    -- engines/remediation.py.
+    focus        TEXT    NOT NULL DEFAULT '',
+    focus_why    TEXT    NOT NULL DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS idx_mistake_learner ON mistake(learner_id, language, resolved, at);
+CREATE INDEX IF NOT EXISTS idx_mistake_reason  ON mistake(learner_id, language, reason, resolved);
+CREATE INDEX IF NOT EXISTS idx_mistake_focus   ON mistake(learner_id, language, focus, resolved);
 
 CREATE TABLE IF NOT EXISTS study_session (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -450,6 +489,23 @@ def get_connection() -> sqlite3.Connection:
     return conn
 
 
+def close_all() -> None:
+    """Drop this thread's cached connection.
+
+    Needed before the database file is replaced under a running server — a
+    connection left open on the old file keeps reading it, and on some
+    platforms holds a lock that stops the replacement outright. Other threads
+    reopen lazily on their next call, so this is safe to call at any time.
+    """
+    conn = getattr(_local, "conn", None)
+    if conn is not None:
+        try:
+            conn.close()
+        except Exception:                   # already closed, or mid-statement
+            pass
+        _local.conn = None
+
+
 @contextmanager
 def transaction(conn: Optional[sqlite3.Connection] = None) -> Iterator[sqlite3.Connection]:
     conn = conn or get_connection()
@@ -471,6 +527,15 @@ def init_db(
     A fresh database gets SCHEMA directly and is stamped at the current
     version. An existing one is handed to the migration runner, which backs it
     up first and refuses to finish if learner rows went missing.
+
+    SCHEMA is then applied on *every* start, not only after a migration. It is
+    all `CREATE TABLE IF NOT EXISTS`, so it is idempotent and cheap, and it
+    means adding a new **content** table needs no migration at all — content
+    tables are a rebuildable cache of the JSON files, so creating an empty one
+    and reloading is the whole job. Only changes to **learner** tables, which
+    hold data that exists nowhere else, need a version bump and a migration.
+    Before this ran unconditionally, a database already at the current version
+    never saw a newly added table and the loader failed on first use.
     """
     from . import migrations
 
@@ -494,9 +559,9 @@ def init_db(
         if verbose and result["migrated"]:
             print(f"  migrated {result['from']} -> {result['to']}; "
                   f"backup at {result['backup']}")
-        # Pick up any tables added since the migration was written.
-        conn.executescript(SCHEMA)
-        conn.commit()
+
+    conn.executescript(SCHEMA)
+    conn.commit()
     return conn
 
 

@@ -16,15 +16,17 @@
  * A wrong answer is never a dead end. The right answer is shown with the
  * reason, and the item goes back into the queue.
  *
- * Speaking exercises are self-assessed and say so. There is no scoring engine
- * configured, and inventing a percentage would be a lie the learner would
- * believe.
+ * Speaking exercises are self-assessed unless a local speech engine is
+ * installed, and the panel says which. Inventing a percentage would be a lie
+ * the learner would believe.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { api } from "../lib/api";
 import { useApp } from "../lib/app-context";
+import { useAsync } from "../lib/hooks";
 import { Recorder, recordingAvailable, scoreRecording } from "../lib/speech";
-import type { Exercise } from "../lib/types";
+import type { Diagnosis, Exercise } from "../lib/types";
 import { AudioButton, Target } from "./ui";
 
 export type Verdict = "correct" | "wrong" | "self";
@@ -33,19 +35,29 @@ interface Props {
   exercise: Exercise;
   index: number;
   total: number;
-  onAnswered(verdict: Verdict, given: string): void;
+  /** `meta` carries the evidence the careless-slip check needs: how long the
+   *  learner took, and whether they were choosing from a list (a wrong pick
+   *  is a decision, never a typo). */
+  onAnswered(
+    verdict: Verdict,
+    given: string,
+    meta: { responseMs: number; hadOptions: boolean },
+  ): void;
   onNext(): void;
 }
 
 const SPEAKING = new Set(["pronounce", "read_aloud", "tone_pair", "repeat_then_produce"]);
 const WRITING_PRACTICE = new Set(["trace"]);
 
-export function ExerciseCard({ exercise, index, total, onAnswered, onNext }: Props) {
+export function ExerciseCard({
+  exercise, index, total, onAnswered, onNext, diagnosis,
+}: Props & { diagnosis?: Diagnosis | null }) {
   const { lang, settings } = useApp();
   const [given, setGiven] = useState("");
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [revealed, setRevealed] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const shownAt = useRef(Date.now());
 
   const answer = String(exercise.answer ?? "");
   const chunks = (exercise.options ?? []).length > 0 && exercise.kind === "word_order";
@@ -57,6 +69,7 @@ export function ExerciseCard({ exercise, index, total, onAnswered, onNext }: Pro
     setGiven("");
     setVerdict(null);
     setRevealed(false);
+    shownAt.current = Date.now();
     inputRef.current?.focus();
   }, [exercise]);
 
@@ -64,7 +77,10 @@ export function ExerciseCard({ exercise, index, total, onAnswered, onNext }: Pro
     if (verdict) return;
     setVerdict(v);
     setGiven(value);
-    onAnswered(v, value);
+    onAnswered(v, value, {
+      responseMs: Date.now() - shownAt.current,
+      hadOptions: (exercise.options?.length ?? 0) > 1,
+    });
   };
 
   const check = (value: string) => {
@@ -169,6 +185,7 @@ export function ExerciseCard({ exercise, index, total, onAnswered, onNext }: Pro
           explain={exercise.explain}
           data={exercise.data}
           lang={lang}
+          diagnosis={diagnosis}
           onNext={onNext}
         />
       )}
@@ -244,6 +261,7 @@ function Feedback({
   explain,
   data,
   lang,
+  diagnosis,
   onNext,
 }: {
   verdict: Verdict;
@@ -252,6 +270,7 @@ function Feedback({
   explain: string;
   data: Record<string, unknown>;
   lang: string;
+  diagnosis?: Diagnosis | null;
   onNext: () => void;
 }) {
   const written = data?.written as string | undefined;
@@ -271,9 +290,28 @@ function Feedback({
     >
       <p className="mb-2 font-semibold">
         {verdict === "correct" && <span className="text-good">Correct</span>}
-        {verdict === "wrong" && <span className="text-bad">Not quite</span>}
+        {verdict === "wrong" && (
+          <span className={diagnosis?.reason === "careless" ? "text-warn" : "text-bad"}>
+            {diagnosis?.reason === "careless" ? "You knew this one" : "Not quite"}
+          </span>
+        )}
         {verdict === "self" && <span>Marked as practised</span>}
       </p>
+
+      {/* Why it was wrong, not only that it was. A slip on something already
+          known is named as a slip and, deliberately, does not count against
+          the learner in the adaptive model. */}
+      {verdict === "wrong" && diagnosis && (
+        <p className="mb-2 rounded-xl bg-raised/70 p-3 text-sm">
+          <span className="label mr-2">{diagnosis.name}</span>
+          {diagnosis.because}
+          {!diagnosis.counts_as_weakness && (
+            <span className="mt-1 block text-xs text-faint">
+              Not counted as a weakness — you do not need this retaught.
+            </span>
+          )}
+        </p>
+      )}
 
       {verdict === "wrong" && (
         <p className="mb-2 text-sm">
@@ -382,7 +420,11 @@ function SpeakingPanel({
   const [state, setState] = useState<"idle" | "recording" | "done">("idle");
   const [clip, setClip] = useState<string | null>(null);
   const [error, setError] = useState("");
-  const scoring = scoreRecording();
+  // Asks the same question the pronunciation lab asks, of the same source. A
+  // learner who has installed whisper should not be told scoring is impossible
+  // just because they are on a lesson screen rather than the lab.
+  const capabilities = useAsync(() => api.speechCapabilities(lang), [lang]);
+  const scoring = scoreRecording(capabilities.data?.stt.scoring_available);
 
   return (
     <div>

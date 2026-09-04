@@ -1,0 +1,469 @@
+{
+  "language": "ko",
+  "note": "Sentences, not word pairs. Each carries the vocabulary and grammar ids it uses, so a drill can be built around the exact point a learner just got wrong. Pronunciation is derived at load time from the phonology engine, never authored.",
+  "sentences": [
+    {
+      "id": "ko-s-0001",
+      "target": "저는 학생이에요.",
+      "english": "I am a student.",
+      "level": "A1",
+      "topic": "introductions",
+      "vocab": [
+        "ko-v-0010"
+      ],
+      "grammar": [
+        "ko-g-001",
+        "ko-g-002"
+      ],
+      "chunks": [
+        "저는",
+        "학생",
+        "이에요"
+      ],
+      "blanks": [
+        {
+          "answer": "이에요",
+          "options": [
+            "이에요",
+            "예요",
+            "이예요"
+          ],
+          "why": "학생 ends in the consonant ㅇ, so it takes 이에요. A word ending in a vowel would take 예요."
+        },
+        {
+          "answer": "저는",
+          "options": [
+            "저는",
+            "저가",
+            "제가"
+          ],
+          "why": "Introducing yourself sets a topic, which is 은/는. 제가 would answer the question 'who?'."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "formal (합니다체)",
+          "answer": "저는 학생입니다.",
+          "why": "이에요 → 입니다. Same meaning, used in presentations, announcements and to customers."
+        },
+        {
+          "to": "a question",
+          "answer": "학생이에요?",
+          "why": "Korean asks by raising the intonation. Nothing moves."
+        }
+      ],
+      "note": "저 is the humble 'I'. 나 is the casual one and would be rude here."
+    },
+    {
+      "id": "ko-s-0002",
+      "target": "이것은 책이에요.",
+      "english": "This is a book.",
+      "level": "A1",
+      "topic": "objects",
+      "vocab": [
+        "ko-v-0113"
+      ],
+      "grammar": [
+        "ko-g-001"
+      ],
+      "chunks": [
+        "이것은",
+        "책",
+        "이에요"
+      ],
+      "blanks": [
+        {
+          "answer": "이에요",
+          "options": [
+            "이에요",
+            "예요"
+          ],
+          "why": "책 ends in ㄱ — a consonant — so 이에요."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "negative",
+          "answer": "이것은 책이 아니에요.",
+          "why": "The negative of 이에요 is 이/가 아니에요, and the noun takes 이/가 rather than staying bare."
+        }
+      ],
+      "note": "이것 is 'this thing'. In speech it usually shortens to 이거."
+    },
+    {
+      "id": "ko-s-0003",
+      "target": "저는 한국어를 공부해요.",
+      "english": "I study Korean.",
+      "level": "A1",
+      "topic": "study",
+      "vocab": [],
+      "grammar": [
+        "ko-g-002",
+        "ko-g-004"
+      ],
+      "chunks": [
+        "저는",
+        "한국어를",
+        "공부해요"
+      ],
+      "blanks": [
+        {
+          "answer": "를",
+          "options": [
+            "를",
+            "을",
+            "가",
+            "는"
+          ],
+          "why": "한국어 ends in a vowel, so the object particle is 를. A consonant ending would take 을."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "past",
+          "answer": "저는 한국어를 공부했어요.",
+          "why": "해요 → 했어요. 하다 verbs are regular in the past."
+        },
+        {
+          "to": "negative",
+          "answer": "저는 한국어를 공부 안 해요.",
+          "why": "공부하다 splits: 안 goes between 공부 and 해요, not in front of the whole thing."
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "ko-s-0004",
+      "target": "밥을 먹어요.",
+      "english": "I'm eating.",
+      "level": "A1",
+      "topic": "food",
+      "vocab": [
+        "ko-v-0302"
+      ],
+      "grammar": [
+        "ko-g-004"
+      ],
+      "chunks": [
+        "밥을",
+        "먹어요"
+      ],
+      "blanks": [
+        {
+          "answer": "을",
+          "options": [
+            "을",
+            "를"
+          ],
+          "why": "밥 ends in ㅂ, so 을."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "past",
+          "answer": "밥을 먹었어요.",
+          "why": "먹어요 → 먹었어요."
+        },
+        {
+          "to": "want to",
+          "answer": "밥을 먹고 싶어요.",
+          "why": "-고 싶다 attaches to the plain stem: 먹 + 고 싶어요."
+        },
+        {
+          "to": "formal",
+          "answer": "밥을 먹습니다.",
+          "why": "The stem ends in a consonant, so -습니다 rather than -ㅂ니다."
+        }
+      ],
+      "note": "밥 is literally cooked rice and colloquially 'a meal'."
+    },
+    {
+      "id": "ko-s-0005",
+      "target": "물 좀 주세요.",
+      "english": "Some water, please.",
+      "level": "A1",
+      "topic": "restaurant",
+      "vocab": [
+        "ko-v-0082"
+      ],
+      "grammar": [],
+      "chunks": [
+        "물",
+        "좀",
+        "주세요"
+      ],
+      "blanks": [
+        {
+          "answer": "주세요",
+          "options": [
+            "주세요",
+            "줘요",
+            "줍니다"
+          ],
+          "why": "주세요 is the standard polite request. 줘요 is casual and 줍니다 is a statement, not a request."
+        }
+      ],
+      "transforms": [],
+      "note": "좀 softens a request. Leaving it out is not rude, but adding it is how people actually speak."
+    },
+    {
+      "id": "ko-s-0006",
+      "target": "학교에 가요.",
+      "english": "I'm going to school.",
+      "level": "A1",
+      "topic": "places",
+      "vocab": [
+        "ko-v-0110"
+      ],
+      "grammar": [
+        "ko-g-005"
+      ],
+      "chunks": [
+        "학교에",
+        "가요"
+      ],
+      "blanks": [
+        {
+          "answer": "에",
+          "options": [
+            "에",
+            "에서",
+            "을"
+          ],
+          "why": "에 marks where you are going. 에서 would mark where something happens — 학교에서 공부해요."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "past",
+          "answer": "학교에 갔어요.",
+          "why": "가 + 았어요 contracts to 갔어요."
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "ko-s-0007",
+      "target": "학교에서 공부해요.",
+      "english": "I study at school.",
+      "level": "A1",
+      "topic": "places",
+      "vocab": [
+        "ko-v-0110"
+      ],
+      "grammar": [
+        "ko-g-005"
+      ],
+      "chunks": [
+        "학교에서",
+        "공부해요"
+      ],
+      "blanks": [
+        {
+          "answer": "에서",
+          "options": [
+            "에서",
+            "에"
+          ],
+          "why": "The studying happens at school, so 에서. 에 would mean you are going there."
+        }
+      ],
+      "transforms": [],
+      "note": "에 versus 에서 is the single most useful place distinction in Korean: destination against location of an action."
+    },
+    {
+      "id": "ko-s-0008",
+      "target": "오늘 날씨가 좋아요.",
+      "english": "The weather is nice today.",
+      "level": "A1",
+      "topic": "weather",
+      "vocab": [
+        "ko-v-0180"
+      ],
+      "grammar": [
+        "ko-g-003"
+      ],
+      "chunks": [
+        "오늘",
+        "날씨가",
+        "좋아요"
+      ],
+      "blanks": [
+        {
+          "answer": "가",
+          "options": [
+            "가",
+            "이",
+            "는"
+          ],
+          "why": "날씨 ends in a vowel, so the subject particle is 가."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "past",
+          "answer": "오늘 날씨가 좋았어요.",
+          "why": "좋 + 았어요. The stem vowel ㅗ is bright, so 아."
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "ko-s-0009",
+      "target": "저는 커피를 안 마셔요.",
+      "english": "I don't drink coffee.",
+      "level": "A1",
+      "topic": "food",
+      "vocab": [
+        "ko-v-0090"
+      ],
+      "grammar": [
+        "ko-g-004"
+      ],
+      "chunks": [
+        "저는",
+        "커피를",
+        "안",
+        "마셔요"
+      ],
+      "blanks": [
+        {
+          "answer": "안",
+          "options": [
+            "안",
+            "못",
+            "아니"
+          ],
+          "why": "안 is 'don't', a choice. 못 would be 'can't' — something is stopping you."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "can't",
+          "answer": "저는 커피를 못 마셔요.",
+          "why": "못 replaces 안 when you are unable rather than unwilling."
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "ko-s-0010",
+      "target": "이거 얼마예요?",
+      "english": "How much is this?",
+      "level": "A1",
+      "topic": "shopping",
+      "vocab": [],
+      "grammar": [
+        "ko-g-001"
+      ],
+      "chunks": [
+        "이거",
+        "얼마",
+        "예요"
+      ],
+      "blanks": [
+        {
+          "answer": "예요",
+          "options": [
+            "예요",
+            "이에요"
+          ],
+          "why": "얼마 ends in the vowel ㅏ, so 예요."
+        }
+      ],
+      "transforms": [],
+      "note": "The single most useful sentence in any shop or market."
+    },
+    {
+      "id": "ko-s-0011",
+      "target": "친구를 만나러 가요.",
+      "english": "I'm going to meet a friend.",
+      "level": "A2",
+      "topic": "people",
+      "vocab": [
+        "ko-v-0008"
+      ],
+      "grammar": [],
+      "chunks": [
+        "친구를",
+        "만나러",
+        "가요"
+      ],
+      "blanks": [
+        {
+          "answer": "만나러",
+          "options": [
+            "만나러",
+            "만나서",
+            "만나고"
+          ],
+          "why": "-(으)러 means 'in order to', and only works with a movement verb after it. -아서 would mean 'and then'."
+        }
+      ],
+      "transforms": [
+        {
+          "to": "past",
+          "answer": "친구를 만나러 갔어요.",
+          "why": "Only the final verb changes. -러 never conjugates."
+        }
+      ],
+      "note": "만나다 takes 를, unlike English 'meet with'."
+    },
+    {
+      "id": "ko-s-0012",
+      "target": "한국 음식을 먹어 봤어요?",
+      "english": "Have you tried Korean food?",
+      "level": "A2",
+      "topic": "food",
+      "vocab": [],
+      "grammar": [],
+      "chunks": [
+        "한국",
+        "음식을",
+        "먹어",
+        "봤어요"
+      ],
+      "blanks": [
+        {
+          "answer": "봤어요",
+          "options": [
+            "봤어요",
+            "밨어요",
+            "했어요"
+          ],
+          "why": "-아/어 보다 is 'try doing'. In the past it becomes 봤어요, and it is the normal way to ask about experience."
+        }
+      ],
+      "transforms": [],
+      "note": ""
+    },
+    {
+      "id": "ko-s-0013",
+      "target": "시간이 없어서 못 갔어요.",
+      "english": "I couldn't go because I didn't have time.",
+      "level": "A2",
+      "topic": "time",
+      "vocab": [],
+      "grammar": [],
+      "chunks": [
+        "시간이",
+        "없어서",
+        "못",
+        "갔어요"
+      ],
+      "blanks": [
+        {
+          "answer": "없어서",
+          "options": [
+            "없어서",
+            "없으니까",
+            "없지만"
+          ],
+          "why": "-아/어서 gives a reason and cannot be used with a command. -(으)니까 also gives a reason and can."
+        }
+      ],
+      "transforms": [],
+      "note": "Note that only the final verb carries the past tense. 없어서 stays in its plain form — Korean marks tense once, at the end."
+    }
+  ]
+}

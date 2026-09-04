@@ -296,3 +296,93 @@ def reload_content(spec: Lang) -> dict:
     report = loader.load_language(spec.code, conn)
     loader.rebuild_search_index(conn, spec.code)
     return report.to_dict()
+
+
+# ==========================================================================
+# The pronunciation lab
+# ==========================================================================
+
+@router.get("/pronunciation/lab")
+def pronunciation_lab(spec: UsableLang) -> dict:
+    """Everything this language's pronunciation engine knows, browsable.
+
+    The three languages fill this with genuinely different material — Korean
+    with sound-change rules, Japanese with timing rules, Mandarin with tone
+    changes — and the lab renders all three the same way because the *shape* is
+    shared even though the content is not. Each rule carries the plain-words
+    explanation first and the terminology behind it, and every worked example
+    is computed by the engine at request time rather than authored, so the lab
+    cannot drift out of step with the rules it documents.
+    """
+    try:
+        engine = spec.pronunciation
+    except ModuleNotFoundError:
+        raise HTTPException(409, f"{spec.code} has no pronunciation engine yet")
+
+    rules = engine.rules() if hasattr(engine, "rules") else []
+    minimal_pairs = (engine.minimal_pairs()
+                     if hasattr(engine, "minimal_pairs") else [])
+
+    out = {
+        "language": spec.code,
+        "name": getattr(engine, "name", ""),
+        # Korean derives pronunciation from rules; Japanese cannot, because
+        # kanji readings are lexical. Saying which is the difference between
+        # "the app computed this" and "someone typed this in".
+        "rule_derived": bool(getattr(engine, "is_rule_derived", False)),
+        "rules": rules,
+        "difficulties": engine.difficulty_points(),
+        "minimal_pairs": minimal_pairs,
+        "note": _lab_note(spec.code, rules, minimal_pairs),
+    }
+
+    # An optional extra section, present only for a language whose engine has
+    # something real to put in it. Korean and Mandarin have no pitch accent, so
+    # the key is absent for them and the page renders one section fewer —
+    # rather than an empty panel explaining what the language does not have.
+    if hasattr(engine, "pitch_accent"):
+        out["pitch_accent"] = engine.pitch_accent()
+    return out
+
+
+def _lab_note(code: str, rules: list, pairs: list) -> str:
+    if not rules:
+        return ("This language's pronunciation engine does not publish a rule "
+                "index yet. The explanations on individual words still work.")
+    return (f"{len(rules)} rules, each with a worked example checked against "
+            f"the engine when this page was built. If an example ever "
+            f"contradicts the rule it illustrates, it is marked rather than "
+            f"hidden.")
+
+
+@router.get("/pronunciation/drill")
+def pronunciation_drill(spec: UsableLang, rule: str) -> dict:
+    """The examples for one rule, ready to practise.
+
+    Answers the question a rule index always raises next: "fine, let me try
+    it." The examples come from the rule itself, so a learner drills the exact
+    thing they just read about.
+    """
+    try:
+        engine = spec.pronunciation
+    except ModuleNotFoundError:
+        raise HTTPException(409, f"{spec.code} has no pronunciation engine yet")
+    if not hasattr(engine, "rules"):
+        raise HTTPException(409, f"{spec.code} publishes no rule index")
+
+    found = next((r for r in engine.rules() if r["id"] == rule), None)
+    if found is None:
+        raise HTTPException(404, f"no pronunciation rule {rule!r} in {spec.code}")
+
+    items = []
+    for ex in found["examples"]:
+        detail = {}
+        try:
+            detail = engine.explain(ex["written"], hints=ex.get("hints") or None)
+        except TypeError:
+            detail = engine.explain(ex["written"])
+        except Exception:
+            detail = {}
+        items.append({**ex, "explained": detail})
+
+    return {"language": spec.code, "rule": found, "items": items}

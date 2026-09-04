@@ -229,6 +229,17 @@ CLUSTER_TENSING = frozenset({"ㄼ", "ㄽ", "ㄾ", "ㅀ", "ㄺ", "ㄵ", "ㄻ"})
 #: Syllables where ㄼ exceptionally keeps ㅂ instead of ㄹ.
 BALP_EXCEPTIONS = frozenset({"밟"})
 
+#: 표준 발음법 §24 다만 — the causative/passive suffix -기- does **not** tense.
+#: 옮기다 is [옴기다], not [옴끼다]; 굶기다 is [굼기다]. The plain ㄴ/ㅁ cases the
+#: standard also lists (안기다, 감기다) need no entry here, because tensification
+#: after an un-reduced sonorant coda is already hint-gated and does not fire.
+#:
+#: The suffix is told from an ending by its vowel: it surfaces as 기, 겨 or 겼,
+#: whereas the endings that *do* tense are 고, 게, 거. So 옮기다 → [옴기다] and
+#: 옮고 → [옴꼬], which is exactly what the standard prescribes.
+CAUSATIVE_GI_STEMS = frozenset({"옮", "굶"})
+CAUSATIVE_GI_VOWELS = frozenset({"ㅣ", "ㅕ"})
+
 #: 표준 발음법 §11 붙임 restricts "ㄺ → [ㄹ] before ㄱ" to *verb and adjective
 #: stems*: 읽고 → [일꼬] but 닭고기 → [닥꼬기]. The class of ㄺ-final stems is
 #: closed, so listing it is exact rather than a heuristic.
@@ -371,6 +382,19 @@ class _Cell:
 
 def _render(cells: list[_Cell]) -> str:
     return "".join(c.render() for c in cells)
+
+
+def _is_causative_gi(cur: "_Cell", nxt: "_Cell") -> bool:
+    """Is this the -기- the standard exempts from tensification?
+
+    Reconstructs the written syllable from what the cell still holds plus the
+    cluster it was reduced from, because by this pass 옮 is already 옴 and the
+    exception is defined on the spelling.
+    """
+    if nxt.initial != "ㄱ" or nxt.medial not in CAUSATIVE_GI_VOWELS:
+        return False
+    original = compose(cur.initial, cur.medial, cur.cluster_origin)
+    return original in CAUSATIVE_GI_STEMS
 
 
 def _window(cells: list[_Cell], i: int) -> str:
@@ -593,6 +617,8 @@ def pronounce(
         # 넓다 → [널따], 앉다 → [안따]: a reduced cluster still tenses even
         # though the segment left behind is a sonorant.
         if cur.cluster_origin in CLUSTER_TENSING:
+            if _is_causative_gi(cur, nxt):
+                continue
             before = _window(cells, i)
             nxt.initial = TENSE_OF[nxt.initial]
             note("tensification", i, before, cells)

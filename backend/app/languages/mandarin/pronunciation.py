@@ -136,4 +136,67 @@ class MandarinPronunciation:
         ]
 
 
+    #: Which pinyin actually triggers each rule, and why it matters. The spoken
+    #: form is computed by `apply_sandhi` when the index is built, never written
+    #: here — the same guarantee Korean's rule index gives.
+    RULE_EXAMPLES: dict[str, list[tuple[str, str, dict]]] = {
+        "third_tone_sandhi": [
+            ("nǐ hǎo", "The first word you learn, and it is not said as written.", {}),
+            ("wǒ hěn hǎo", "Left to right against the underlying tones: 2-2-3, "
+                           "not 3-2-3.", {}),
+        ],
+        "half_third": [
+            ("hǎo chī", "A third tone before any other tone only dips; it never "
+                        "rises back up. The textbook rise happens only when the "
+                        "syllable stands alone.", {}),
+        ],
+        "bu_sandhi": [
+            ("bù shì", "不 rises to bú before a fourth tone.", {}),
+            ("bù hǎo", "And stays bù before everything else.", {}),
+        ],
+        "yi_sandhi": [
+            ("yī gè", "一 falls to yí before a fourth tone.", {}),
+            ("yī qǐ", "And rises to yì before the others.", {}),
+            ("yī", "Counting, or as an ordinal, it does not change at all.",
+             {"yi_is_ordinal": True}),
+        ],
+        "neutral_tone": [
+            ("xièxie", "The second syllable carries no tone at all — that is "
+                       "what the missing mark means.", {}),
+        ],
+    }
+
+    def rules(self) -> list[dict]:
+        """Tone-change rules, with every example run through the engine.
+
+        `verified` says whether the example actually triggered the rule it
+        illustrates. Two of them deliberately do not — bù hǎo and the ordinal
+        一 are there to show where the rule *stops*, which is the half of a
+        rule learners are never taught.
+        """
+        out = []
+        for rule_id, info in T.RULES.items():
+            examples = []
+            for text, note, hints in self.RULE_EXAMPLES.get(rule_id, []):
+                res = T.apply_sandhi(text, hints=hints or None)
+                fired = any(c.rule == rule_id for c in res.changes)
+                examples.append({
+                    "written": res.written,
+                    "spoken": res.spoken,
+                    "note": note,
+                    "changed": res.changed,
+                    "verified": fired,
+                    "shows_the_limit": not fired,
+                })
+            out.append({
+                "id": rule_id,
+                "name": info.get("en", rule_id),
+                "native_name": info.get("zh", ""),
+                "simple": info.get("simple", ""),
+                "technical": info.get("technical", ""),
+                "examples": examples,
+            })
+        return out
+
+
 ENGINE = MandarinPronunciation()

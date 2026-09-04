@@ -159,7 +159,7 @@ export default function LessonPlayer() {
           exercise={screen.exercises[itemIndex]}
           index={itemIndex}
           total={screen.exercises.length}
-          onAnswered={(v: Verdict, given) => {
+          onAnswered={(v: Verdict, given, meta) => {
             const ex = screen.exercises[itemIndex];
             if (v !== "self") {
               setAsked((a) => a + 1);
@@ -175,6 +175,8 @@ export default function LessonPlayer() {
                 item_id: ex.item_id,
                 expected: String(ex.answer ?? ""),
                 given,
+                response_ms: meta.responseMs,
+                had_options: meta.hadOptions,
               })
               .catch(() => {
                 /* an unrecorded answer must not interrupt a lesson */

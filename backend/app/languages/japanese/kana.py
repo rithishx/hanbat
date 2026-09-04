@@ -124,8 +124,16 @@ FOREIGN_COMBOS: dict[str, str] = {
     "うぃ": "wi", "うぇ": "we", "うぉ": "wo",
     "しぇ": "she", "ちぇ": "che", "じぇ": "je",
     "つぁ": "tsa", "つぃ": "tsi", "つぇ": "tse", "つぉ": "tso",
-    "ヴぁ": "va", "ヴぃ": "vi", "ヴ": "vu", "ヴぇ": "ve", "ヴぉ": "vo",
+    # ヴ normalises to ゔ before this table is consulted, so the keys have to be
+    # written in hiragana like every other entry. Spelling them with katakana ヴ
+    # meant ヴァイオリン counted as six beats instead of five, because the pair
+    # never matched and the small ァ became a mora of its own.
+    "ゔぁ": "va", "ゔぃ": "vi", "ゔぇ": "ve", "ゔぉ": "vo",
 }
+
+#: ヴ on its own is a mora like any other, and its reading is not derivable
+#: from the gojūon table because it is not in it.
+STANDALONE_ROMAJI = {"ゔ": "vu"}
 
 # --------------------------------------------------------------------------
 # Derived lookups
@@ -260,7 +268,9 @@ def split_mora(text: str) -> list[Mora]:
         elif hira_ch == "ん":
             out.append(Mora(ch, "moraic_n", "n", script))
         else:
-            out.append(Mora(ch, "normal", HIRAGANA_TO_ROMAJI.get(hira_ch, ch), script))
+            out.append(Mora(ch, "normal",
+                            HIRAGANA_TO_ROMAJI.get(hira_ch)
+                            or STANDALONE_ROMAJI.get(hira_ch, ch), script))
         i += 1
     return out
 

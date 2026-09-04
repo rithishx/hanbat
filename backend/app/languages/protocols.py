@@ -114,6 +114,26 @@ class PronunciationEngine(Protocol):
         short/long vowel pairs, Mandarin's tone 2 versus tone 3."""
         ...
 
+    def rules(self) -> list[dict]:
+        """Every rule that makes spelling and sound come apart, browsable.
+
+        Unlike `explain()`, whose output shape is the language's own, this one
+        is fixed, because the pronunciation lab renders it for all three:
+
+            {"id", "name", "native_name", "simple", "technical",
+             "examples": [{"written", "spoken", "note"}]}
+
+        `simple` and `technical` are both required and must differ. The whole
+        teaching philosophy is the plain-words version first and the
+        terminology second, and a rule with only the technical account is the
+        grammar reference the learner already failed to understand.
+
+        The examples are *verified against the engine* rather than authored as
+        text: each one is run through `pronounce()` when the index is built, so
+        a rule change can never leave a worked example quietly wrong.
+        """
+        ...
+
 
 # ==========================================================================
 # Transliteration

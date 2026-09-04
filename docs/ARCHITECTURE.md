@@ -9,11 +9,12 @@
 └───────────────────────────────┬──────────────────────────────┘
                                 │  HTTP, 127.0.0.1 only
 ┌───────────────────────────────┴──────────────────────────────┐
-│  backend/app/api/         68 endpoints across 8 routers       │
+│  backend/app/api/         76 endpoints across 9 routers       │
 │                           Every one takes ?lang=              │
 ├──────────────────────────────────────────────────────────────┤
-│  backend/app/engines/     SRS · adaptive model · exercises    │
-│  SHARED CORE              confusion index · AI tutor          │
+│  backend/app/engines/     SRS · adaptive · diagnosis          │
+│  SHARED CORE              remediation · session · exercises   │
+│                           confusion index · AI tutor          │
 │                           No language names appear here.      │
 ├──────────────────────────────────────────────────────────────┤
 │  backend/app/languages/   registry.py  ← the only file that   │
@@ -24,7 +25,7 @@
 │      phonology         romaji            tones                │
 │      conjugation       verbs             (no conjugation)     │
 ├──────────────────────────────────────────────────────────────┤
-│  backend/app/db.py        SQLite. 19 tables carry `language`. │
+│  backend/app/db.py        SQLite. 23 tables carry `language`. │
 │  backend/content/<code>/  JSON curriculum, the source of truth│
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -64,6 +65,9 @@ across all three languages, even though the *data* is not.
 |---|---|
 | `engines/srs.py` | SM-2 scheduling is arithmetic on review history. It never sees a language; isolation is enforced by the queries that feed it, which is the right place for it. |
 | `engines/adaptive.py` | "Which skill is weakest, which items keep failing, which pair keeps getting confused" is the same question everywhere. The *answers* come from each language's own `CONFUSIONS`. |
+| `engines/diagnosis.py` | *Why* an answer was wrong is a question about the learner's behaviour — how long they took, whether they had this item right before, how far the answer was from correct — not about the language. The one place it needs language knowledge, "was this a sound-based item", it gets from the language's own confusion tags rather than from a list of scripts. |
+| `engines/session.py` | The order to teach in — due reviews, then a chronic confusion, then weak skills, then new material, then production — is pedagogy, not linguistics. What fills each block is drawn from the language's own generators, and a block whose content does not exist for a language is not planned at all. |
+| `engines/remediation.py` | "Which specific thing keeps failing, and how do I fix it" is the same question everywhere. Every *answer* is read from the language's own engines: the pronunciation rule index, the grammar curriculum, the confusion list. A language that publishes no rule index simply contributes no sound points, and the rest still works. |
 | `engines/confusion.py` | The record type and the `(expected, given) → id` index. Not one pair is shared: Korean has 은/는 vs 이/가, Japanese has は vs が, Mandarin has 不 vs 没, and Mandarin has no particles of that kind at all. |
 | `engines/exercises.py` | The generator registry, plus eleven drills that mean the same thing everywhere — "type what you hear", "how do you say X". Language-specific drills register themselves under their own code. |
 | `engines/ai/` | The provider abstraction and the teaching contract. Language-specific instructions come from each `levels.py`'s `TUTOR_NOTES`. |
@@ -92,8 +96,10 @@ because that is how the code explains itself:
 
 ```python
 SHARED_MODULES = ["app/engines/srs.py", "app/engines/adaptive.py",
-                  "app/engines/confusion.py", "app/db.py",
-                  "app/migrations.py", "app/languages/protocols.py"]
+                  "app/engines/confusion.py", "app/engines/diagnosis.py",
+                  "app/engines/session.py", "app/engines/remediation.py",
+                  "app/db.py", "app/migrations.py",
+                  "app/languages/protocols.py"]
 
 FORBIDDEN = re.compile(r'"(Korean|Japanese|Mandarin|Hangul|hangul_mastery)"')
 ```
@@ -178,10 +184,18 @@ The brief said: no fake functionality. That turns into concrete decisions.
 - A language that is not ready returns **409 with its `status_note`**, not an empty array. An empty list reads as a bug; a 409 with a reason reads as a roadmap.
 - `hanzi` and `kanji` report zero units and log "no content authored yet (open inventory)" rather than showing a permanently-zero progress bar.
 - The tutor has a regex guard, `looks_like_a_giveaway()`, because prompting alone does not reliably stop a small local model from being helpful too fast.
+- Mistakes recorded before diagnosis existed are shown as **undiagnosed**, and migration 3 deliberately does not back-fill them. The signals a diagnosis needs — response time, prior history — were not recorded at the time, so any reason assigned now would be a guess presented as a fact.
+- Sentence-based drills return a visible `unsupported` exercise carrying `data["missing"] = "sentences"` for a language with no sentence bank, and the session planner excludes those kinds entirely, so the learner never meets an empty drill.
+- Japanese **pitch accent** is split along the same line: the contour is computed from the accent number by rule, and accent numbers are shipped only for the documented minimal pairs. `accent_for()` returns `None` for everything else, and `None` never becomes `0` — heiban is a real pattern with a real sound, so defaulting to it would be a guess wearing a fact's clothes.
+- Every worked example in the pronunciation lab is computed by the engine at request time and carries a `verified` flag. An example that stops illustrating its own rule is **marked**, not hidden. Two Mandarin examples carry `shows_the_limit` because they deliberately demonstrate where a rule stops applying.
+- A mistake is attributed to a specific rule only when the evidence isolates one. Two sound rules fired and the answer does not say which broke? Then `NOT_ATTRIBUTED`, and the mistakes screen reports how many could not be pinned down. Sending a learner to fix the wrong rule is worse than not naming one.
+- Remediation is offered only past a stated threshold, and the screen says how far off a near-miss is rather than silently withholding.
+- The session planner claims "your weakest skill" only when the block actually landed on it. Drills are drawn with weights and a floor, so sometimes it does not — and the ranked focus list is on the same screen, which would make an overstated claim visibly false.
 
 ## Database and migrations
 
-Plain `sqlite3` — no ORM. WAL mode. `SCHEMA_VERSION = 2`.
+Plain `sqlite3` — no ORM. WAL mode, `busy_timeout = 5000`,
+`synchronous = NORMAL`. `SCHEMA_VERSION = 3`.
 
 The multi-language migration (`migrations.py`, `migrate_002_multilanguage`) was
 written under an explicit instruction not to recreate the database. It backs up
@@ -189,10 +203,32 @@ first — copying the `-wal` and `-shm` files too, or the backup is not a backup
 runs inside a transaction, and compares row counts before and after, raising
 `MigrationDataLoss` if anything went missing.
 
-One bug worth recording: the first version assumed every v1 table existed and
-aborted partway through on databases that lacked one — which is to say, on
-exactly the databases most in need of migrating. Every index creation is now
-guarded on `_table_exists`.
+`migrate_003_mistake_reasons` adds the diagnosis columns and nothing else. It is
+additive and cannot lose data, which is the shape every migration should have
+where it can.
+
+`migrate_004_mistake_focus` adds the attribution columns and **does** back-fill,
+which looks inconsistent next to migration 3 until you see why. A *reason* could
+not be back-filled: deciding whether an answer was a careless slip needs the
+response time and the item's prior history, and neither was recorded on old rows,
+so any value would have been invented. A *focus* is different — attribution runs
+on `expected`, `given`, `skill` and `item_id`, every one of which is already
+stored, and it is the identical function that will run on the next answer. Re-
+deriving it is not a guess. Rows it cannot isolate stay empty, exactly as a new
+one would. The back-fill is also isolated in its own function, so a language
+module that no longer imports cannot take the schema change down with it.
+
+**Content tables need no migration; learner tables do.** Vocabulary, lessons and
+sentences are a rebuildable index over `content/`, so `init_db` applies the
+schema unconditionally and the loader repopulates them. Only tables holding the
+learner's own history are ever migrated. That rule was learned the hard way: an
+earlier `init_db` applied the schema only when the version changed, which meant
+a newly added content table never appeared on an existing database.
+
+Two bugs worth recording:
+
+- The first migration assumed every v1 table existed and aborted partway through on databases that lacked one — which is to say, on exactly the databases most in need of migrating. Every index creation is now guarded on `_table_exists`.
+- Backup filenames were timestamped to the second, so two backups in the same second collided. That turned restore into a silent no-op: the safety backup taken before restoring overwrote the very file being restored. `backup()` now uniquifies with a `-2`, `-3` counter, and a test restores five wrong answers back to zero and then undoes that too.
 
 ## Performance
 

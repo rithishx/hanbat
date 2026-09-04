@@ -427,24 +427,137 @@ def attempts(learner_id: int, language: str, days: int = 120,
 def record_mistake(learner_id: int, language: str, category: str,
                    expected: str, given: str, explanation: str = "",
                    confusion_id: str = "", item_type: str = "", item_id: str = "",
-                   lesson_id: str = "", conn: Optional[sqlite3.Connection] = None) -> None:
-    """Store a mistake, merging repeats of the same one."""
+                   lesson_id: str = "", reason: str = "", reason_why: str = "",
+                   confidence: float = 0.0, response_ms: int = 0,
+                   focus: str = "", focus_why: str = "",
+                   conn: Optional[sqlite3.Connection] = None) -> None:
+    """Store a mistake, merging repeats of the same one.
+
+    `category` stays the skill it happened in; `reason` is the diagnosis of
+    *why* — see engines/diagnosis.py. On a repeat the reason is refreshed
+    rather than kept, because the second time a learner gets something wrong is
+    often a different failure from the first: a gap that has become a slip is
+    progress, and the screen should show that.
+    """
     conn = conn or get_connection()
     existing = query_one(
         "SELECT id, times_seen FROM mistake WHERE learner_id = ? AND language = ? "
         "AND expected = ? AND given = ? AND item_id = ? AND resolved = 0",
         (learner_id, language, expected, given, item_id), conn)
     if existing:
-        conn.execute("UPDATE mistake SET times_seen = ?, at = ? WHERE id = ?",
-                     (existing["times_seen"] + 1, now_iso(), existing["id"]))
+        conn.execute(
+            "UPDATE mistake SET times_seen = ?, at = ?, reason = ?, "
+            "reason_why = ?, confidence = ?, response_ms = ?, focus = ?, "
+            "focus_why = ? WHERE id = ?",
+            (existing["times_seen"] + 1, now_iso(), reason, reason_why,
+             confidence, response_ms, focus, focus_why, existing["id"]))
     else:
         conn.execute("""
             INSERT INTO mistake(learner_id, language, at, category, item_type, item_id,
-                expected, given, explanation, confusion_id, lesson_id)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?)
+                expected, given, explanation, confusion_id, lesson_id,
+                reason, reason_why, confidence, response_ms, focus, focus_why)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """, (learner_id, language, now_iso(), category, item_type, item_id,
-              expected, given, explanation, confusion_id, lesson_id))
+              expected, given, explanation, confusion_id, lesson_id,
+              reason, reason_why, confidence, response_ms, focus, focus_why))
     conn.commit()
+
+
+def item_history(learner_id: int, language: str, item_type: str, item_id: str,
+                 skill: str = "",
+                 conn: Optional[sqlite3.Connection] = None) -> dict:
+    """What this learner has done with this exact item, plus their own pace.
+
+    The median response time is taken across the *skill*, not the item: a
+    single item rarely has enough attempts to give a stable baseline, and what
+    the careless check needs is "fast for this learner", which the skill-level
+    figure answers well enough.
+    """
+    conn = conn or get_connection()
+    if not item_id:
+        return {"seen": 0, "correct": 0, "last_was_correct": False,
+                "median_response_ms": 0}
+
+    rows = query(
+        "SELECT correct, at FROM attempt WHERE learner_id = ? AND language = ? "
+        "AND item_type = ? AND item_id = ? ORDER BY at DESC LIMIT 50",
+        (learner_id, language, item_type, item_id), conn)
+
+    times = [r["response_ms"] for r in query(
+        "SELECT response_ms FROM attempt WHERE learner_id = ? AND language = ? "
+        "AND skill = ? AND response_ms > 0 ORDER BY at DESC LIMIT 60",
+        (learner_id, language, skill or ""), conn)]
+    times.sort()
+    median = times[len(times) // 2] if times else 0
+
+    return {
+        "seen": len(rows),
+        "correct": sum(1 for r in rows if r["correct"]),
+        "last_was_correct": bool(rows[0]["correct"]) if rows else False,
+        "median_response_ms": int(median),
+    }
+
+
+def mistakes_by_reason(learner_id: int, language: str,
+                       conn: Optional[sqlite3.Connection] = None) -> dict[str, int]:
+    conn = conn or get_connection()
+    rows = query(
+        "SELECT reason, COUNT(*) AS n FROM mistake WHERE learner_id = ? "
+        "AND language = ? AND resolved = 0 GROUP BY reason",
+        (learner_id, language), conn)
+    return {r["reason"] or "unknown": r["n"] for r in rows}
+
+
+def mistakes_by_focus(learner_id: int, language: str,
+                      conn: Optional[sqlite3.Connection] = None) -> dict[str, int]:
+    """How many times each specific point has failed.
+
+    Counts `times_seen`, not rows: getting 한국어 wrong four times in the same
+    way is one row and four failures, and it is the four that makes it a
+    pattern worth remediating. Unattributed mistakes are excluded rather than
+    bucketed together — "" is not a point anyone can be taught.
+    """
+    conn = conn or get_connection()
+    rows = query(
+        "SELECT focus, SUM(times_seen) AS n FROM mistake WHERE learner_id = ? "
+        "AND language = ? AND resolved = 0 AND focus <> '' GROUP BY focus",
+        (learner_id, language), conn)
+    return {r["focus"]: r["n"] for r in rows}
+
+
+def mistake_samples(learner_id: int, language: str, limit_per_focus: int = 3,
+                    conn: Optional[sqlite3.Connection] = None) -> dict[str, list[dict]]:
+    """A few real examples per point, so a plan can show what it is about."""
+    conn = conn or get_connection()
+    rows = query(
+        "SELECT focus, expected, given, explanation, times_seen, at FROM mistake "
+        "WHERE learner_id = ? AND language = ? AND resolved = 0 AND focus <> '' "
+        "ORDER BY times_seen DESC, at DESC",
+        (learner_id, language), conn)
+    out: dict[str, list[dict]] = {}
+    for r in rows:
+        bucket = out.setdefault(r["focus"], [])
+        if len(bucket) < limit_per_focus:
+            bucket.append({k: r[k] for k in
+                           ("expected", "given", "explanation", "times_seen", "at")})
+    return out
+
+
+def resolve_mistakes_for_focus(learner_id: int, language: str, focus: str,
+                               conn: Optional[sqlite3.Connection] = None) -> int:
+    """Clear the mistakes a completed remediation was built from.
+
+    Called only when the learner finishes the plan for that point, so the
+    screen stops nagging about something they have just spent eight minutes
+    fixing. Nothing is deleted: the rows stay, resolved, and still count in the
+    history the progress page draws.
+    """
+    conn = conn or get_connection()
+    cur = conn.execute(
+        "UPDATE mistake SET resolved = 1 WHERE learner_id = ? AND language = ? "
+        "AND focus = ? AND resolved = 0", (learner_id, language, focus))
+    conn.commit()
+    return cur.rowcount
 
 
 def mistakes(learner_id: int, language: str, unresolved_only: bool = True,
@@ -549,3 +662,40 @@ def known_counts(learner_id: int, language: str,
         "script": by_type.get("script_unit", 0),
         "all": sum(by_type.values()),
     }
+
+
+def sentences(language: str, level: Optional[str] = None,
+              topic: Optional[str] = None,
+              vocab_id: str = "", grammar_id: str = "", limit: int = 200,
+              conn: Optional[sqlite3.Connection] = None) -> list[dict]:
+    """Sentences, optionally the ones using a given word or grammar point.
+
+    The id filters are what make sentence-based practice targeted: after a
+    learner gets 은/는 wrong, the drill can be built from sentences that
+    actually use it rather than from whatever happened to be next.
+    """
+    conn = conn or get_connection()
+    sql = "SELECT * FROM sentence WHERE language = ?"
+    args: list[Any] = [language]
+    if level:
+        sql += " AND level = ?"
+        args.append(level)
+    if topic:
+        sql += " AND topic = ?"
+        args.append(topic)
+    if vocab_id:
+        sql += " AND vocab_ids LIKE ?"
+        args.append(f'%"{vocab_id}"%')
+    if grammar_id:
+        sql += " AND grammar_ids LIKE ?"
+        args.append(f'%"{grammar_id}"%')
+    sql += " LIMIT ?"
+    args.append(limit)
+
+    out = []
+    for r in query(sql, tuple(args), conn):
+        d = dict(r)
+        for key in ("vocab_ids", "grammar_ids", "chunks", "blanks", "transforms"):
+            d[key] = json.loads(d.get(key) or "[]")
+        out.append(d)
+    return out

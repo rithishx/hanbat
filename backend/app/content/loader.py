@@ -335,6 +335,60 @@ def load_script_units(lang: str, doc: Any, source: str, report: LoadReport,
     return len(rows)
 
 
+def load_sentences(lang: str, doc: Any, source: str, report: LoadReport,
+                   conn: sqlite3.Connection) -> int:
+    """Real sentences, with their pronunciation derived the same way vocab is.
+
+    A sentence carries the ids of the words and grammar points it uses, so a
+    drill can be built around a point the learner has just met — which is what
+    turns "learn this word" into "use this word".
+    """
+    spec = registry.get(lang)
+    try:
+        translit = spec.transliteration
+        pron = spec.pronunciation
+    except ModuleNotFoundError:
+        translit = pron = None
+
+    rows = []
+    for e in _entries(doc, "sentences", "items"):
+        target = (e.get("target") or e.get("term") or "").strip()
+        if not e.get("id") or not target:
+            report.warnings.append(f"{source}: a sentence has no id or text; skipped")
+            continue
+
+        pronunciation = transliteration = ""
+        if pron is not None:
+            try:
+                pronunciation = pron.pronounce(target).get("spoken", "")
+            except Exception:
+                pronunciation = ""
+        if translit is not None:
+            try:
+                transliteration = translit.transliterate(target)
+            except Exception:
+                transliteration = ""
+
+        rows.append({
+            "id": e["id"], "language": lang, "target": target,
+            "english": e.get("english", ""),
+            "transliteration": e.get("transliteration") or transliteration,
+            "pronunciation": e.get("pronunciation") or pronunciation,
+            "level": e.get("level") or (doc.get("level", "") if isinstance(doc, dict) else ""),
+            "topic": e.get("topic", ""),
+            "register": e.get("register", "neutral"),
+            "vocab_ids": _json(e.get("vocab")),
+            "grammar_ids": _json(e.get("grammar")),
+            "chunks": _json(e.get("chunks")),
+            "blanks": _json(e.get("blanks")),
+            "transforms": _json(e.get("transforms")),
+            "note": e.get("note", ""),
+            "audio_id": e.get("audio_id", ""),
+        })
+    _bulk_upsert(conn, "sentence", rows)
+    return len(rows)
+
+
 def load_culture(lang: str, doc: Any, source: str, report: LoadReport,
                  conn: sqlite3.Connection) -> int:
     rows = [{
@@ -381,6 +435,7 @@ LOADERS: dict[str, Callable] = {
     "vocab": load_vocab,
     "grammar": load_grammar,
     "lessons": load_lessons,
+    "sentences": load_sentences,
     "culture": load_culture,
     "slang": load_slang,
     "conversations": load_scenarios,
@@ -430,6 +485,8 @@ def rebuild_search_index(conn: sqlite3.Connection, language: Optional[str] = Non
          f"FROM script_unit {where}", "script_unit"),
         (f"SELECT id, language, term, actual, "
          f"       COALESCE(literal,'')||' '||COALESCE(context,'') FROM slang {where}", "slang"),
+        (f"SELECT id, language, target, english, COALESCE(topic,'') "
+         f"FROM sentence {where}", "sentence"),
     ):
         try:
             rows = conn.execute(sql, args).fetchall()
@@ -534,7 +591,8 @@ def clear_language(lang: str, conn: Optional[sqlite3.Connection] = None) -> None
     """Drop one language's cached content. Learner progress is untouched."""
     conn = conn or get_connection()
     for table in ("lesson", "vocab", "grammar", "exercise", "scenario",
-                  "culture_note", "slang", "script_unit", "search_index"):
+                  "culture_note", "slang", "script_unit", "sentence",
+                  "search_index"):
         try:
             conn.execute(f"DELETE FROM {table} WHERE language = ?", (lang,))
         except sqlite3.OperationalError:

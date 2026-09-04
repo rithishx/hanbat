@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field
 
 from .. import store
 from ..db import get_connection
-from ..engines import adaptive, exercises as X, srs
+from ..engines import adaptive, diagnosis, exercises as X, remediation, srs
 from .deps import Learner, UsableLang
 
 router = APIRouter(tags=["study"])
@@ -35,6 +35,8 @@ def _context(spec, learner_id: int, seed: Optional[int] = None,
         rng=random.Random(seed) if seed is not None else random.Random(),
         vocab=store.vocab(spec.code, level=level or None, limit=500),
         script_units=store.script_units(spec.code),
+        sentences=store.sentences(spec.code, level=level or None, limit=300),
+        grammar=store.grammar(spec.code),
         level=level,
     )
 
@@ -101,6 +103,9 @@ class AnswerRequest(BaseModel):
     topic: str = ""
     level: str = ""
     response_ms: int = 0
+    #: Whether the exercise offered options. A wrong pick from a list is a
+    #: decision, not a typo, so it can never be diagnosed as careless.
+    had_options: bool = False
     #: SRS grade. Omit and it is inferred from `correct`.
     grade: Optional[str] = None
 
@@ -147,20 +152,59 @@ def answer(req: AnswerRequest, spec: UsableLang, learner: Learner) -> dict:
     if not req.correct:
         confusion_id = adaptive.identify_confusion(lang, req.expected, req.given)
         explanation = ""
+        tags: tuple[str, ...] = ()
         if confusion_id:
             c = adaptive.confusions_for(lang).get(confusion_id)
             if c:
                 explanation = c.one_line
+                tags = tuple(c.tags)
                 result["confusion"] = {
                     "id": c.id, "title": c.title, "one_line": c.one_line,
                     "simple": c.simple,
                 }
+
+        # Why it was wrong, not only where. A slip on something already known
+        # is diagnosed as careless and deliberately does not become a weakness
+        # — see engines/diagnosis.py.
+        history = store.item_history(lid, lang, req.item_type, req.item_id,
+                                     skill=req.skill, conn=conn)
+        verdict = diagnosis.diagnose(
+            skill=req.skill,
+            expected=req.expected,
+            given=req.given,
+            response_ms=req.response_ms,
+            history=diagnosis.ItemHistory(**history),
+            confusion_tags=tags,
+            had_options=req.had_options,
+        )
+
+        # And *which specific thing* it was about — one rule, one grammar
+        # point — so that repeated failures can be remediated rather than only
+        # counted. Careless slips are attributed too: knowing which rule a
+        # learner keeps fumbling is useful even when they know it.
+        got = remediation.attribute(
+            lang, skill=req.skill, item_type=req.item_type, item_id=req.item_id,
+            expected=req.expected, given=req.given,
+            confusion_id=confusion_id or "",
+            points=remediation.catalogue(lang, store.grammar(lang, conn=conn)),
+        )
+
         store.record_mistake(
             lid, lang, category=req.skill, expected=req.expected, given=req.given,
             explanation=explanation, confusion_id=confusion_id or "",
             item_type=req.item_type, item_id=req.item_id,
-            lesson_id=req.lesson_id, conn=conn)
-        result["message"] = "Not quite."
+            lesson_id=req.lesson_id, reason=verdict.reason,
+            reason_why=verdict.because, confidence=verdict.confidence,
+            response_ms=req.response_ms, focus=got.focus, focus_why=got.why,
+            conn=conn)
+
+        if got.attributed:
+            result["focus"] = {"id": got.focus, "why": got.why}
+
+        result["diagnosis"] = verdict.to_dict()
+        result["message"] = (
+            "You knew this one." if verdict.reason == "careless" else "Not quite."
+        )
         result["try_again"] = True
     else:
         store.add_xp(lid, lang, 2, conn)
@@ -174,8 +218,19 @@ def answer(req: AnswerRequest, spec: UsableLang, learner: Learner) -> dict:
 # ==========================================================================
 
 @router.get("/review/queue")
-def review_queue(spec: UsableLang, learner: Learner, limit: int = 40) -> dict:
-    """Today's review session for this language only."""
+def review_queue(spec: UsableLang, learner: Learner, limit: int = 40,
+                 seed: Optional[int] = None) -> dict:
+    """Today's review session for this language only.
+
+    The scheduler decides which cards; the adaptive model decides *how each one
+    is asked*. A learner weak at listening meets some of their due vocabulary as
+    dictation, one weak at production meets it meaning-first. Same cards, same
+    intervals, a question aimed at the half they are actually losing.
+
+    Cards still being learned are never made harder this way — you cannot
+    recall what you met four minutes ago, and a card that fails for that reason
+    would be misread by the scheduler as forgetting.
+    """
     conn = get_connection()
     lid, lang = learner["id"], spec.code
     settings = learner["settings"]
@@ -189,6 +244,9 @@ def review_queue(spec: UsableLang, learner: Learner, limit: int = 40) -> dict:
         all_cards, limits=limits,
         introduced_today=store.introduced_today(lid, lang, conn))[:limit]
 
+    weights = _review_weights(lid, lang, conn)
+    rng = random.Random(seed) if seed is not None else random.Random()
+
     items = []
     for c in queue:
         item = {"card": c.to_dict(), "preview": srs.preview_intervals(c)}
@@ -199,14 +257,36 @@ def review_queue(spec: UsableLang, learner: Learner, limit: int = 40) -> dict:
         elif c.item_type == "script_unit":
             row = next((s for s in store.script_units(lang) if s["id"] == c.item_id), None)
             item["content"] = row
+        item["ask"] = adaptive.review_mode(
+            state=c.state, item_type=c.item_type, weights=weights, rng=rng)
         items.append(item)
+
+    asked = {}
+    for i in items:
+        asked[i["ask"]["mode"]] = asked.get(i["ask"]["mode"], 0) + 1
 
     return {
         "language": lang,
         "count": len(items),
         "items": items,
         "summary": srs.queue_summary(all_cards),
+        "modes": asked,
     }
+
+
+def _review_weights(lid: int, lang: str, conn) -> dict[str, float]:
+    """The learner's skill weights, or nothing if there is no evidence yet.
+
+    An empty dict means every card is asked the ordinary way, which is the
+    right default: varying the question format before knowing anything about
+    the learner is variety for its own sake.
+    """
+    model = adaptive.build_model(
+        store.attempts(lid, lang, conn=conn), language=lang)
+    if model.total_attempts < 10:
+        return {}
+    return {f.skill: f.weight
+            for f in adaptive.focus(model, store.mistakes_by_reason(lid, lang, conn))}
 
 
 @router.get("/review/summary")
@@ -303,24 +383,224 @@ def log_session(req: SessionRequest, spec: UsableLang, learner: Learner) -> dict
 # ==========================================================================
 
 @router.get("/mistakes")
-def my_mistakes(spec: UsableLang, learner: Learner, include_resolved: bool = False) -> dict:
+def my_mistakes(spec: UsableLang, learner: Learner, include_resolved: bool = False,
+                reason: Optional[str] = None) -> dict:
+    """Every mistake, grouped by *why* it happened.
+
+    `by_category` is kept for the skill breakdown, but `by_reason` is the one
+    worth reading: it separates "you have not learned this" from "you knew it
+    and slipped", which are different problems and should not be studied the
+    same way.
+    """
     rows = store.mistakes(learner["id"], spec.code, not include_resolved)
     confusions = adaptive.confusions_for(spec.code)
     for r in rows:
         c = confusions.get(r.get("confusion_id") or "")
         if c:
             r["confusion"] = {"title": c.title, "one_line": c.one_line}
+
+    if reason:
+        rows = [r for r in rows if (r.get("reason") or "unknown") == reason]
+
     by_category: dict[str, list] = {}
+    by_reason: dict[str, list] = {}
     for r in rows:
         by_category.setdefault(r["category"], []).append(r)
-    return {"language": spec.code, "total": len(rows),
-            "by_category": by_category, "mistakes": rows}
+        # Rows recorded before v3 have no diagnosis, and are not given an
+        # invented one — they group under "unknown" and the UI says why.
+        by_reason.setdefault(r.get("reason") or "unknown", []).append(r)
+
+    diagnosed = [r["reason"] for r in rows if r.get("reason")]
+
+    # What each group of mistakes should lead to. A list of errors with no next
+    # action is a scoreboard; the whole value of grouping by reason is that
+    # each reason has a different answer to "so what do I do about it".
+    next_steps = {
+        key: _next_step(key, len(group))
+        for key, group in by_reason.items() if key in diagnosis.REASON_INFO
+    }
+
+    conn = get_connection()
+    points = remediation.catalogue(spec.code, store.grammar(spec.code, conn=conn))
+    weak = remediation.weak_points(
+        points, store.mistakes_by_focus(learner["id"], spec.code, conn),
+        store.mistake_samples(learner["id"], spec.code, conn=conn))
+
+    return {
+        "language": spec.code,
+        "total": len(rows),
+        "by_category": by_category,
+        "by_reason": by_reason,
+        "reasons": {
+            key: diagnosis.REASON_INFO[key]
+            for key in by_reason if key in diagnosis.REASON_INFO
+        },
+        "next_steps": next_steps,
+        "summary": diagnosis.summarise(diagnosed),
+        "undiagnosed": len(rows) - len(diagnosed),
+        "weak_points": [w.to_dict() for w in weak],
+        "weak_point_summary": remediation.summarise(weak),
+        "mistakes": rows,
+    }
+
+
+#: What to do about each kind of mistake, and — as importantly — what not to.
+#: Written as instructions a learner can follow today, not as descriptions of
+#: the category, which they can already read above it.
+_NEXT_STEP = {
+    "vocabulary": ("Practise these as recall, not recognition — meaning first, "
+                   "then produce the word. Recognising them again proves "
+                   "nothing.", "vocab_recall"),
+    "grammar": ("Drill the point rather than the sentence. The wrong-versus-"
+                "right pairs in the curriculum are the fastest way in.",
+                "spot_the_error"),
+    "pronunciation": ("Take the rule apart in the pronunciation lab, then say "
+                      "the examples out loud. Reading the rule is not enough.",
+                      "pronounce"),
+    "listening": ("Dictation on the same items. Hearing is a separate skill "
+                  "and only improves by being practised on its own.",
+                  "listen_type"),
+    "reading": ("Read them again in a sentence rather than alone — most "
+                "reading mistakes are about context, not the word.",
+                "translate_to_english"),
+    "writing": ("Rewrite them from the English. Producing the form is what "
+                "went wrong, so producing it is what fixes it.",
+                "fix_the_sentence"),
+    "careless": ("Nothing. These are not scheduled on purpose — you knew them. "
+                 "If there are a lot, slow down rather than practise more.", ""),
+}
+
+
+def _next_step(reason: str, count: int) -> dict:
+    advice, kind = _NEXT_STEP.get(reason, ("", ""))
+    return {"advice": advice, "drill": kind, "count": count,
+            "practisable": bool(kind)}
 
 
 @router.post("/mistakes/{mistake_id}/resolve")
 def resolve(mistake_id: int) -> dict:
     store.resolve_mistake(mistake_id)
     return {"resolved": True}
+
+
+class MistakePracticeRequest(BaseModel):
+    #: Narrow to one diagnosis reason, one specific point, or neither.
+    reason: str = ""
+    focus: str = ""
+    count: int = 8
+    seed: Optional[int] = None
+
+
+@router.post("/mistakes/practice")
+def practice_my_mistakes(req: MistakePracticeRequest, spec: UsableLang,
+                         learner: Learner) -> dict:
+    """A drill built from the learner's own recorded mistakes.
+
+    Not a generated drill that happens to cover a weak skill — these are the
+    exact items this learner got wrong, asked again in the direction that
+    proves they have fixed it. A vocabulary gap comes back as recall, because
+    recognising the word again proves nothing; a listening mistake comes back
+    as dictation; a pronunciation one comes back to be said out loud.
+
+    Careless slips are excluded by default and the response says so. Drilling
+    someone on thirty words they already know, because they mistyped them, is
+    exactly the busywork this app is built to avoid.
+    """
+    conn = get_connection()
+    lid, lang = learner["id"], spec.code
+    rows = store.mistakes(lid, lang, unresolved_only=True, limit=200, conn=conn)
+
+    if req.reason:
+        rows = [r for r in rows if (r.get("reason") or "unknown") == req.reason]
+    else:
+        rows = [r for r in rows if (r.get("reason") or "") != "careless"]
+    if req.focus:
+        rows = [r for r in rows if r.get("focus") == req.focus]
+
+    # Keep only what can honestly be asked again: an item with no expected
+    # answer is a mistake we recorded but cannot re-pose.
+    rows = [r for r in rows if r.get("expected")]
+
+    ctx = _context(spec, lid, req.seed)
+    built: list[dict] = []
+    for row in rows[: max(1, req.count)]:
+        ex = _reask(row, ctx)
+        if ex is not None:
+            built.append(ex)
+
+    return {
+        "language": lang,
+        "count": len(built),
+        "exercises": built,
+        "from_mistakes": len(rows),
+        "excluded_careless": not req.reason,
+        "note": _practice_note(len(built), bool(req.reason or req.focus)),
+    }
+
+
+#: How each diagnosis comes back. The direction matters more than the format:
+#: a gap has to be re-asked productively or the learner only proves they can
+#: still recognise it.
+_REASK = {
+    "vocabulary": ("vocab_recall", "vocabulary"),
+    "listening": ("listen_type", "listening"),
+    "pronunciation": ("pronounce", "speaking"),
+    "writing": ("fix_the_sentence", "writing"),
+    "grammar": ("spot_the_error", "grammar"),
+    "reading": ("word_read", "reading"),
+    "careless": ("vocab_recall", "vocabulary"),
+}
+
+
+def _reask(row: dict, ctx: X.GenContext) -> Optional[dict]:
+    """Turn one recorded mistake back into a question.
+
+    Built directly rather than through a generator: the point is to ask about
+    *this* item, and every generator samples from a pool. The explanation is
+    the one already stored on the mistake, so the learner meets the same
+    account of their error they met the first time.
+    """
+    expected = row["expected"]
+    kind, skill = _REASK.get(row.get("reason") or "", ("vocab_recall", "vocabulary"))
+
+    if kind == "listen_type":
+        prompt, audio, options = "Type what you hear.", expected, []
+    elif kind == "pronounce":
+        prompt, audio, options = f"Say: {expected}", expected, []
+    elif kind == "fix_the_sentence":
+        prompt = f"You wrote this. Write it correctly:\n{row.get('given') or '—'}"
+        audio, options = expected, []
+    elif kind == "spot_the_error":
+        prompt, audio = "Which one is correct?", expected
+        options = [expected, row.get("given") or ""]
+        options = [o for o in options if o]
+        if len(options) < 2:
+            prompt, options = f"Write it correctly: {row.get('explanation') or ''}", []
+    else:
+        prompt = row.get("explanation") or "What was the correct answer here?"
+        if row.get("given"):
+            prompt = f"You answered {row['given']}. What should it have been?"
+        audio, options = expected, []
+
+    return X.Exercise(
+        kind=kind, skill=skill, prompt=prompt, answer=expected,
+        options=options, audio=audio,
+        explain=row.get("explanation") or row.get("reason_why") or "",
+        data={"from_mistake": row["id"], "seen": row.get("times_seen", 1),
+              "reason": row.get("reason") or "", "focus": row.get("focus") or ""},
+        item_type=row.get("item_type") or "", item_id=row.get("item_id") or "",
+    ).to_dict()
+
+
+def _practice_note(built: int, narrowed: bool) -> str:
+    if built == 0:
+        return ("Nothing to practise here — either you have no unresolved "
+                "mistakes of this kind, or the ones you have cannot be asked "
+                "again as a question.")
+    scope = "this group" if narrowed else "your open mistakes"
+    return (f"{built} question{'' if built == 1 else 's'} from {scope}, asked in "
+            f"the direction that proves you have fixed them rather than the one "
+            f"you originally met them in.")
 
 
 @router.get("/mini-course/{confusion_id}")

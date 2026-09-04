@@ -577,3 +577,61 @@ def test_onboarding_refuses_a_language_that_is_not_ready(client, planned_languag
         assert client.post("/api/onboarding", json={
             "language": code, "experience": "none"}).status_code == 200
     client.post("/api/languages/active", json={"language": "ko"})
+
+
+# ==========================================================================
+# Today's session
+# ==========================================================================
+
+def test_the_session_plan_is_one_ordered_answer(client):
+    """The gap this fills: the app could say what was due, what to learn and
+    what was weak, but never combined them into one thing to do."""
+    plan = client.get("/api/session/plan?seed=1&lang=ko").json()
+    assert plan["blocks"], "an onboarded learner always has something to do"
+    assert plan["planned_minutes"] <= plan["minutes"]
+    assert plan["note"]
+    for b in plan["blocks"]:
+        assert b["why"] and b["minutes"] > 0
+
+
+def test_the_session_respects_the_requested_length(client):
+    short = client.get("/api/session/plan?minutes=5&seed=1&lang=ko").json()
+    assert short["planned_minutes"] <= 5
+
+
+def test_the_session_only_plans_drills_the_language_can_build(client):
+    kinds = set(client.get("/api/practice/kinds?lang=zh").json()["kinds"])
+    plan = client.get("/api/session/plan?lang=zh&seed=3").json()
+    for b in plan["blocks"]:
+        for spec in b["payload"].get("specs", []):
+            assert spec["type"] in kinds
+
+
+def test_a_wrong_answer_comes_back_with_a_reason(client):
+    r = client.post("/api/answer?lang=ko", json={
+        "correct": False, "skill": "vocabulary",
+        "item_type": "vocab", "item_id": "ko-v-0400",
+        "expected": "안녕하세요", "given": "감사합니다", "response_ms": 4000,
+    }).json()
+    assert r["diagnosis"]["reason"] == "vocabulary"
+    assert r["diagnosis"]["advice"]
+    assert r["diagnosis"]["counts_as_weakness"] is True
+
+
+def test_mistakes_are_grouped_by_why_not_only_by_skill(client):
+    body = client.get("/api/mistakes?lang=ko").json()
+    assert "by_reason" in body and "by_category" in body
+    assert "summary" in body
+    for reason in body["by_reason"]:
+        if reason != "unknown":
+            assert reason in body["reasons"]
+
+
+def test_the_dashboard_names_weak_skills_and_the_mistake_pattern(client):
+    d = client.get("/api/dashboard?lang=ko").json()
+    assert "weak_skills" in d
+    assert "mistake_summary" in d
+    # Only skills with real evidence are named — telling a learner on day one
+    # that their speaking is weak is both useless and untrue.
+    for f in d["weak_skills"]:
+        assert f["attempts"] >= 4

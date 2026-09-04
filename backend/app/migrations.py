@@ -65,11 +65,23 @@ def backup(db_path: Path) -> Optional[Path]:
     Returns None when there is nothing to back up (a database that has never
     been created). WAL and shm files are copied too — a backup missing the
     write-ahead log can be missing the most recent writes.
+
+    The name is made unique rather than trusted to be. The timestamp has
+    one-second resolution, and two backups in the same second used to overwrite
+    each other silently — which turned "back up the current state before
+    restoring" into "destroy the backup being restored", and made the restore a
+    no-op that looked like it had worked. A backup that can delete another
+    backup is worse than none.
     """
     if not db_path.exists():
         return None
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     dest = db_path.with_name(f"{db_path.stem}.backup-{stamp}{db_path.suffix}")
+    n = 2
+    while dest.exists():
+        dest = db_path.with_name(
+            f"{db_path.stem}.backup-{stamp}-{n}{db_path.suffix}")
+        n += 1
     shutil.copy2(db_path, dest)
     for suffix in ("-wal", "-shm"):
         side = Path(str(db_path) + suffix)
@@ -271,8 +283,136 @@ def _rebuild_lesson_progress(cur: sqlite3.Cursor) -> None:
 # Runner
 # ==========================================================================
 
+def migrate_003_mistake_reasons(conn: sqlite3.Connection) -> None:
+    """Record *why* an answer was wrong, not only which skill it was in.
+
+    Purely additive: four nullable columns with defaults, so existing rows stay
+    exactly as they are. Their `reason` is left empty rather than back-filled
+    with a guess — the signals that classify a mistake (response time, whether
+    the item had been answered correctly before) were not recorded at the time,
+    and inventing a diagnosis after the fact would put fabricated data in front
+    of the learner. The My Mistakes screen groups un-diagnosed rows under
+    "recorded before this was tracked" and says so.
+    """
+    for column, decl in (
+        ("reason", "TEXT NOT NULL DEFAULT ''"),
+        ("reason_why", "TEXT NOT NULL DEFAULT ''"),
+        ("confidence", "REAL NOT NULL DEFAULT 0"),
+        ("response_ms", "INTEGER NOT NULL DEFAULT 0"),
+    ):
+        _add_column(conn, "mistake", column, decl)
+
+    if _table_exists(conn, "mistake"):
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_mistake_reason "
+            "ON mistake(learner_id, language, reason, resolved)"
+        )
+
+
+def migrate_004_mistake_focus(conn: sqlite3.Connection) -> None:
+    """Attribute mistakes to the specific point that caused them.
+
+    Additive, like migration 3 — but unlike migration 3, this one **does**
+    back-fill, and the difference is worth stating because it looks
+    inconsistent from the outside.
+
+    A *reason* could not be back-filled: deciding whether an answer was a
+    careless slip needs the response time and the item's prior history, and
+    neither was recorded on old rows. Any reason assigned afterwards would have
+    been invented.
+
+    A *focus* is different. Attribution runs on `expected`, `given`, `skill` and
+    `item_id` — every one of which is already stored on every row — and it is
+    the same deterministic computation that will run on the next answer. Re-
+    deriving it here is not a guess; it is the identical function applied to
+    identical inputs. Refusing to run it would leave the learner's existing
+    history invisible to the remediation engine for no honest reason.
+
+    Rows the attributor cannot isolate stay empty, exactly as a new one would.
+    """
+    for column, decl in (
+        ("focus", "TEXT NOT NULL DEFAULT ''"),
+        ("focus_why", "TEXT NOT NULL DEFAULT ''"),
+    ):
+        _add_column(conn, "mistake", column, decl)
+
+    if not _table_exists(conn, "mistake"):
+        return
+
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_mistake_focus "
+        "ON mistake(learner_id, language, focus, resolved)"
+    )
+    _backfill_focus(conn)
+
+
+def _backfill_focus(conn: sqlite3.Connection) -> None:
+    """Run the attributor over rows that predate it.
+
+    Kept separate so a failure here — a language module that no longer imports,
+    say — cannot take the schema change down with it. A database with the
+    columns and no back-fill is a working database; one that aborted halfway
+    through adding them is not.
+    """
+    try:
+        from .engines import remediation
+    except Exception:
+        return
+
+    rows = conn.execute(
+        "SELECT id, language, category, item_type, item_id, expected, given, "
+        "confusion_id FROM mistake WHERE focus = ''"
+    ).fetchall()
+
+    cache: dict[str, dict] = {}
+    for row in rows:
+        lang = row["language"]
+        if lang not in cache:
+            try:
+                cache[lang] = remediation.catalogue(lang, _grammar_rows(conn, lang))
+            except Exception:
+                cache[lang] = {}
+        try:
+            got = remediation.attribute(
+                lang, skill=row["category"], item_type=row["item_type"],
+                item_id=row["item_id"], expected=row["expected"],
+                given=row["given"], confusion_id=row["confusion_id"],
+                points=cache[lang],
+            )
+        except Exception:
+            continue
+        if got.attributed:
+            conn.execute("UPDATE mistake SET focus = ?, focus_why = ? WHERE id = ?",
+                         (got.focus, got.why, row["id"]))
+
+
+def _grammar_rows(conn: sqlite3.Connection, language: str) -> list[dict]:
+    """Grammar points straight from the content cache, if it is populated.
+
+    Read here rather than through `store` because a migration must not depend
+    on the content loader having run — on a fresh upgrade it has not.
+    """
+    if not _table_exists(conn, "grammar"):
+        return []
+    import json
+    out = []
+    for r in conn.execute("SELECT * FROM grammar WHERE language = ?", (language,)):
+        row = dict(r)
+        for key in ("examples", "mistakes"):
+            raw = row.get(key)
+            if isinstance(raw, str) and raw:
+                try:
+                    row[key] = json.loads(raw)
+                except ValueError:
+                    row[key] = []
+        out.append(row)
+    return out
+
+
 MIGRATIONS: dict[int, Callable[[sqlite3.Connection], None]] = {
     2: migrate_002_multilanguage,
+    3: migrate_003_mistake_reasons,
+    4: migrate_004_mistake_focus,
 }
 
 

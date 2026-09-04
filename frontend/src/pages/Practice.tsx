@@ -166,7 +166,7 @@ export default function Practice() {
           exercise={ex}
           index={index}
           total={drill.exercises.length}
-          onAnswered={(v: Verdict, given) => {
+          onAnswered={(v: Verdict, given, meta) => {
             if (v !== "self") {
               setAsked((a) => a + 1);
               if (v === "correct") setRight((r) => r + 1);
@@ -180,6 +180,8 @@ export default function Practice() {
                 item_id: ex.item_id,
                 expected: String(ex.answer ?? ""),
                 given,
+                response_ms: meta.responseMs,
+                had_options: meta.hadOptions,
               })
               .catch(() => {});
           }}

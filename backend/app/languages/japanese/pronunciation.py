@@ -8,9 +8,10 @@ that makes a learner hard to understand. So `explain()` returns a mora
 breakdown where Korean's returns a chain of sound-change rules. Same question,
 genuinely different answer, which is why the two engines are separate.
 
-Pitch accent is reported only where content supplies it. Japanese pitch is
-lexical and dialect-dependent, and inventing an accent pattern would teach
-learners to sound wrong with confidence.
+Pitch accent is split in two, in `pitch.py`. The contour is a rule and is
+computed; which accent a given word has is a lexical fact and is shipped only
+for the documented minimal pairs, because inventing an accent pattern would
+teach learners to sound wrong with confidence.
 """
 
 from __future__ import annotations
@@ -18,6 +19,7 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from . import kana as K
+from . import pitch as PITCH
 
 #: The handful of genuine reading rules kana does not show.
 PARTICLE_READINGS = {
@@ -36,13 +38,24 @@ class JapanesePronunciation:
 
     def pronounce(self, text: str, **options: Any) -> dict:
         mora = K.split_mora(text)
-        return {
+        out = {
             "written": text,
             "spoken": text,
             "changed": False,
             "mora_count": len(mora),
             "mora": [m.to_dict() for m in mora],
         }
+
+        # Pitch appears only when an accent number is available: passed in by
+        # the caller, or documented for this exact word. An absent contour means
+        # "not known", which is different from "flat" and is left absent rather
+        # than defaulted.
+        accent = options.get("accent")
+        if accent is None:
+            accent = PITCH.accent_for(text)
+        if accent is not None:
+            out["pitch"] = PITCH.contour(text, int(accent))
+        return out
 
     def explain(self, text: str, **options: Any) -> dict:
         """Japanese's version of "why does it sound like that": the beats."""
@@ -206,13 +219,133 @@ class JapanesePronunciation:
                 "minimal_pairs": [],
                 "severity": "low",
                 "causes_misunderstanding": False,
-                "note": "This app shows pitch only where the vocabulary entry supplies "
-                        "it. Guessing an accent pattern would teach confident errors.",
+                "note": "The pronunciation lab computes the full contour from an "
+                        "accent number, and ships accent numbers only for the "
+                        "documented minimal pairs. Everything else reports no "
+                        "accent rather than a guessed one.",
             },
         ]
 
     def minimal_pairs(self) -> list[dict]:
         return K.minimal_pairs_by_mora()
+
+    def pitch_accent(self) -> dict:
+        """The pitch section of the lab: what is computed, what is not shipped.
+
+        Optional in the protocol on purpose. Korean and Mandarin have no pitch
+        accent, so they do not answer this, and the lab simply omits the
+        section rather than rendering an empty one with an apology in it.
+        """
+        return PITCH.report()
+
+
+    #: Japanese's "rules" are not sound changes — kana barely has any. They are
+    #: *timing* rules, and getting the beat count wrong is the single most
+    #: common thing that makes a learner hard to understand. The shape is the
+    #: same as Korean's and Mandarin's so the pronunciation lab can render all
+    #: three; what fills it is genuinely different, which is the point.
+    TIMING_RULES: list[dict] = [
+        {
+            "id": "mora_is_the_beat",
+            "name": "Every mora is one beat",
+            "native_name": "拍",
+            "simple": ("Japanese is counted in beats, not syllables. Each kana "
+                       "is one beat and they are all the same length — like a "
+                       "metronome, not like English stress."),
+            "technical": ("Japanese is mora-timed. The mora, not the syllable, "
+                          "is the unit of duration, and inter-mora intervals "
+                          "are approximately isochronous."),
+            "examples": [("にほん", "Three beats: ni-ho-n."),
+                         ("さくら", "Three beats, all equal.")],
+        },
+        {
+            "id": "yoon_is_one_beat",
+            "name": "Small ゃゅょ do not add a beat",
+            "native_name": "拗音",
+            "simple": ("A small ゃ, ゅ or ょ joins the kana before it and the "
+                       "pair is still one beat. きょ is one beat; きよ is two, "
+                       "and they are different words."),
+            "technical": ("Palatalised morae (Cy-) are monomoraic. The glide is "
+                          "part of the onset rather than a separate mora."),
+            "examples": [("きょう", "Two beats — kyo-o, not ki-yo-u."),
+                         ("びょういん", "Four beats. びよういん, five, is a "
+                                    "hairdresser rather than a hospital.")],
+        },
+        {
+            "id": "sokuon_is_a_silent_beat",
+            "name": "The small っ is a beat of silence",
+            "native_name": "促音",
+            "simple": ("A small っ is a whole beat where you say nothing — you "
+                       "stop, hold, then release. きて is two beats and きって "
+                       "is three, and they are different words."),
+            "technical": ("The sokuon is a moraic obstruent: gemination of the "
+                          "following consonant occupying one mora."),
+            "examples": [("きって", "Three beats. きて is two."),
+                         ("がっこう", "Four beats: ga-[stop]-ko-o.")],
+        },
+        {
+            "id": "long_vowel_is_two_beats",
+            "name": "A long vowel is two beats",
+            "native_name": "長音",
+            "simple": ("Holding a vowel is not decoration — it is a second "
+                       "beat. おばさん is an aunt and おばあさん is a "
+                       "grandmother, and the only difference is the length."),
+            "technical": ("Vowel length is phonemic. A long vowel is a sequence "
+                          "of two identical vowel morae, written with a "
+                          "following vowel kana or, in katakana, ー."),
+            "examples": [("おばあさん", "Five beats."),
+                         ("コーヒー", "Four beats: ko-o-hi-i.")],
+        },
+        {
+            "id": "moraic_n",
+            "name": "ん is its own beat",
+            "native_name": "撥音",
+            "simple": ("ん is never attached to the kana before it. It is a "
+                       "beat of its own, and it changes colour depending on "
+                       "what follows — but the timing never changes."),
+            "technical": ("The moraic nasal is monomoraic and assimilates in "
+                          "place to a following consonant: [m] before labials, "
+                          "[n] before coronals, [ŋ] before velars."),
+            "examples": [("しんぶん", "Four beats."),
+                         ("にほん", "Three beats, with ん as the third.")],
+        },
+        {
+            "id": "particle_readings",
+            "name": "は, へ and を are read differently as particles",
+            "native_name": "助詞の読み",
+            "simple": ("Three kana are read differently when they are doing a "
+                       "grammatical job: は is wa, へ is e, and を is always o. "
+                       "This is the whole of Japanese spelling irregularity."),
+            "technical": ("Historical orthography preserved for the topic, "
+                          "allative and accusative particles; elsewhere the "
+                          "kana keep their normal readings."),
+            "examples": [("こんにちは", "Ends in は, read wa."),
+                         ("わたしは", "The topic particle, read wa.")],
+        },
+    ]
+
+    def rules(self) -> list[dict]:
+        """The timing rules, with beat counts computed rather than asserted.
+
+        Every example's beat count comes from `count_mora` at call time, so the
+        lab can never claim きって is three beats while the engine counts a
+        different number.
+        """
+        out = []
+        for rule in self.TIMING_RULES:
+            examples = []
+            for word, note in rule["examples"]:
+                beats = K.count_mora(word)
+                examples.append({
+                    "written": word,
+                    "spoken": " · ".join(m.text for m in K.split_mora(word)),
+                    "note": note,
+                    "beats": beats,
+                    "verified": beats > 0,
+                })
+            out.append({**{k: v for k, v in rule.items() if k != "examples"},
+                        "examples": examples})
+        return out
 
 
 ENGINE = JapanesePronunciation()

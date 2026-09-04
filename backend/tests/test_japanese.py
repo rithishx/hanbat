@@ -347,9 +347,18 @@ def test_difficulty_points_lead_with_length():
 
 
 def test_pitch_accent_is_declared_but_not_invented():
+    """The difficulty note must keep matching what the engine actually does.
+
+    It is allowed to say pitch is supported — the contour really is computed —
+    but it must also say that accent numbers are not shipped for general
+    vocabulary, because they are not. See tests/test_pitch_accent.py for the
+    behaviour this note describes.
+    """
     pitch = next(p for p in PRON.difficulty_points() if p["id"] == "pitch_accent")
     assert pitch["severity"] == "low"
-    assert "would teach confident errors" in pitch["note"]
+    assert "guessed" in pitch["note"]
+    assert PRON.pitch_accent()["not_stored"]
+    assert "pitch" not in PRON.pronounce("学生")
 
 
 def test_grammar_capabilities_differ_from_korean():

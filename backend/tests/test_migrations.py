@@ -414,3 +414,50 @@ def test_connections_are_configured_for_concurrent_use(tmp_path):
     conn = db.connect(tmp_path / "pragmas.sqlite3")
     assert conn.execute("PRAGMA journal_mode").fetchone()[0].lower() == "wal"
     assert conn.execute("PRAGMA busy_timeout").fetchone()[0] >= 1000
+
+
+# ==========================================================================
+# v3 — why a mistake happened
+# ==========================================================================
+
+def test_v1_migrates_all_the_way_to_v3_without_losing_anything(v1_db):
+    """A learner two versions behind must arrive intact, not be rebuilt."""
+    path, conn = v1_db
+    before = conn.execute("SELECT COUNT(*) FROM mistake").fetchone()[0]
+    xp_before = conn.execute("SELECT xp FROM learner WHERE id = 1").fetchone()[0]
+
+    result = migrations.migrate(conn, 3, path, verbose=False)
+
+    assert result["migrated"] is True
+    assert result["to"] == 3
+    assert conn.execute("SELECT COUNT(*) FROM mistake").fetchone()[0] == before
+    assert conn.execute(
+        "SELECT xp FROM learner_language WHERE learner_id=1 AND language='ko'"
+    ).fetchone()[0] == xp_before
+
+
+def test_v3_adds_the_reason_columns(v1_db):
+    path, conn = v1_db
+    migrations.migrate(conn, 3, path, verbose=False)
+    columns = {r[1] for r in conn.execute("PRAGMA table_info(mistake)")}
+    assert {"reason", "reason_why", "confidence", "response_ms"} <= columns
+
+
+def test_old_mistakes_are_not_given_an_invented_reason(v1_db):
+    """The signals that classify a mistake were not recorded at the time.
+
+    Back-filling a plausible-looking reason would put a fabricated diagnosis in
+    front of the learner, which is exactly the kind of confident nonsense this
+    project refuses elsewhere. They stay blank and the UI says so.
+    """
+    path, conn = v1_db
+    migrations.migrate(conn, 3, path, verbose=False)
+    reasons = [r[0] for r in conn.execute("SELECT reason FROM mistake")]
+    assert reasons and all(r == "" for r in reasons)
+
+
+def test_v3_is_idempotent(v1_db):
+    path, conn = v1_db
+    migrations.migrate(conn, 3, path, verbose=False)
+    again = migrations.migrate(conn, 3, path, verbose=False)
+    assert again["migrated"] is False

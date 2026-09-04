@@ -175,12 +175,156 @@ await page.evaluate(async () => {
     });
   }
 });
+// One careless slip: right before, answered fast, one character out. The
+// diagnosis engine should file this separately from the five real gaps above.
+await page.evaluate(async () => {
+  const body = (correct, ms, given) => JSON.stringify({
+    correct, skill: "vocabulary", kind: "recall", item_type: "vocab",
+    item_id: "ko-v-0001", expected: "사람", given, response_ms: ms,
+  });
+  await fetch("/api/answer?lang=ko", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: body(true, 4000, "사람"),
+  });
+  await fetch("/api/answer?lang=ko", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: body(false, 900, "사람을"),
+  });
+});
+
 await page.goto(`${BASE}/mistakes`, { waitUntil: "networkidle" });
+check("mistakes are grouped by why they happened",
+  await sees(/Grouped by why they happened/));
+check("the real gaps are counted apart from the slips",
+  await sees(/things to learn/));
+check("careless slips are named and excluded on purpose",
+  await sees(/not scheduled, on purpose/));
+check("the grammar reason group is present", await sees(/^Grammar$/));
+await page.getByText(/^Grammar$/).first().click();
+check("expanding a reason shows the actual answers", await sees(/은/));
+await shot("23-mistakes-by-reason");
+
+// Five failures on one pair make it a weak point with a fix attached, so it is
+// listed once — with the authored walkthrough folded into that fix rather than
+// offered separately under a second heading.
 check("the confusion pattern is offered", await sees(/은\/는 versus 이\/가/));
-await page.getByText(/은\/는 versus 이\/가/).first().click();
-check("mini course opens with the plain-words version first",
+await page.locator(".card").filter({ hasText: "은/는 versus 이/가" })
+  .getByRole("link").first().click();
+check("the fix for a confusion drills the pair rather than a grammar point",
+  await sees(/Tell them apart/));
+await page.getByRole("button", { name: /The longer walkthrough/ }).click();
+check("and the authored walkthrough is there, plain words first",
   await sees(/The one-line version/));
 await shot("20-mini-course");
+await page.goBack({ waitUntil: "networkidle" });
+
+// ---- the same rule, failed enough times to become a pattern -------------
+// Four failures on one Korean liaison word: the attributor should pin them to
+// 연음, and the app should then offer a targeted fix rather than more of the
+// same question.
+await page.evaluate(async () => {
+  for (const word of ["한국어", "꽃이", "옷이", "책을"]) {
+    await fetch("/api/answer?lang=ko", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        correct: false, skill: "pronunciation", kind: "batchim_predict",
+        expected: word, given: "", response_ms: 7000,
+      }),
+    });
+  }
+});
+
+await page.goto(`${BASE}/mistakes`, { waitUntil: "networkidle" });
+check("the specific rule is named, not just the skill",
+  await sees(/What keeps going wrong/));
+check("and it says how many times", await sees(/times · pronunciation/));
+await shot("29-weak-points");
+
+// Target the sound rule specifically: the same screen serves grammar points
+// and confusion pairs, and each builds a different shape of fix.
+await page.locator(".card").filter({ hasText: "연음" })
+  .getByRole("link").first().click();
+check("the fix opens with the plain-words explanation",
+  await sees(/What the rule actually says/));
+check("it names the rule in its own script", await sees(/연음/));
+check("it shows what the learner actually wrote", await sees(/What you actually wrote/));
+check("a sound rule is fixed by hearing and saying it",
+  await sees(/Hear the difference/) && await sees(/Say it yourself/));
+await shot("30-remediation");
+await page.getByRole("button", { name: /Next: Hear the difference/ }).click();
+check("the drill step runs a real exercise", await sees(/Which one did you hear/, 12000));
+await shot("31-remediation-drill");
+
+// ---- practise my own mistakes -------------------------------------------
+await page.goto(`${BASE}/mistakes`, { waitUntil: "networkidle" });
+await page.getByText(/^Pronunciation$/).first().click();
+check("expanding a group says what to do about it",
+  await sees(/pronunciation lab, then say the examples out loud/));
+await page.getByRole("button", { name: /Practise these/ }).first().click();
+check("practising mistakes uses the learner's own items",
+  await sees(/Practising your mistakes/, 12000));
+check("and says why it is asked this way", await sees(/direction that proves/));
+await shot("32-practise-mistakes");
+
+// ---- today's session ----------------------------------------------------
+await page.goto(`${BASE}/session`, { waitUntil: "networkidle" });
+check("session page builds a plan", await sees(/Today's session/));
+check("the plan says how long it is", await sees(/in the order that teaches best/));
+const blocks = await page.locator("ol > li .card").count();
+check("the plan has blocks", blocks > 0, `${blocks} blocks`);
+check("and leads with the specific thing that keeps failing",
+  await sees(/pattern rather than bad luck/));
+check("and says what it is aiming at",
+  await sees(/What this session is aiming at/) || await sees(/Nothing to do right now/));
+await shot("24-session");
+
+// ---- pronunciation lab --------------------------------------------------
+await page.goto(`${BASE}/pronunciation`, { waitUntil: "networkidle" });
+await page.getByRole("tab", { name: /^Rules/ }).click();
+check("korean rule index lists 받침 rules", await sees(/연음/));
+await page.getByText(/연음/).first().click();
+check("opening a rule explains it plainly, with the terminology behind a click",
+  await sees(/The precise version/));
+check("and shows a worked example the engine computed", await sees("한구거"));
+await shot("25-rules");
+await page.getByRole("tab", { name: /Say anything/ }).click();
+await page.getByLabel("Text to analyse").fill("한국어");
+await page.getByRole("button", { name: /^Explain$/ }).click();
+check("the lab shows the actual pronunciation", await sees("한구거"));
+await shot("26-explain");
+check("korean has no pitch accent tab",
+  (await page.getByRole("tab", { name: /Pitch accent/ }).count()) === 0);
+
+// ---- japanese pitch accent ----------------------------------------------
+await page.goto(`${BASE}/languages`, { waitUntil: "networkidle" });
+await page.locator("article").filter({ hasText: "Japanese" })
+  .getByRole("button", { name: /Switch to this/ }).click();
+await page.waitForTimeout(900);
+await page.goto(`${BASE}/pronunciation`, { waitUntil: "networkidle" });
+check("japanese does have a pitch accent tab",
+  (await page.getByRole("tab", { name: /Pitch accent/ }).count()) === 1);
+await page.getByRole("tab", { name: /Pitch accent/ }).click();
+check("the four shapes are shown", await sees(/heiban/));
+check("the documented pairs are shown", await sees(/chopsticks/));
+check("and the page says what is not shipped",
+  await sees(/lexical and dialect-dependent/));
+await shot("27-pitch-accent");
+await page.goto(`${BASE}/languages`, { waitUntil: "networkidle" });
+await page.locator("article").filter({ hasText: "Korean" })
+  .getByRole("button", { name: /Switch to this/ }).click();
+await page.waitForTimeout(900);
+
+// ---- backups ------------------------------------------------------------
+await page.goto(`${BASE}/settings`, { waitUntil: "networkidle" });
+check("data safety panel is present", await sees(/Backups and health/));
+check("the integrity check reports a schema version", await sees(/schema v\d/));
+check("and that the database is healthy", await sees(/^healthy$/));
+await page.getByRole("button", { name: /Back up now/ }).click();
+check("a backup appears in the list", await sees(/\.sqlite3/, 12000));
+check("restoring explains that it is itself undoable",
+  await sees(/can be undone the same way/));
+await shot("28-backups");
 
 await page.goto(`${BASE}/search`, { waitUntil: "networkidle" });
 await page.getByLabel("Search").fill("먹");

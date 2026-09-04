@@ -145,6 +145,13 @@ export interface Dashboard {
   strong_areas?: unknown[];
   confusions?: Confusion[];
   recommendations?: Recommendation[];
+  /** Skills with enough evidence behind them to be worth naming. */
+  weak_skills?: SkillFocus[];
+  mistake_reasons?: Record<string, number>;
+  mistake_summary?: MistakeSummary;
+  /** The one specific point worth fixing today, if any has become a pattern. */
+  weak_point?: { id: string; title: string; skill: string; failures: number;
+                 minutes: number } | null;
 }
 
 export interface Recommendation {
@@ -409,6 +416,8 @@ export interface ReviewItem {
   card: Card;
   preview: Record<Grade, string>;
   content: Record<string, unknown> | null;
+  /** How this card should be asked, chosen from the learner's weak skills. */
+  ask?: { mode: "recognise" | "recall" | "listen" | "speak"; why: string; skill?: string };
 }
 
 export interface GradeOutcome {
@@ -434,6 +443,12 @@ export interface Mistake {
   explanation: string;
   confusion_id: string;
   lesson_id: string;
+  /** Why the answer was wrong. Empty for mistakes recorded before this was
+   *  tracked — deliberately not back-filled with a guess. */
+  reason?: Reason | "";
+  reason_why?: string;
+  confidence?: number;
+  response_ms?: number;
   /** Present when the mistake matched a known confusion pair. */
   confusion?: { title: string; one_line: string };
 }
@@ -466,4 +481,245 @@ export interface SearchResults {
   results: Record<string, SearchHit[]>;
   pronunciation?: Explanation;
   conjugation?: Record<string, unknown>;
+}
+
+// ==========================================================================
+// Why an answer was wrong
+// ==========================================================================
+
+export type Reason =
+  | "vocabulary" | "grammar" | "pronunciation" | "listening"
+  | "reading" | "writing" | "careless";
+
+export interface Diagnosis {
+  reason: Reason;
+  name: string;
+  confidence: number;
+  because: string;
+  simple: string;
+  advice: string;
+  /** Careless slips are deliberately excluded from the adaptive model. */
+  counts_as_weakness: boolean;
+  evidence: Record<string, unknown>;
+}
+
+export interface ReasonInfo {
+  name: string;
+  simple: string;
+  advice: string;
+}
+
+export interface MistakeSummary {
+  counts: Record<string, number>;
+  dominant: Reason | null;
+  real_total: number;
+  careless_total: number;
+  note: string;
+}
+
+export interface MistakeReport {
+  language: LangCode;
+  total: number;
+  by_reason: Record<string, Mistake[]>;
+  by_category: Record<string, Mistake[]>;
+  reasons: Record<string, ReasonInfo>;
+  summary: MistakeSummary;
+  /** Rows recorded before diagnosis existed. Never given an invented reason. */
+  undiagnosed: number;
+  /** What to do about each group. Careless is the one whose answer is "nothing". */
+  next_steps: Record<string, NextStep>;
+  /** The specific rules and points behind the mistakes, not just the skills. */
+  weak_points: WeakPoint[];
+  weak_point_summary: string;
+  mistakes: Mistake[];
+}
+
+export interface NextStep {
+  advice: string;
+  drill: string;
+  count: number;
+  practisable: boolean;
+}
+
+// ==========================================================================
+// Specific points, and fixing them
+// ==========================================================================
+
+export interface FocusPoint {
+  id: string;
+  kind: "pron" | "grammar" | "confusion";
+  skill: string;
+  title: string;
+  native_title: string;
+  simple: string;
+  technical: string;
+  examples: string[];
+  source_id: string;
+}
+
+export interface WeakPoint extends FocusPoint {
+  failures: number;
+  warrants_remediation: boolean;
+  samples: { expected: string; given: string; times_seen: number }[];
+}
+
+export interface WeakPointReport {
+  language: LangCode;
+  threshold: number;
+  weak_points: WeakPoint[];
+  ready: string[];
+  summary: string;
+  /** Mistakes that could not be pinned to any one point. The honest denominator. */
+  unattributed: number;
+}
+
+export interface RemediationStep {
+  id: string;
+  title: string;
+  why: string;
+  spec: Record<string, unknown> | null;
+  teach: { simple: string; technical: string; examples: string[] } | null;
+}
+
+export interface RemediationPlan {
+  language: LangCode;
+  point: FocusPoint;
+  steps: RemediationStep[];
+  /** Steps this language cannot build, and why. Shown rather than hidden. */
+  skipped: { id: string; why: string }[];
+  minutes: number;
+  failures: number;
+  your_mistakes: { expected: string; given: string; times_seen: number }[];
+  warrants_remediation: boolean;
+}
+
+// ==========================================================================
+// Today's session
+// ==========================================================================
+
+export interface SkillFocus {
+  skill: string;
+  weight: number;
+  score: number;
+  attempts: number;
+  why: string;
+}
+
+export interface SessionBlock {
+  id: string;
+  kind: "review" | "remediation" | "confusion" | "weakness" | "calibrate"
+      | "lesson" | "vocabulary" | "production";
+  title: string;
+  why: string;
+  minutes: number;
+  skill: string;
+  payload: {
+    count?: number;
+    deferred?: number;
+    lesson_id?: string;
+    confusion_id?: string;
+    point_id?: string;
+    specs?: { type: string; count: number }[];
+  };
+}
+
+export interface SessionPlan {
+  language: LangCode;
+  minutes: number;
+  planned_minutes: number;
+  blocks: SessionBlock[];
+  note: string;
+  focus: SkillFocus[];
+  generated_at: string;
+}
+
+// ==========================================================================
+// The pronunciation lab
+// ==========================================================================
+
+export interface RuleExample {
+  written: string;
+  spoken: string;
+  note: string;
+  /** Whether the example still triggers the rule it illustrates. */
+  verified?: boolean;
+  /** Deliberately shows where the rule stops applying. */
+  shows_the_limit?: boolean;
+  beats?: number;
+  hints?: Record<string, unknown>;
+}
+
+export interface PronunciationRule {
+  id: string;
+  name: string;
+  native_name: string;
+  simple: string;
+  technical: string;
+  examples: RuleExample[];
+}
+
+export interface PronunciationLab {
+  language: LangCode;
+  name: string;
+  rule_derived: boolean;
+  rules: PronunciationRule[];
+  difficulties: Difficulty[];
+  minimal_pairs: { syllable?: string; set?: { pinyin: string; hanzi?: string; meaning: string }[]; pair?: string[]; meanings?: string[]; note?: string }[];
+  note: string;
+  /** Present only for a language whose engine has pitch accent. Korean and
+   *  Mandarin omit the key entirely rather than sending an empty section. */
+  pitch_accent?: PitchAccent;
+}
+
+export interface PitchContour {
+  text: string;
+  accent: number;
+  kind: string;
+  kind_name: string;
+  shape: string;
+  particle: "high" | "low";
+  with_particle: string;
+  mora: { text: string; romaji: string; pitch: "high" | "low" }[];
+  drop_after: number | null;
+}
+
+export interface PitchAccent {
+  supported: boolean;
+  computed: string;
+  not_stored: string;
+  kinds: Record<string, { name: string; simple: string; technical: string }>;
+  documented_sets: number;
+  documented_words: number;
+  pairs: {
+    reading: string;
+    mora: number;
+    note?: string;
+    senses: { word: string; meaning: string; accent: number; contour: PitchContour }[];
+  }[];
+}
+
+// ==========================================================================
+// Data safety
+// ==========================================================================
+
+export interface BackupFile {
+  name: string;
+  path: string;
+  bytes: number;
+  modified: string;
+}
+
+export interface IntegrityReport {
+  ok: boolean;
+  integrity: string[];
+  foreign_key_violations: number;
+  path: string;
+  bytes: number;
+  schema_version: number;
+  expected_schema_version: number;
+  up_to_date: boolean;
+  learner_rows: Record<string, number>;
+  total_learner_rows: number;
+  backups: number;
+  note: string;
 }

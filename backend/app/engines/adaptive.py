@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import importlib
 import math
+import random
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timedelta, timezone
@@ -359,6 +360,111 @@ def level_ladder(language: str) -> Optional[Any]:
 # What next?
 # ==========================================================================
 
+# ==========================================================================
+# Turning the model into a choice of exercises
+# ==========================================================================
+
+@dataclass
+class SkillFocus:
+    """How much of a session one skill deserves, and why."""
+
+    skill: str
+    weight: float          # 0-1, relative share of the session
+    score: float           # the skill score that produced it
+    attempts: int
+    why: str
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+#: Diagnosed mistake reasons map back onto skills. `careless` is deliberately
+#: absent: a slip on something already known is not evidence of a weakness, and
+#: letting it raise a skill's weight would have the app drilling a learner on
+#: material they have already mastered — see engines/diagnosis.py.
+REASON_TO_SKILL: dict[str, str] = {
+    "vocabulary": "vocabulary",
+    "grammar": "grammar",
+    "pronunciation": "pronunciation",
+    "listening": "listening",
+    "reading": "reading",
+    "writing": "writing",
+}
+
+#: An unmeasured skill is not a weak skill. It gets a middling weight — enough
+#: that the app finds out where the learner stands, not so much that a skill
+#: with no evidence behind it dominates a session.
+UNMEASURED_WEIGHT = 0.45
+
+
+def focus(
+    model: LearnerModel,
+    mistake_reasons: Optional[dict[str, int]] = None,
+    skills: Optional[Iterable[str]] = None,
+) -> list[SkillFocus]:
+    """Rank skills by how much attention they need.
+
+    Three inputs, in decreasing order of trust:
+
+      * the skill score, when there is enough evidence behind it;
+      * recent diagnosed mistakes, which are more current than the score;
+      * ignorance, which earns a moderate weight rather than none, because a
+        skill nobody has measured is a hole in the picture.
+
+    Confidence matters. A 20% score from three attempts is weaker evidence than
+    a 60% score from eighty, and treating them alike sends a learner to drill
+    something they were merely unlucky at.
+    """
+    reasons = mistake_reasons or {}
+    total_mistakes = sum(n for r, n in reasons.items() if r in REASON_TO_SKILL)
+
+    out: list[SkillFocus] = []
+    for name in (skills or model.skills.keys()):
+        sc = model.skills.get(name)
+        score = sc.score if sc else 0.0
+        attempts = sc.attempts if sc else 0
+        confidence = sc.confidence if sc else 0.0
+
+        if attempts == 0:
+            weight, why = UNMEASURED_WEIGHT, "Not measured yet."
+        else:
+            gap = max(0.0, (100.0 - score) / 100.0)
+            # Blend towards the unmeasured default in proportion to how little
+            # evidence there is, rather than trusting a score built on four
+            # answers as if it were built on four hundred.
+            weight = gap * confidence + UNMEASURED_WEIGHT * (1 - confidence)
+            why = (f"{round(score)}% across {attempts} answer"
+                   f"{'' if attempts == 1 else 's'}.")
+
+        # Recent mistakes are more current than the running score, so they lift
+        # a skill even when its historical average looks acceptable.
+        hits = sum(n for r, n in reasons.items() if REASON_TO_SKILL.get(r) == name)
+        if hits and total_mistakes:
+            share = hits / total_mistakes
+            weight = min(1.0, weight + share * 0.5)
+            why += f" {hits} recent mistake{'' if hits == 1 else 's'} here."
+
+        out.append(SkillFocus(name, round(weight, 3), score, attempts, why.strip()))
+
+    out.sort(key=lambda f: (-f.weight, f.skill))
+    return out
+
+
+def weakest(
+    model: LearnerModel,
+    mistake_reasons: Optional[dict[str, int]] = None,
+    limit: int = 3,
+    min_attempts: int = 4,
+) -> list[SkillFocus]:
+    """The skills worth naming on a dashboard.
+
+    Only skills with real evidence behind them: telling a learner on their
+    first day that their speaking is weak is both useless and untrue.
+    """
+    measured = [f for f in focus(model, mistake_reasons) if f.attempts >= min_attempts]
+    return measured[:limit]
+
+
 @dataclass
 class Recommendation:
     kind: str                # review | mini_course | lesson | drill | rest
@@ -514,3 +620,83 @@ def next_difficulty(recent: Iterable[Attempt], current: float = 0.5) -> float:
     if acc < 0.65:
         return max(0.0, current - 0.1)
     return current
+
+
+# ==========================================================================
+# How a card should be asked, not just when
+# ==========================================================================
+#
+# The scheduler decides *when* a card comes back. It has nothing to say about
+# what the learner is shown, so every review looks the same: the word, then its
+# meaning. That trains one skill — recognition — and recognition is the one
+# skill a learner already has by the time a card is due.
+#
+# So the mode is chosen here, where the weak skills are known. A learner who is
+# weak at listening meets the card as dictation; one weak at production meets
+# the meaning and has to produce the word. Same card, same schedule, different
+# question.
+
+#: Which weak skill turns a card into which kind of question. Only vocabulary
+#: cards have a real choice — a script unit or a grammar point has one sensible
+#: face, and rotating it would be variety for its own sake.
+_MODE_FOR_SKILL = {
+    "vocabulary": ("recall", "Meaning first, because producing the word is the "
+                             "half you are weaker at."),
+    "listening": ("listen", "Sound first, because listening is your weakest "
+                            "skill and it only improves by being practised."),
+    "pronunciation": ("speak", "Say it before you check, because pronunciation "
+                               "is where you are losing marks."),
+    "speaking": ("speak", "Say it before you check, because producing it aloud "
+                          "is the part you skip."),
+}
+
+#: Never harder than recognition while a card is still being learned. A learner
+#: cannot recall what they met four minutes ago, and asking them to is not
+#: rigour — it is a card that fails for a reason the scheduler will misread as
+#: forgetting.
+_EASY_STATES = frozenset({"new", "learning"})
+
+#: How often a due card is asked in a harder mode even so. Every review being a
+#: production test is exhausting and slows the queue to a crawl; the point is
+#: that *some* of them are.
+HARDER_MODE_SHARE = 0.4
+
+
+def review_mode(*, state: str, item_type: str,
+                weights: Optional[dict[str, float]] = None,
+                rng: Optional[random.Random] = None) -> dict:
+    """Pick how one due card should be asked.
+
+    Returns the mode and the reason for it, because a learner who is suddenly
+    asked to produce a word they expected to recognise deserves to know why —
+    and because an unexplained change of format reads as a bug.
+    """
+    if item_type != "vocab" or state in _EASY_STATES:
+        return {"mode": "recognise",
+                "why": "Recognition first while this is still new."
+                       if state in _EASY_STATES else ""}
+
+    ranked = sorted(
+        ((s, w) for s, w in (weights or {}).items() if s in _MODE_FOR_SKILL),
+        key=lambda kv: -kv[1])
+    if not ranked:
+        return {"mode": "recognise", "why": ""}
+
+    rng = rng or random.Random()
+    if rng.random() > HARDER_MODE_SHARE:
+        return {"mode": "recognise", "why": ""}
+
+    # Weighted rather than always-the-weakest, for the same reason the exercise
+    # picker is: a queue that is forty dictations in a row is worse practice
+    # than one that mixes, even when listening really is the weakest skill.
+    total = sum(w for _, w in ranked)
+    if total <= 0:
+        return {"mode": "recognise", "why": ""}
+    roll = rng.random() * total
+    for skill, weight in ranked:
+        roll -= weight
+        if roll <= 0:
+            mode, why = _MODE_FOR_SKILL[skill]
+            return {"mode": mode, "why": why, "skill": skill}
+    mode, why = _MODE_FOR_SKILL[ranked[0][0]]
+    return {"mode": mode, "why": why, "skill": ranked[0][0]}

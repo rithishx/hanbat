@@ -60,6 +60,7 @@ def pronounce(self, text, hints=None) -> dict     # at least {"spoken": str}
 def explain(self, text, hints=None) -> dict       # {"spoken", "steps": [...]}
 def difficulty_points(self) -> list[dict]
 def minimal_pairs(self) -> list[dict]
+def rules(self) -> list[dict]                     # the rule index
 ```
 
 The return shape of `explain()` is language-defined and genuinely differs
@@ -68,6 +69,43 @@ between the three. What is *not* optional is that every step carries both a
 app's teaching philosophy is patient-teacher-first; a step with only the
 technical version produces exactly the grammar reference the learner already
 failed to understand.
+
+`rules()` has a fixed shape, because the pronunciation lab renders all three
+languages through it:
+
+```python
+{"id", "name", "native_name", "simple", "technical",
+ "examples": [{"written", "spoken", "note", "verified": bool}]}
+```
+
+What fills it is completely different — Korean returns 14 sound-change rules,
+Japanese returns 6 timing rules, Mandarin returns 5 tone rules — and that is the
+architecture visible from the outside.
+
+One requirement is absolute: **examples are computed, never authored.** The
+example list holds inputs; the engine runs each one through `pronounce()` /
+`count_mora()` / `apply_sandhi()` at call time and sets `verified` from whether
+the rule actually fired. This is not ceremony. Building it caught four Korean
+examples that no longer triggered the rule they were illustrating, and one —
+의사 for vowel reduction — that was simply wrong, because word-initial 의 does
+not reduce. An authored string would have taught that error indefinitely.
+
+`rules()` is also what makes a language's sound rules *remediable*. The
+remediation engine reads the rule index straight out of it — id, title, both
+explanations, examples — and builds the "hear it, say it, use it" plan from
+those examples. A language that publishes no rule index contributes no
+pronunciation focus points and the rest of the app still works; it just cannot
+tell that learner which specific rule they keep dropping. That is the single
+highest-value thing a new language module can add after the writing system.
+
+Anything genuinely specific to one language goes in an **optional** method the
+lab checks for with `hasattr`. Japanese has `pitch_accent()`; Korean and Mandarin
+do not, so the API omits the key and the UI renders one section fewer rather
+than an empty panel explaining what the language does not have. That method also
+shows the line to hold when a phenomenon is half rule and half fact: the pitch
+*contour* is derived from an accent number by rule, while the accent numbers
+themselves are lexical and are shipped only for the documented minimal pairs.
+`accent_for()` returns `None` for everything else, and `None` never becomes `0`.
 
 ### `TransliterationEngine`
 
@@ -314,3 +352,30 @@ edits; if you must script one, read the diff before committing.
 **Conflating two conditions that look alike.** Korean compound boundaries affect
 liaison, and ㄴ-insertion is lexically conditioned. They are not the same signal
 and needed two separate hint fields.
+
+
+## What a language contributes to remediation
+
+Nothing extra needs writing. The catalogue in `engines/remediation.py` is
+assembled from three things a module already has, and each is optional:
+
+| Source | Becomes | Needs |
+|---|---|---|
+| `pronunciation.rules()` | `pron:<rule_id>` focus points, skill `pronunciation` | a rule index with verified examples |
+| the grammar JSON | `grammar:<point_id>` focus points, skill `grammar` | `simple`, `technical`, `examples`, and ideally `mistakes` |
+| `confusions.py` | `confusion:<id>` focus points | the pairs the module already declares |
+
+Two details are worth knowing when authoring for it.
+
+**`mistakes` on a grammar point are drill material, not just prose.** The
+wrong/right/why triples feed `spot_the_error` and `fix_the_sentence`, which
+means the distractors in those drills are errors real learners of that language
+make rather than plausible-looking strings a generator assembled. A point with
+no `mistakes` still teaches; it just cannot be remediated that way, and the
+drill says so rather than returning nothing.
+
+**Confusion `tags` decide which kind of fix a pair gets.** A pair tagged with a
+sound tag — `pronunciation`, `sounds`, `tones`, `vowels`, `listening` — is fixed
+by hearing and saying it; anything else is fixed by telling the two apart and
+then producing one. Shared code never inspects the pair itself, only whether any
+of its tags is in that set, which is the same trick the diagnosis engine uses.

@@ -10,11 +10,14 @@
  */
 
 import type {
-  AiStatus, Confusion, Dashboard, Difficulty, Exercise, Explanation, Grade,
+  AiStatus, Confusion, Dashboard, Diagnosis, Difficulty, Exercise,
+  Explanation, Grade, RuleExample,
   GradeOutcome, GrammarPoint, HealthReport, Language, Lesson, LessonSummary,
-  LevelDetails, Me, Mistake, OnboardingQuestion, Recommendation, ReviewItem,
-  RuntimeInfo, ScriptUnit, SearchResults, Settings, SpeechCapabilities,
-  SrsSummary, VocabWord, WritingSystem,
+  LevelDetails, Me, OnboardingQuestion, Recommendation, ReviewItem,
+  BackupFile, IntegrityReport, MistakeReport, PronunciationLab,
+  PronunciationRule, RemediationPlan, RuntimeInfo, ScriptUnit, SearchResults,
+  SessionPlan, Settings, SpeechCapabilities, SrsSummary, VocabWord,
+  WeakPointReport, WritingSystem,
 } from "./types";
 
 export class ApiError extends Error {
@@ -229,21 +232,44 @@ export const api = {
       item_id?: string;
       expected?: string;
       given?: string;
-      seconds?: number;
+      /** Time on the question. Feeds the careless-slip check. */
+      response_ms?: number;
+      /** A wrong pick from a list is a decision, never a typo. */
+      had_options?: boolean;
+      lesson_id?: string;
     },
-  ) => post<{ ok: boolean; confusion?: Confusion | null }>("/answer", body, { lang }),
+  ) =>
+    post<{
+      correct: boolean;
+      message?: string;
+      diagnosis?: Diagnosis;
+      confusion?: Confusion | null;
+      srs?: { state: string; next_due_in: string };
+    }>("/answer", body, { lang }),
   session: (lang: string, body: { seconds: number; kind?: string }) =>
     post<{ ok: boolean; minutes_today: number }>("/session", body, { lang }),
 
   reviewQueue: (lang: string, limit?: number) =>
-    get<{ count: number; items: ReviewItem[]; summary: SrsSummary }>("/review/queue", {
-      lang,
-      limit,
-    }),
-  mistakeSummary: (lang: string) =>
-    get<{ total: number; by_category: Record<string, number>; mistakes: Mistake[] }>(
-      "/mistakes",
-      { lang },
+    get<{
+      count: number;
+      items: ReviewItem[];
+      summary: SrsSummary;
+      modes: Record<string, number>;
+    }>("/review/queue", { lang, limit }),
+  /** Mistakes grouped by *why*, not only by which skill they happened in. */
+  mistakeSummary: (lang: string, reason?: string) =>
+    get<MistakeReport>("/mistakes", { lang, reason }),
+
+  /** One ordered plan for today, composed from what is genuinely due. */
+  sessionPlan: (lang: string, opts?: { minutes?: number; seed?: number }) =>
+    get<SessionPlan>("/session/plan", { lang, ...opts }),
+
+  pronunciationLab: (lang: string) =>
+    get<PronunciationLab>("/pronunciation/lab", { lang }),
+  pronunciationDrill: (lang: string, rule: string) =>
+    get<{ rule: PronunciationRule; items: (RuleExample & { explained: Explanation })[] }>(
+      "/pronunciation/drill",
+      { lang, rule },
     ),
   reviewSummary: (lang: string) =>
     get<SrsSummary & { forecast: { date: string; count: number }[] }>("/review/summary", {
@@ -287,6 +313,29 @@ export const api = {
     get<{ recommendations: Recommendation[] }>("/recommendations", { lang }),
   resolveMistake: (id: string, lang: string) =>
     post<{ ok: boolean }>(`/mistakes/${id}/resolve`, {}, { lang }),
+  /** A drill built from the learner's own recorded mistakes. */
+  practiseMistakes: (
+    lang: string,
+    body: { reason?: string; focus?: string; count?: number },
+  ) =>
+    post<{
+      count: number;
+      exercises: Exercise[];
+      from_mistakes: number;
+      excluded_careless: boolean;
+      note: string;
+    }>("/mistakes/practice", body, { lang }),
+
+  // -- remediation ---------------------------------------------------------
+  /** The specific points this learner keeps failing. */
+  weakPoints: (lang: string) => get<WeakPointReport>("/remediation", { lang }),
+  /** The plan for one point: understand it, hear it, say it, use it. */
+  remediation: (lang: string, pointId: string) =>
+    get<RemediationPlan>(`/remediation/${encodeURIComponent(pointId)}`, { lang }),
+  finishRemediation: (lang: string, pointId: string) =>
+    post<{ cleared: number; note: string }>(
+      `/remediation/${encodeURIComponent(pointId)}/done`, {}, { lang },
+    ),
   miniCourse: (confusionId: string, lang: string) =>
     get<{ id: string; title: string; steps: { heading: string; body: string }[] }>(
       `/mini-course/${confusionId}`,
@@ -327,9 +376,15 @@ export const api = {
   exportUrl: () => "/api/data/export/file",
   exportVocabUrl: (lang: string) => `/api/data/export/vocab.csv?lang=${lang}`,
   exportAnkiUrl: (lang: string) => `/api/data/export/anki.txt?lang=${lang}`,
-  backups: () => get<{ backups: { name: string; size: number; created: string }[] }>(
-    "/data/backup/list",
-  ),
+  backups: () => get<{ backups: BackupFile[]; note: string }>("/data/backup/list"),
+  createBackup: () =>
+    post<{ created: boolean; name: string; bytes: number; note: string }>("/data/backup"),
+  restoreBackup: (name: string) =>
+    post<{ restored: string; previous_state_saved_as: string | null; note: string }>(
+      "/data/backup/restore",
+      { name },
+    ),
+  integrity: () => get<IntegrityReport>("/data/integrity"),
   importData: (payload: unknown) =>
     post<{ ok: boolean; imported: Record<string, number>; warnings: string[] }>(
       "/data/import",

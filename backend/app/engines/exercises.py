@@ -68,6 +68,14 @@ class GenContext:
     #: Rows from the content cache, if the generator needs real vocabulary.
     vocab: list[dict] = field(default_factory=list)
     script_units: list[dict] = field(default_factory=list)
+    #: Real sentences, so vocabulary and grammar can be drilled in context
+    #: rather than only as isolated pairs.
+    sentences: list[dict] = field(default_factory=list)
+    #: Grammar points, including the wrong-versus-right pairs each one carries.
+    #: Those pairs are authored by whoever wrote the curriculum and describe the
+    #: errors learners of that language actually make, which makes them better
+    #: drill material than anything a generator could assemble.
+    grammar: list[dict] = field(default_factory=list)
     level: str = ""
     hints: bool = True
 
@@ -107,6 +115,63 @@ def skill_for(language: str, kind: str, default: str = "grammar") -> str:
 
 def supported_kinds(language: str) -> list[str]:
     return sorted({k for (lang, k) in _GENERATORS if lang in (language, "*")})
+
+
+def kinds_by_skill(language: str) -> dict[str, list[str]]:
+    """Every drill this language can run, grouped by what it exercises.
+
+    Built from the registry rather than a table, so a new generator becomes
+    available to the adaptive picker the moment it is written — which is the
+    point of generators declaring their own skill.
+    """
+    out: dict[str, list[str]] = {}
+    for (lang, kind), skill in _SKILLS.items():
+        if lang in (language, "*"):
+            out.setdefault(skill, []).append(kind)
+    for kinds in out.values():
+        kinds.sort()
+    return out
+
+
+def choose_kinds(
+    language: str,
+    weights: dict[str, float],
+    count: int,
+    rng: random.Random,
+    exclude: frozenset[str] = frozenset(),
+) -> list[str]:
+    """Pick `count` drill kinds, biased towards the skills that need work.
+
+    Biased, not restricted. A session made only of a learner's worst skill is
+    demoralising and teaches badly — interleaving is what makes practice stick,
+    and a learner who never sees anything they are good at stops coming back.
+    So every available skill keeps a floor weight and can still appear.
+    """
+    available = kinds_by_skill(language)
+    pool = [(skill, kinds) for skill, kinds in available.items()
+            if kinds and skill in weights]
+    if not pool:
+        return []
+
+    # The floor is what keeps this "biased towards" rather than "only".
+    floors = [(skill, max(0.12, weights.get(skill, 0.0))) for skill, _ in pool]
+    total = sum(w for _, w in floors)
+
+    picked: list[str] = []
+    for _ in range(count):
+        roll = rng.random() * total
+        chosen = floors[-1][0]
+        running = 0.0
+        for skill, w in floors:
+            running += w
+            if roll <= running:
+                chosen = skill
+                break
+        candidates = [k for k in available[chosen] if k not in exclude]
+        if not candidates:
+            continue
+        picked.append(rng.choice(candidates))
+    return picked
 
 
 def generate(spec: dict, ctx: GenContext) -> list[Exercise]:
@@ -274,6 +339,333 @@ def gen_read_aloud(spec: dict, ctx: GenContext) -> list[Exercise]:
         explain=spec.get("note", ""),
         data={"scoring": "requires_stt_engine"},
     ) for item in (spec.get("items") or [])]
+
+
+# --------------------------------------------------------------------------
+# Sentence-based drills
+#
+# Everything below works from real sentences rather than isolated word pairs.
+# That is the point: a learner who can pair 먹다 with "to eat" and cannot say
+# "I ate already" has learned a flashcard, not a language. These are shared
+# across languages because the *task* is shared — only the sentences differ,
+# and those come from each language's own content.
+# --------------------------------------------------------------------------
+
+@register("translate_to_english", skill="reading")
+def gen_translate_to_english(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """Read a sentence, say what it means.
+
+    The easier direction, and the honest one to start with: comprehension
+    arrives long before production, and testing only production early makes a
+    learner feel they know nothing.
+    """
+    rows = _sentence_pool(spec, ctx)
+    if not rows:
+        return _no_sentences("translate_to_english", ctx)
+    picks = _sample(rows, spec.get("count", 6), ctx.rng)
+    return [Exercise(
+        kind="translate_to_english", skill="reading",
+        prompt=r["target"], answer=r["english"], audio=r["target"],
+        explain=_sentence_note(r),
+        data={"transliteration": r.get("transliteration", ""),
+              "pronunciation": r.get("pronunciation", ""),
+              "accepts_variants": True, "free_text": True},
+        hints=spec.get("hints", True),
+        item_type="sentence", item_id=r["id"],
+    ) for r in picks]
+
+
+@register("translate_to_target", skill="writing")
+def gen_translate_to_target(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """Given the meaning, build the sentence.
+
+    Harder, and where the real learning is. Marked leniently on spacing,
+    because Japanese and Mandarin are written without spaces and a learner who
+    adds one has not made a mistake worth failing.
+    """
+    rows = _sentence_pool(spec, ctx)
+    if not rows:
+        return _no_sentences("translate_to_target", ctx)
+    picks = _sample(rows, spec.get("count", 5), ctx.rng)
+    return [Exercise(
+        kind="translate_to_target", skill="writing",
+        prompt=r["english"], answer=r["target"], audio=r["target"],
+        explain=_sentence_note(r),
+        data={"accepts_variants": True, "free_text": True,
+              "chunks": r.get("chunks") or []},
+        hints=spec.get("hints", False),
+        item_type="sentence", item_id=r["id"],
+    ) for r in picks]
+
+
+@register("sentence_complete", skill="grammar")
+def gen_sentence_complete(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """One piece removed from a real sentence, with the reason attached.
+
+    The blanks are authored rather than chosen at random, because a randomly
+    deleted word usually has several defensible answers and marking one of them
+    wrong teaches a learner to distrust the app.
+    """
+    rows = [r for r in _sentence_pool(spec, ctx) if r.get("blanks")]
+    if not rows:
+        return _no_sentences("sentence_complete", ctx)
+    picks = _sample(rows, spec.get("count", 6), ctx.rng)
+    out = []
+    for r in picks:
+        blank = ctx.rng.choice(r["blanks"])
+        answer = blank.get("answer", "")
+        if not answer or answer not in r["target"]:
+            continue
+        options = list(blank.get("options") or [])
+        if answer not in options:
+            options.append(answer)
+        ctx.rng.shuffle(options)
+        out.append(Exercise(
+            kind="sentence_complete", skill="grammar",
+            prompt=r["target"].replace(answer, "____", 1),
+            answer=answer,
+            options=options if len(options) > 1 else [],
+            audio=r["target"],
+            explain=(blank.get("why") or "") + (
+                f"  ({r['english']})" if r.get("english") else ""),
+            data={"english": r.get("english", ""),
+                  "grammar_ids": r.get("grammar_ids") or []},
+            hints=spec.get("hints", True),
+            item_type="sentence", item_id=r["id"],
+        ))
+    return out
+
+
+# --------------------------------------------------------------------------
+# Drills built from the curriculum's own error catalogue
+#
+# Every grammar point carries a `mistakes` list: the wrong sentence, the right
+# one, and why. Those were authored by someone describing what learners of that
+# language actually get wrong, and until now they were only ever *displayed*.
+# Read as exercises they are better than anything a generator could assemble,
+# because a plausible wrong answer is the hard part of writing a drill and these
+# are not plausible — they are real.
+#
+# Two drills, deliberately in this order. Recognising the error is easier than
+# producing the correction, so `spot_the_error` comes first and
+# `fix_the_sentence` asks for the same knowledge with the scaffolding removed.
+# --------------------------------------------------------------------------
+
+def _error_pairs(spec: dict, ctx: GenContext) -> list[dict]:
+    """Authored wrong/right pairs, optionally narrowed to one grammar point."""
+    wanted = spec.get("grammar_id") or ""
+    out = []
+    for point in ctx.grammar:
+        if wanted and point.get("id") != wanted:
+            continue
+        for m in point.get("mistakes") or []:
+            if m.get("wrong") and m.get("right") and m["wrong"] != m["right"]:
+                out.append({**m, "point": point})
+    return out
+
+
+def _no_error_pairs(kind: str, ctx: GenContext, wanted: str) -> list[Exercise]:
+    """Say so, visibly, rather than returning an empty list.
+
+    An empty list looks to the caller exactly like "this language has no such
+    drill", and the two are different: one is a gap in the curriculum that
+    someone can fill by authoring content.
+    """
+    where = f"the grammar point {wanted}" if wanted else "this language"
+    return [Exercise(
+        kind="unsupported", skill="grammar",
+        prompt=f"No worked errors are written for {where} yet.",
+        answer="",
+        explain=("This drill is built from the wrong-versus-right pairs in the "
+                 "curriculum. Where none are authored, there is nothing "
+                 "honest to ask."),
+        data={"missing": "error_pairs", "requested": kind, "grammar_id": wanted},
+        item_type="", item_id="",
+    )]
+
+
+@register("spot_the_error", skill="grammar")
+def gen_spot_the_error(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """Which of these two sentences is right? — with the reason waiting."""
+    pairs = _error_pairs(spec, ctx)
+    if not pairs:
+        return _no_error_pairs("spot_the_error", ctx, spec.get("grammar_id", ""))
+
+    out = []
+    for m in _sample(pairs, spec.get("count", 5), ctx.rng):
+        options = [m["right"], m["wrong"]]
+        ctx.rng.shuffle(options)
+        out.append(Exercise(
+            kind="spot_the_error", skill="grammar",
+            prompt="Which one is correct?",
+            answer=m["right"], options=options, audio=m["right"],
+            explain=m.get("why", ""),
+            data={"wrong": m["wrong"], "point": m["point"].get("name", ""),
+                  "grammar_id": m["point"].get("id", "")},
+            item_type="grammar", item_id=m["point"].get("id", ""),
+        ))
+    return out
+
+
+@register("fix_the_sentence", skill="writing")
+def gen_fix_the_sentence(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """Here is the wrong sentence. Write the right one.
+
+    Production, not recognition: there is nothing to pick from, so the learner
+    has to know the correct form well enough to type it.
+    """
+    pairs = _error_pairs(spec, ctx)
+    if not pairs:
+        return _no_error_pairs("fix_the_sentence", ctx, spec.get("grammar_id", ""))
+
+    out = []
+    for m in _sample(pairs, spec.get("count", 5), ctx.rng):
+        out.append(Exercise(
+            kind="fix_the_sentence", skill="writing",
+            prompt=f"This is wrong. Write it correctly:\n{m['wrong']}",
+            answer=m["right"], audio=m["right"],
+            explain=m.get("why", ""),
+            data={"wrong": m["wrong"], "point": m["point"].get("name", ""),
+                  "grammar_id": m["point"].get("id", "")},
+            hints=spec.get("hints", ctx.hints),
+            item_type="grammar", item_id=m["point"].get("id", ""),
+        ))
+    return out
+
+
+@register("grammar_transform", skill="grammar")
+def gen_grammar_transform(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """Change one thing about a form, and say which thing.
+
+    This is the one drill that reaches straight into each language's own
+    grammar engine. Korean returns conjugations, Japanese returns て-forms and
+    politeness registers, Mandarin — which has no conjugation at all — returns
+    aspect particles and measure words. Same drill, three genuinely different
+    grammars, and no shared code that has to know which is which.
+
+    Authored sentence-level transforms are used first when a language has them,
+    because "make this sentence past" teaches more than "make this word past".
+    """
+    out: list[Exercise] = []
+
+    for r in [s for s in _sentence_pool(spec, ctx) if s.get("transforms")]:
+        for t in r["transforms"]:
+            if not t.get("answer"):
+                continue
+            out.append(Exercise(
+                kind="grammar_transform", skill="grammar",
+                prompt=f"{r['target']}  →  make it {t.get('to', 'different')}",
+                answer=t["answer"], audio=t["answer"],
+                explain=t.get("why", ""),
+                data={"from": r["target"], "to": t.get("to", ""),
+                      "english": r.get("english", "")},
+                hints=spec.get("hints", True),
+                item_type="sentence", item_id=r["id"],
+            ))
+
+    # Then word-level transforms, from whatever this language's grammar engine
+    # says is worth practising about a word.
+    try:
+        grammar = registry.get(ctx.language).grammar
+    except (ModuleNotFoundError, AttributeError):
+        grammar = None
+
+    if grammar is not None:
+        rows = [v for v in ctx.vocab if v.get("pos")]
+        for row in _sample(rows, spec.get("count", 6), ctx.rng):
+            try:
+                forms = grammar.drill_forms(dict(row))
+            except Exception:
+                continue
+            usable = [f for f in forms if f.get("form") and f.get("label")
+                      and f["form"] != row["term"]]
+            if not usable:
+                continue
+            f = ctx.rng.choice(usable)
+            out.append(Exercise(
+                kind="grammar_transform", skill="grammar",
+                prompt=f"{row['term']}  →  {f['label']}",
+                answer=f["form"], audio=f["form"],
+                explain=f.get("note", "") or f"{row['term']} — {row.get('meaning', '')}",
+                data={"from": row["term"], "category": f.get("category", ""),
+                      "meaning": row.get("meaning", "")},
+                hints=spec.get("hints", True),
+                item_type="vocab", item_id=row["id"],
+            ))
+
+    ctx.rng.shuffle(out)
+    return out[: spec.get("count", 6)]
+
+
+@register("sentence_order", skill="grammar")
+def gen_sentence_order(spec: dict, ctx: GenContext) -> list[Exercise]:
+    """Rebuild a sentence from its parts."""
+    rows = [r for r in _sentence_pool(spec, ctx)
+            if len(r.get("chunks") or []) >= 3]
+    if not rows:
+        return _no_sentences("sentence_order", ctx)
+    picks = _sample(rows, spec.get("count", 5), ctx.rng)
+    out = []
+    for r in picks:
+        chunks = list(r["chunks"])
+        ctx.rng.shuffle(chunks)
+        out.append(Exercise(
+            kind="sentence_order", skill="grammar",
+            prompt=r.get("english") or "Put these in order",
+            answer="".join(r["chunks"]) if not registry.get(ctx.language).uses_spaces
+                   else " ".join(r["chunks"]),
+            options=chunks, audio=r["target"],
+            explain=_sentence_note(r),
+            data={"target": r["target"], "chunks": r["chunks"]},
+            item_type="sentence", item_id=r["id"],
+        ))
+    return out
+
+
+def _no_sentences(kind: str, ctx: GenContext) -> list[Exercise]:
+    """No sentence content for this language yet — say so.
+
+    Returning an empty list would look identical to a bug. The same convention
+    as an unregistered generator applies: a gap in the content is surfaced as a
+    gap, never hidden behind a blank screen.
+    """
+    return [Exercise(
+        kind="unsupported",
+        prompt=f"No sentences are written for {ctx.language} yet, so "
+               f"{kind.replace('_', ' ')} has nothing to draw on.",
+        answer=None,
+        explain="This is a gap in the curriculum rather than a bug. Korean is "
+                "the reference implementation and has its sentence bank; the "
+                "others are being written.",
+        data={"requested_kind": kind, "language": ctx.language,
+              "missing": "sentences"},
+    )]
+
+
+def _sentence_pool(spec: dict, ctx: GenContext) -> list[dict]:
+    """Sentences for this drill, narrowed by whatever the caller asked for."""
+    rows = spec.get("pool") or ctx.sentences
+    if spec.get("level"):
+        rows = [r for r in rows if r.get("level") == spec["level"]] or rows
+    if spec.get("topic"):
+        rows = [r for r in rows if r.get("topic") == spec["topic"]] or rows
+    if spec.get("grammar_id"):
+        wanted = spec["grammar_id"]
+        narrowed = [r for r in rows if wanted in (r.get("grammar_ids") or [])]
+        rows = narrowed or rows
+    if spec.get("vocab_id"):
+        wanted = spec["vocab_id"]
+        narrowed = [r for r in rows if wanted in (r.get("vocab_ids") or [])]
+        rows = narrowed or rows
+    return [r for r in rows if r.get("target")]
+
+
+def _sentence_note(r: dict) -> str:
+    parts = [r.get("english", ""), r.get("note", "")]
+    pron = r.get("pronunciation", "")
+    if pron and pron != r.get("target"):
+        parts.append(f"Said: {pron}")
+    return "  ".join(p for p in parts if p)
 
 
 @register("confusion_drill")

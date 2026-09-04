@@ -28,12 +28,13 @@ backend/
   app/
     main.py              app factory, lifespan, static mounts
     config.py            everything env-configurable; local defaults
-    db.py                schema (v2), connection, 19 tables
+    db.py                schema (v4), connection, 23 tables
     migrations.py        versioned, backed up, row-count guarded
     store.py             every SQL statement lives here
-    api/                 8 routers, 68 endpoints
+    api/                 9 routers, 76 endpoints
     content/loader.py    JSON -> SQLite, convention-driven
-    engines/             SRS, adaptive model, exercises, confusion, AI
+    engines/             SRS, adaptive model, diagnosis, remediation,
+                         session planner, exercises, confusion, AI
     languages/
       protocols.py       the contract — read this first
       registry.py        the only file that names languages
@@ -55,7 +56,7 @@ comparing behaviour.
 ## Testing
 
 ```bash
-python3 -m pytest                    # 638 tests, ~3 seconds
+python3 -m pytest                    # 963 tests, ~6 seconds
 python3 -m pytest tests/test_mandarin.py -v
 python3 -m pytest -k sandhi
 ```
@@ -71,6 +72,15 @@ python3 -m pytest -k sandhi
 | `test_registry.py` | the language contract, and the shared-code guard rail |
 | `test_language_isolation.py` | **the one that matters** — no progress leaks between languages |
 | `test_migrations.py` | backup, upgrade, and the data-loss guard |
+| `test_diagnosis.py` | *why* an answer was wrong, and the near-miss rule's boundaries |
+| `test_session.py` | the daily plan: order, budget, and refusing to pad |
+| `test_sentence_drills.py` | the sentence-based generators, and what they do without a sentence bank |
+| `test_pronunciation_lab.py` | the rule index, and that every example still triggers its own rule |
+| `test_pitch_accent.py` | the Japanese contour rule, and the boundary of what is shipped |
+| `test_pronunciation_edge_cases.py` | rule ordering, declared limits, and junk input in all three engines |
+| `test_remediation.py` | attributing a mistake to a rule, and refusing to when it cannot |
+| `test_review_and_practice.py` | weakness-aware review modes, and practising your own mistakes |
+| `test_data_safety.py` | backup, restore, and that restoring is itself undoable |
 | `test_api.py` | the whole flow end to end against a real database |
 
 ### The browser smoke test
@@ -87,9 +97,15 @@ frontend/run-smoke.sh
 ```
 
 It starts a backend on a throwaway database, builds the frontend, runs the
-walk, and stops the server. Screenshots land in `frontend/ui-smoke-shots/`,
-which is worth a look after a UI change — several layout problems are obvious
-in a screenshot and invisible to an assertion.
+walk, and stops the server. 63 assertions, and any browser console error fails
+the run. Screenshots land in `frontend/ui-smoke-shots/`, which is worth a look
+after a UI change — several layout problems are obvious in a screenshot and
+invisible to an assertion.
+
+If the run dies immediately on a locator that used to pass, check for a stray
+server first: `pkill -f "uvicorn [a]pp.main"`. A previous run left holding port
+8756 makes the smoke test walk a stale build, and the failure surfaces
+somewhere unrelated to whatever you just changed.
 
 ### How to write a test here
 
@@ -183,6 +199,42 @@ version before the terminology. The order is the pedagogy.
 **Hints off by the `recall` step.** A lesson where every step has `hints: true`
 teaches recognition, not recall, and recognition does not survive a conversation.
 
+### Sentences
+
+The sentence bank is what connects vocabulary to grammar, and it is what the
+translation, completion and word-order drills are generated from. One file per
+level under `content/<code>/sentences/`:
+
+```json
+{"language": "ko", "note": "…", "sentences": [
+  {"id": "ko-s-0001", "target": "저는 학생이에요.", "english": "I am a student.",
+   "level": "A1", "topic": "introductions",
+   "vocab": ["ko-v-0010"], "grammar": ["ko-g-001", "ko-g-002"],
+   "chunks": ["저는", "학생", "이에요"],
+   "blanks": [{"answer": "이에요", "options": ["이에요", "예요", "이예요"],
+               "why": "학생 ends in the consonant ㅇ, so it takes 이에요."}],
+   "transforms": [{"to": "formal (합니다체)", "answer": "저는 학생입니다.",
+                   "why": "이에요 → 입니다. Same meaning, different register."}]}
+]}
+```
+
+Four things earn their place here:
+
+- **`chunks`** are the word-order drill. They must reassemble into `target` exactly, which is checked at build time.
+- **`blanks`** are authored, not chosen at random, and each carries `why` its answer is right. A gap-fill without a reason teaches pattern-matching.
+- **`transforms`** are the grammar drill: the same sentence in another form, also with a `why`.
+- **`vocab` / `grammar`** are id lists, and they are what let a drill be selected because you are weak at a specific point rather than at "grammar" in general. They are validated against the vocabulary and grammar files.
+
+Pronunciation and transliteration are **derived at load** from the language's
+engines, exactly as for vocabulary, so a phonology fix propagates through the
+sentence bank without re-authoring anything.
+
+`scripts/build_ko_sentences.py` writes the Korean bank and validates all of it —
+every id exists, every blank appears in its own sentence, every chunk list
+reassembles, and the phonology engine can pronounce every sentence. Japanese and
+Mandarin have no bank yet; the drills that need one are simply not planned for
+them, which is checked in `test_sentence_drills.py`.
+
 ### Writing a content build script
 
 For anything over about fifty rows, write the data as Python and generate the
@@ -217,6 +269,59 @@ array reads as a bug.
 
 **Small, targeted edits.** A blanket string replacement across a language module
 once stripped an argument from fourteen constructor calls.
+
+## Working on the learning engine
+
+Four modules, in the order data flows through them.
+
+**`engines/diagnosis.py`** turns one answer into a reason. It is pure — no
+database, no language imports — so it is cheap to test and hard to break. Adding
+a signal means adding it to `diagnose()` and to `Diagnosis.evidence`, and then
+writing the test that proves the *old* signals still win where they should.
+
+Two constants there are load-bearing and were both learned from a failing test:
+
+- `NEAR_MISS_MIN_LENGTH = 3`. On a one-character answer, edit distance 1 means *completely different* — and 은 vs 는 is the most consequential distinction in Korean grammar. Excusing it as a typo would have quietly deleted the app's best signal.
+- `counts_as_weakness`. A careless slip is recorded, shown, and never fed to the adaptive engine. A learner with thirty slips and two real gaps needs to slow down, not to be drilled on words they already know.
+
+**`engines/adaptive.py`** turns reasons and scores into skill weights. It blends
+by confidence, so two answers cannot outvote thirty, and `UNMEASURED_WEIGHT`
+keeps unmeasured skills in the running rather than at zero.
+
+**`engines/exercises.py`** turns weights into a list of drill kinds.
+`choose_kinds` is weighted but floored at `0.12`, deliberately: a session that
+is entirely your weakest skill teaches worse than one that is 40%, because
+interleaving beats blocking. New shared generators must declare a skill and
+degrade visibly — see `_no_sentences`, which returns an `unsupported` exercise
+carrying `data["missing"]` rather than raising or silently producing nothing.
+
+**`engines/remediation.py`** turns repeated failures into a fix. It sits one
+level below the adaptive engine: where that answers "which skill is weakest",
+this answers "which rule, and what do I do about it". Three parts, and the
+boundary between them is the interesting bit.
+
+- The **catalogue** is assembled from what a language publishes — its rule index, its grammar rows, its confusion list. Nothing here knows what a 받침 or a mora or a tone is, and a language that publishes no rule index contributes no sound points rather than breaking.
+- **Attribution** re-runs the language's own phonology on the expected answer and reads which rules fired. Rules *chain* — each one's output is the next one's input — so the learner's answer is read as a position on that chain, not as independent checks. Getting that wrong blamed the first rule on every correct answer; `test_remediation.py` has the case.
+- The **plan** is four steps built from the point's own examples. Sound points are fixed by hearing and saying; grammar points by spotting and correcting the curriculum's authored errors; a confusion pair by its own drill, because it has no grammar id to hand to the error drills.
+
+Two rules when editing it. Never attribute when the evidence does not isolate
+one point — `NOT_ATTRIBUTED` is a valid, common and *useful* answer, because
+sending a learner to fix the wrong rule is worse than naming none. And never
+plan a drill without checking it can be built: `test_remediation.py` runs every
+spec every plan can produce through the real practice endpoint, because a fix
+that opens onto an empty step is worse than no fix offered.
+
+**`engines/session.py`** turns all of it into one ordered plan. Two rules when
+editing it: never plan a block whose content might not exist (pass in a flag
+saying whether it does, as `has_sentences` does), and never write copy that
+claims more than the data supports — the plan renders its own ranked focus list
+on the same screen, so an overstated block is visibly wrong.
+
+A generator that must behave differently per language does **not** branch on the
+language code. It asks the language's own engine — `grammar_transform` calls
+`registry.get(lang).grammar.drill_forms()` and gets conjugations for Korean,
+particles for Japanese and aspect particles for Mandarin, without knowing which
+is which.
 
 ## Database work
 

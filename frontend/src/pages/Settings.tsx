@@ -350,6 +350,8 @@ export default function Settings() {
         </div>
       </Section>
 
+      <DataSafety />
+
       {runtime.error && <ErrorState error={runtime.error} onRetry={runtime.reload} />}
 
       <p className="mt-8 text-center text-xs text-faint">
@@ -427,5 +429,156 @@ function Select({
         </option>
       ))}
     </select>
+  );
+}
+
+/**
+ * Backups, restore, and a health check.
+ *
+ * There is no server copy of any of this, so the file on disk is the only
+ * copy. The rules the backend enforces are worth stating here too: a restore
+ * saves the current state first, so it can itself be undone, and a damaged
+ * backup is refused rather than written over good data.
+ */
+function DataSafety() {
+  const health = useAsync(() => api.integrity(), []);
+  const list = useAsync(() => api.backups(), []);
+  const [busy, setBusy] = useState("");
+  const [message, setMessage] = useState("");
+  const [confirming, setConfirming] = useState<string | null>(null);
+
+  const refresh = () => {
+    health.reload();
+    list.reload();
+  };
+
+  return (
+    <Section title="Backups and health" hint="There is no copy of this anywhere else">
+      <div className="card p-5">
+        {health.data && (
+          <div className="mb-4 flex flex-wrap items-center gap-4 text-sm">
+            <span
+              className={`chip ${
+                health.data.ok ? "!border-good/40 !text-good" : "!border-bad/40 !text-bad"
+              }`}
+            >
+              {health.data.ok ? "healthy" : "problems found"}
+            </span>
+            <span className="text-muted">
+              schema v{health.data.schema_version}
+              {!health.data.up_to_date &&
+                ` (expected v${health.data.expected_schema_version})`}
+            </span>
+            <span className="text-muted">
+              {health.data.total_learner_rows.toLocaleString()} rows of your own
+            </span>
+            <span className="text-muted">
+              {Math.round(health.data.bytes / 1024)} kB
+            </span>
+          </div>
+        )}
+
+        {health.data && !health.data.ok && (
+          <p className="mb-4 rounded-xl bg-bad/5 p-3 text-sm text-bad">
+            {health.data.integrity.join(" ")} — restore a backup below.
+          </p>
+        )}
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          <button
+            className="btn-primary"
+            disabled={busy !== ""}
+            onClick={async () => {
+              setBusy("backup");
+              try {
+                const r = await api.createBackup();
+                setMessage(`Backed up as ${r.name}.`);
+                refresh();
+              } catch (e) {
+                setMessage(e instanceof Error ? e.message : "Backup failed.");
+              } finally {
+                setBusy("");
+              }
+            }}
+          >
+            {busy === "backup" ? "Backing up…" : "Back up now"}
+          </button>
+          <button className="btn-ghost" onClick={refresh}>
+            Re-check
+          </button>
+        </div>
+
+        {message && <p className="mb-4 text-sm text-muted">{message}</p>}
+
+        {list.data && list.data.backups.length > 0 ? (
+          <ul className="divide-y divide-line rounded-xl border border-line">
+            {list.data.backups.map((b) => (
+              <li key={b.name} className="flex flex-wrap items-center gap-3 p-3">
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-mono text-xs">{b.name}</span>
+                  <span className="text-xs text-faint">
+                    {new Date(b.modified).toLocaleString()} ·{" "}
+                    {Math.round(b.bytes / 1024)} kB
+                  </span>
+                </span>
+                {confirming === b.name ? (
+                  <span className="flex gap-2">
+                    <button
+                      className="btn-primary !py-1.5 text-xs"
+                      disabled={busy !== ""}
+                      onClick={async () => {
+                        setBusy(b.name);
+                        try {
+                          const r = await api.restoreBackup(b.name);
+                          setMessage(
+                            `Restored ${r.restored}. Your state before this was ` +
+                              `saved as ${r.previous_state_saved_as}, so it can be undone.`,
+                          );
+                          refresh();
+                        } catch (e) {
+                          setMessage(
+                            e instanceof Error ? e.message : "Restore refused.",
+                          );
+                        } finally {
+                          setBusy("");
+                          setConfirming(null);
+                        }
+                      }}
+                    >
+                      Yes, restore
+                    </button>
+                    <button
+                      className="btn-quiet !py-1.5 text-xs"
+                      onClick={() => setConfirming(null)}
+                    >
+                      Cancel
+                    </button>
+                  </span>
+                ) : (
+                  <button
+                    className="btn-ghost !py-1.5 text-xs"
+                    onClick={() => setConfirming(b.name)}
+                  >
+                    Restore
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted">
+            No backups yet. One is taken automatically before any database
+            upgrade; take one yourself before anything you are unsure about.
+          </p>
+        )}
+
+        <p className="mt-4 text-xs leading-relaxed text-faint">
+          Restoring saves your current state first, so it can be undone the same
+          way. A backup that fails its integrity check is refused rather than
+          written over good data.
+          {list.data?.note ? ` ${list.data.note}` : ""}
+        </p>
+      </div>
+    </Section>
   );
 }

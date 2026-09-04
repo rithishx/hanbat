@@ -22,6 +22,13 @@ import {
 } from "../components/ui";
 import type { Grade, ReviewItem } from "../lib/types";
 
+/** What each adapted mode is called on screen. */
+const MODE_LABEL: Record<string, string> = {
+  recall: "Produce it",
+  listen: "Listen first",
+  speak: "Say it",
+};
+
 const GRADES: { id: Grade; label: string; key: string; tone: string }[] = [
   { id: "again", label: "Again", key: "1", tone: "text-bad" },
   { id: "hard", label: "Hard", key: "2", tone: "text-warn" },
@@ -132,6 +139,15 @@ export default function Review() {
         <span className="chip">{item.card.state}</span>
       </div>
 
+      {/* Why this card looks different from the last one. An unexplained
+          change of format reads as a bug rather than as adaptation. */}
+      {item.ask && item.ask.mode !== "recognise" && (
+        <p className="mb-3 rounded-xl bg-brand-soft/60 p-3 text-sm leading-relaxed text-muted">
+          <span className="label mr-2">{MODE_LABEL[item.ask.mode]}</span>
+          {item.ask.why}
+        </p>
+      )}
+
       <Card item={item} lang={lang} shown={shown} onShow={() => setShown(true)} />
 
       {shown ? (
@@ -193,9 +209,19 @@ function Card({
       <p className="label mb-4">{face.label}</p>
 
       <div className="mb-6">
-        <Target lang={lang} size="hero" className="font-semibold">
-          {face.front}
-        </Target>
+        {face.hideFront && !shown ? (
+          <div className="flex flex-col items-center gap-3">
+            <AudioButton text={face.front} lang={lang} label="Play" autoPlay
+                         className="!px-6 !py-4" />
+            <span className="text-sm text-faint">
+              Written form hidden — this one is for your ears.
+            </span>
+          </div>
+        ) : (
+          <Target lang={lang} size="hero" className="font-semibold">
+            {face.front}
+          </Target>
+        )}
       </div>
 
       {shown ? (
@@ -241,6 +267,8 @@ interface Face {
   label: string;
   front: string;
   back: string;
+  /** Dictation: play it before you read it, or listening is not being tested. */
+  hideFront?: boolean;
   reading?: string;
   pronounced?: string;
   example?: string;
@@ -265,17 +293,32 @@ function faceOf(item: ReviewItem): Face {
         back: c.meaning ?? "",
         note: c.simple,
       };
-    default:
-      return {
-        label: "Vocabulary",
-        front: c.term ?? "",
-        back: c.meaning ?? "",
+    default: {
+      const shared = {
         reading: c.reading || c.transliteration,
         pronounced: c.pronunciation,
         example: c.example_native,
         exampleEn: c.example_en,
         note: c.notes,
       };
+      // The mode turns the card round. Meaning-first is production and is
+      // genuinely harder than term-first, which is why it is only used on
+      // cards the learner has already met several times.
+      switch (item.ask?.mode) {
+        case "recall":
+          return { label: "Produce it", front: c.meaning ?? "",
+                   back: c.term ?? "", ...shared };
+        case "speak":
+          return { label: "Say it out loud", front: c.meaning ?? "",
+                   back: c.term ?? "", ...shared };
+        case "listen":
+          return { label: "Listen first", front: c.term ?? "",
+                   back: c.meaning ?? "", hideFront: true, ...shared };
+        default:
+          return { label: "Vocabulary", front: c.term ?? "",
+                   back: c.meaning ?? "", ...shared };
+      }
+    }
   }
 }
 

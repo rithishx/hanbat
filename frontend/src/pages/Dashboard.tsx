@@ -46,7 +46,29 @@ export default function Dashboard() {
         }
       />
 
-      {/* ---- what to do now ---- */}
+      {/* ---- the one thing to do ----
+          Above everything else, because the app's job is to answer "what
+          should I do now" once rather than offering four places to start. */}
+      <Link
+        to="/session"
+        className="card mb-4 flex items-center gap-4 !border-brand bg-brand-soft/40 p-5 transition-colors hover:bg-brand-soft"
+      >
+        <span
+          className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand text-2xl text-white"
+          aria-hidden
+        >
+          ▶
+        </span>
+        <div className="min-w-0">
+          <p className="font-semibold">Today's session</p>
+          <p className="text-sm text-muted">
+            Reviews, your weak spots and something new — planned for{" "}
+            {d.today.goal_minutes} minutes and in the order that teaches best.
+          </p>
+        </div>
+      </Link>
+
+      {/* ---- or go straight to one part ---- */}
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
         <Link
           to="/review"
@@ -108,6 +130,66 @@ export default function Dashboard() {
           </div>
         </div>
       </Section>
+
+      {/* The most specific answer the app has to "what should I study now".
+          It appears above the skill list on purpose: one named rule you keep
+          dropping is more useful than the skill it belongs to. */}
+      {d.weak_point && (
+        <Section title="One thing to fix" hint="The same mistake, more than once">
+          <div className="card flex flex-wrap items-center gap-4 p-5">
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold">{d.weak_point.title}</p>
+              <p className="text-sm text-muted">
+                {d.weak_point.failures} times wrong · {d.weak_point.skill} ·
+                about {d.weak_point.minutes} minutes to work through
+              </p>
+            </div>
+            <Link className="btn-primary shrink-0" to={`/fix/${d.weak_point.id}`}>
+              Fix it
+            </Link>
+          </div>
+        </Section>
+      )}
+
+      {/* ---- where the learner actually stands ---- */}
+      {(d.weak_skills?.length ?? 0) > 0 && (
+        <Section
+          title="Weakest right now"
+          hint="Only skills with enough evidence behind them to mean anything"
+        >
+          <div className="grid gap-2">
+            {d.weak_skills!.map((f) => (
+              <Link
+                key={f.skill}
+                to="/session"
+                className="card flex items-center gap-4 p-4 hover:bg-brand-soft/40"
+              >
+                <span className="w-28 shrink-0 text-sm font-medium capitalize">
+                  {f.skill}
+                </span>
+                <div className="flex-1">
+                  <Bar percent={f.score} tone={f.score < 50 ? "warn" : "brand"} />
+                </div>
+                <span className="w-44 shrink-0 text-right text-xs text-faint">
+                  {f.why}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {d.mistake_summary?.note && (
+        <Section title="Your pattern">
+          <Link to="/mistakes" className="card block p-4 hover:bg-brand-soft/40">
+            <p className="text-sm leading-relaxed">{d.mistake_summary.note}</p>
+            <p className="mt-2 text-xs text-faint">
+              {d.mistake_summary.real_total} to learn ·{" "}
+              {d.mistake_summary.careless_total} careless slips, not scheduled
+            </p>
+          </Link>
+        </Section>
+      )}
 
       {/* ---- what the app noticed ---- */}
       {(d.recommendations?.length ?? 0) > 0 && (

@@ -181,15 +181,34 @@ export class Recorder {
   }
 }
 
+export interface ScoringStatus {
+  scored: boolean;
+  reason: string;
+}
+
 /**
- * Compare a recording against a target.
+ * Whether a recording can honestly be scored, and why not when it cannot.
  *
- * There is no local scoring engine wired up, so this always reports that it
- * could not score, with the reason. It exists as a single call site so that
- * adding a whisper adapter later changes one file — and so that nothing in the
- * UI is tempted to make a number up in the meantime.
+ * The backend is the only thing that knows whether a local transcriber is
+ * actually installed and selected, so it decides — this function only turns
+ * that answer into words. Every part of the UI that offers recording asks
+ * here, so an installed whisper is never denied on one screen and honoured on
+ * another, and nothing is ever tempted to make a number up.
+ *
+ * Called with no argument (capabilities still loading, or unavailable) it
+ * answers "not scored", which is the safe direction to be wrong in: the
+ * learner is told to compare by ear, and gets a real score anyway if the
+ * engine turns out to be there.
  */
-export function scoreRecording(): { scored: false; reason: string } {
+export function scoreRecording(engineInstalled = false): ScoringStatus {
+  if (engineInstalled) {
+    return {
+      scored: true,
+      reason:
+        "A local speech engine is configured, so your recording is compared " +
+        "against the target on this machine. Nothing is uploaded.",
+    };
+  }
   return {
     scored: false,
     reason:
